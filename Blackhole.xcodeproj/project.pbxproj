@@ -1,0 +1,757 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A4923364466325B6AA751B4B /* Pods_Blackhole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E75F8CD52370A8DAE3686D /* Pods_Blackhole.framework */; };
+		C40EF70E1C0E877600B5EB81 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40EF70D1C0E877600B5EB81 /* StreamReader.swift */; };
+		C4650F6F1C132BAB00F4C1B9 /* blockerList.json in Resources */ = {isa = PBXBuildFile; fileRef = C4650F6E1C132BAB00F4C1B9 /* blockerList.json */; };
+		C46AC4731C03FB87008039D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4721C03FB87008039D7 /* AppDelegate.swift */; };
+		C46AC4751C03FB87008039D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4741C03FB87008039D7 /* ViewController.swift */; };
+		C46AC4781C03FB87008039D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C46AC4761C03FB87008039D7 /* Main.storyboard */; };
+		C46AC47A1C03FB87008039D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C46AC4791C03FB87008039D7 /* Assets.xcassets */; };
+		C46AC47D1C03FB87008039D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C46AC47B1C03FB87008039D7 /* LaunchScreen.storyboard */; };
+		C46AC4881C03FB87008039D7 /* BlackholeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4871C03FB87008039D7 /* BlackholeTests.swift */; };
+		C46AC4931C03FB87008039D7 /* BlackholeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4921C03FB87008039D7 /* BlackholeUITests.swift */; };
+		C46AC4A91C03FBD6008039D7 /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4A81C03FBD6008039D7 /* ActionRequestHandler.swift */; };
+		C46AC4AD1C03FBD6008039D7 /* ContentBlocker.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C46AC4841C03FB87008039D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C46AC4671C03FB87008039D7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C46AC46E1C03FB87008039D7;
+			remoteInfo = Blackhole;
+		};
+		C46AC48F1C03FB87008039D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C46AC4671C03FB87008039D7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C46AC46E1C03FB87008039D7;
+			remoteInfo = Blackhole;
+		};
+		C46AC4AB1C03FBD6008039D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C46AC4671C03FB87008039D7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C46AC4A31C03FBD6008039D7;
+			remoteInfo = ContentBlocker;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C46AC4B11C03FBD6008039D7 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C46AC4AD1C03FBD6008039D7 /* ContentBlocker.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		74E75F8CD52370A8DAE3686D /* Pods_Blackhole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blackhole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A22DDFE31ED2232D30060B6A /* Pods-Blackhole.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackhole.release.xcconfig"; path = "Pods/Target Support Files/Pods-Blackhole/Pods-Blackhole.release.xcconfig"; sourceTree = "<group>"; };
+		C40EF70B1C0BDE2D00B5EB81 /* Blackhole.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Blackhole.entitlements; sourceTree = "<group>"; };
+		C40EF70C1C0E834100B5EB81 /* ContentBlocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ContentBlocker.entitlements; sourceTree = "<group>"; };
+		C40EF70D1C0E877600B5EB81 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
+		C4650F6E1C132BAB00F4C1B9 /* blockerList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blockerList.json; sourceTree = "<group>"; };
+		C46AC46F1C03FB87008039D7 /* Blackhole.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blackhole.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C46AC4721C03FB87008039D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C46AC4741C03FB87008039D7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C46AC4771C03FB87008039D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C46AC4791C03FB87008039D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C46AC47C1C03FB87008039D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C46AC47E1C03FB87008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C46AC4831C03FB87008039D7 /* BlackholeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackholeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C46AC4871C03FB87008039D7 /* BlackholeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackholeTests.swift; sourceTree = "<group>"; };
+		C46AC4891C03FB87008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C46AC48E1C03FB87008039D7 /* BlackholeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackholeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C46AC4921C03FB87008039D7 /* BlackholeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackholeUITests.swift; sourceTree = "<group>"; };
+		C46AC4941C03FB87008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C46AC4A81C03FBD6008039D7 /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
+		C46AC4AA1C03FBD6008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F5E481C72D686F902A5D9B0B /* Pods-Blackhole.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackhole.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Blackhole/Pods-Blackhole.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C46AC46C1C03FB87008039D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4923364466325B6AA751B4B /* Pods_Blackhole.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC4801C03FB87008039D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC48B1C03FB87008039D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC4A11C03FBD6008039D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BE8F8E926C84E5A022EA514F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F5E481C72D686F902A5D9B0B /* Pods-Blackhole.debug.xcconfig */,
+				A22DDFE31ED2232D30060B6A /* Pods-Blackhole.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C46AC4661C03FB87008039D7 = {
+			isa = PBXGroup;
+			children = (
+				C46AC4711C03FB87008039D7 /* Blackhole */,
+				C46AC4861C03FB87008039D7 /* BlackholeTests */,
+				C46AC4911C03FB87008039D7 /* BlackholeUITests */,
+				C46AC4A51C03FBD6008039D7 /* ContentBlocker */,
+				C46AC4701C03FB87008039D7 /* Products */,
+				BE8F8E926C84E5A022EA514F /* Pods */,
+				D9A79208EADD9F32C15E23B5 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C46AC4701C03FB87008039D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C46AC46F1C03FB87008039D7 /* Blackhole.app */,
+				C46AC4831C03FB87008039D7 /* BlackholeTests.xctest */,
+				C46AC48E1C03FB87008039D7 /* BlackholeUITests.xctest */,
+				C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C46AC4711C03FB87008039D7 /* Blackhole */ = {
+			isa = PBXGroup;
+			children = (
+				C40EF70B1C0BDE2D00B5EB81 /* Blackhole.entitlements */,
+				C46AC4721C03FB87008039D7 /* AppDelegate.swift */,
+				C46AC4741C03FB87008039D7 /* ViewController.swift */,
+				C40EF70D1C0E877600B5EB81 /* StreamReader.swift */,
+				C46AC4761C03FB87008039D7 /* Main.storyboard */,
+				C46AC4791C03FB87008039D7 /* Assets.xcassets */,
+				C46AC47B1C03FB87008039D7 /* LaunchScreen.storyboard */,
+				C46AC47E1C03FB87008039D7 /* Info.plist */,
+			);
+			path = Blackhole;
+			sourceTree = "<group>";
+		};
+		C46AC4861C03FB87008039D7 /* BlackholeTests */ = {
+			isa = PBXGroup;
+			children = (
+				C46AC4871C03FB87008039D7 /* BlackholeTests.swift */,
+				C46AC4891C03FB87008039D7 /* Info.plist */,
+			);
+			path = BlackholeTests;
+			sourceTree = "<group>";
+		};
+		C46AC4911C03FB87008039D7 /* BlackholeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C46AC4921C03FB87008039D7 /* BlackholeUITests.swift */,
+				C46AC4941C03FB87008039D7 /* Info.plist */,
+			);
+			path = BlackholeUITests;
+			sourceTree = "<group>";
+		};
+		C46AC4A51C03FBD6008039D7 /* ContentBlocker */ = {
+			isa = PBXGroup;
+			children = (
+				C4650F6E1C132BAB00F4C1B9 /* blockerList.json */,
+				C40EF70C1C0E834100B5EB81 /* ContentBlocker.entitlements */,
+				C46AC4A81C03FBD6008039D7 /* ActionRequestHandler.swift */,
+				C46AC4AA1C03FBD6008039D7 /* Info.plist */,
+			);
+			path = ContentBlocker;
+			sourceTree = "<group>";
+		};
+		D9A79208EADD9F32C15E23B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				74E75F8CD52370A8DAE3686D /* Pods_Blackhole.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C46AC46E1C03FB87008039D7 /* Blackhole */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C46AC4971C03FB87008039D7 /* Build configuration list for PBXNativeTarget "Blackhole" */;
+			buildPhases = (
+				B229B6E6BF91398BBFE1AB99 /* Check Pods Manifest.lock */,
+				C46AC46B1C03FB87008039D7 /* Sources */,
+				C46AC46C1C03FB87008039D7 /* Frameworks */,
+				C46AC46D1C03FB87008039D7 /* Resources */,
+				C46AC4B11C03FBD6008039D7 /* Embed App Extensions */,
+				17853AD8FBD62D7B15270D80 /* Embed Pods Frameworks */,
+				2F9A9962C78BD304E7C35B9A /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C46AC4AC1C03FBD6008039D7 /* PBXTargetDependency */,
+			);
+			name = Blackhole;
+			productName = Blackhole;
+			productReference = C46AC46F1C03FB87008039D7 /* Blackhole.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C46AC4821C03FB87008039D7 /* BlackholeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C46AC49A1C03FB87008039D7 /* Build configuration list for PBXNativeTarget "BlackholeTests" */;
+			buildPhases = (
+				C46AC47F1C03FB87008039D7 /* Sources */,
+				C46AC4801C03FB87008039D7 /* Frameworks */,
+				C46AC4811C03FB87008039D7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C46AC4851C03FB87008039D7 /* PBXTargetDependency */,
+			);
+			name = BlackholeTests;
+			productName = BlackholeTests;
+			productReference = C46AC4831C03FB87008039D7 /* BlackholeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C46AC48D1C03FB87008039D7 /* BlackholeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C46AC49D1C03FB87008039D7 /* Build configuration list for PBXNativeTarget "BlackholeUITests" */;
+			buildPhases = (
+				C46AC48A1C03FB87008039D7 /* Sources */,
+				C46AC48B1C03FB87008039D7 /* Frameworks */,
+				C46AC48C1C03FB87008039D7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C46AC4901C03FB87008039D7 /* PBXTargetDependency */,
+			);
+			name = BlackholeUITests;
+			productName = BlackholeUITests;
+			productReference = C46AC48E1C03FB87008039D7 /* BlackholeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		C46AC4A31C03FBD6008039D7 /* ContentBlocker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C46AC4AE1C03FBD6008039D7 /* Build configuration list for PBXNativeTarget "ContentBlocker" */;
+			buildPhases = (
+				C46AC4A01C03FBD6008039D7 /* Sources */,
+				C46AC4A11C03FBD6008039D7 /* Frameworks */,
+				C46AC4A21C03FBD6008039D7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ContentBlocker;
+			productName = ContentBlocker;
+			productReference = C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C46AC4671C03FB87008039D7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = Refabricants;
+				TargetAttributes = {
+					C46AC46E1C03FB87008039D7 = {
+						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 69TZ4MRH7U;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					C46AC4821C03FB87008039D7 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = C46AC46E1C03FB87008039D7;
+					};
+					C46AC48D1C03FB87008039D7 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = C46AC46E1C03FB87008039D7;
+					};
+					C46AC4A31C03FBD6008039D7 = {
+						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 69TZ4MRH7U;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = C46AC46A1C03FB87008039D7 /* Build configuration list for PBXProject "Blackhole" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C46AC4661C03FB87008039D7;
+			productRefGroup = C46AC4701C03FB87008039D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C46AC46E1C03FB87008039D7 /* Blackhole */,
+				C46AC4821C03FB87008039D7 /* BlackholeTests */,
+				C46AC48D1C03FB87008039D7 /* BlackholeUITests */,
+				C46AC4A31C03FBD6008039D7 /* ContentBlocker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C46AC46D1C03FB87008039D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C46AC47D1C03FB87008039D7 /* LaunchScreen.storyboard in Resources */,
+				C46AC47A1C03FB87008039D7 /* Assets.xcassets in Resources */,
+				C46AC4781C03FB87008039D7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC4811C03FB87008039D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC48C1C03FB87008039D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC4A21C03FBD6008039D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4650F6F1C132BAB00F4C1B9 /* blockerList.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		17853AD8FBD62D7B15270D80 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Blackhole/Pods-Blackhole-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2F9A9962C78BD304E7C35B9A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Blackhole/Pods-Blackhole-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B229B6E6BF91398BBFE1AB99 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C46AC46B1C03FB87008039D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C40EF70E1C0E877600B5EB81 /* StreamReader.swift in Sources */,
+				C46AC4751C03FB87008039D7 /* ViewController.swift in Sources */,
+				C46AC4731C03FB87008039D7 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC47F1C03FB87008039D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C46AC4881C03FB87008039D7 /* BlackholeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC48A1C03FB87008039D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C46AC4931C03FB87008039D7 /* BlackholeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46AC4A01C03FBD6008039D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C46AC4A91C03FBD6008039D7 /* ActionRequestHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C46AC4851C03FB87008039D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C46AC46E1C03FB87008039D7 /* Blackhole */;
+			targetProxy = C46AC4841C03FB87008039D7 /* PBXContainerItemProxy */;
+		};
+		C46AC4901C03FB87008039D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C46AC46E1C03FB87008039D7 /* Blackhole */;
+			targetProxy = C46AC48F1C03FB87008039D7 /* PBXContainerItemProxy */;
+		};
+		C46AC4AC1C03FBD6008039D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C46AC4A31C03FBD6008039D7 /* ContentBlocker */;
+			targetProxy = C46AC4AB1C03FBD6008039D7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C46AC4761C03FB87008039D7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C46AC4771C03FB87008039D7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C46AC47B1C03FB87008039D7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C46AC47C1C03FB87008039D7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C46AC4951C03FB87008039D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C46AC4961C03FB87008039D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C46AC4981C03FB87008039D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5E481C72D686F902A5D9B0B /* Pods-Blackhole.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Blackhole/Blackhole.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = Blackhole/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-framework",
+					"\"SwiftyJSON\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.Blackhole;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		C46AC4991C03FB87008039D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A22DDFE31ED2232D30060B6A /* Pods-Blackhole.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Blackhole/Blackhole.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = Blackhole/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-framework",
+					"\"SwiftyJSON\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.Blackhole;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		C46AC49B1C03FB87008039D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = BlackholeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.BlackholeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blackhole.app/Blackhole";
+			};
+			name = Debug;
+		};
+		C46AC49C1C03FB87008039D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = BlackholeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.BlackholeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blackhole.app/Blackhole";
+			};
+			name = Release;
+		};
+		C46AC49E1C03FB87008039D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = BlackholeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.BlackholeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Blackhole;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		C46AC49F1C03FB87008039D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = BlackholeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.BlackholeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Blackhole;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+		C46AC4AF1C03FBD6008039D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ContentBlocker/ContentBlocker.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = ContentBlocker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.Blackhole.ContentBlocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C46AC4B01C03FBD6008039D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ContentBlocker/ContentBlocker.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = ContentBlocker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.Blackhole.ContentBlocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C46AC46A1C03FB87008039D7 /* Build configuration list for PBXProject "Blackhole" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C46AC4951C03FB87008039D7 /* Debug */,
+				C46AC4961C03FB87008039D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C46AC4971C03FB87008039D7 /* Build configuration list for PBXNativeTarget "Blackhole" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C46AC4981C03FB87008039D7 /* Debug */,
+				C46AC4991C03FB87008039D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C46AC49A1C03FB87008039D7 /* Build configuration list for PBXNativeTarget "BlackholeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C46AC49B1C03FB87008039D7 /* Debug */,
+				C46AC49C1C03FB87008039D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C46AC49D1C03FB87008039D7 /* Build configuration list for PBXNativeTarget "BlackholeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C46AC49E1C03FB87008039D7 /* Debug */,
+				C46AC49F1C03FB87008039D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C46AC4AE1C03FBD6008039D7 /* Build configuration list for PBXNativeTarget "ContentBlocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C46AC4AF1C03FBD6008039D7 /* Debug */,
+				C46AC4B01C03FBD6008039D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C46AC4671C03FB87008039D7 /* Project object */;
+}
