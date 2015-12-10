@@ -18,38 +18,92 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="d4k-Cm-RFz">
-                                <rect key="frame" x="40" y="269" width="520" height="63"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="aqb-iV-vTg">
+                                <rect key="frame" x="40" y="40" width="520" height="540"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rxo-2d-fmm" userLabel="hostFileURI">
-                                        <rect key="frame" x="0.0" y="0.0" width="520" height="33"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="FbC-qB-AOO">
+                                        <rect key="frame" x="220" y="0.0" width="81" height="108"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blackhole" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA3-Qf-sSV">
+                                                <rect key="frame" x="0.0" y="0.0" width="81" height="108"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <animations/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="0.892874053" green="0.892874053" blue="0.892874053" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="textColor" red="0.892874053" green="0.892874053" blue="0.892874053" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                    </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HvS-ks-WOW" userLabel="reloadButton">
-                                        <rect key="frame" x="237" y="33" width="47" height="30"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="d4k-Cm-RFz">
+                                        <rect key="frame" x="0.0" y="108" width="520" height="108"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sites to block (URL of hosts file)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5d-TT-FHA">
+                                                <rect key="frame" x="0.0" y="0.0" width="520" height="21"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rxo-2d-fmm" userLabel="hostFileURI">
+                                                <rect key="frame" x="0.0" y="25" width="520" height="83"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                            </textView>
+                                        </subviews>
                                         <animations/>
-                                        <state key="normal" title="Reload"/>
-                                    </button>
+                                        <constraints>
+                                            <constraint firstItem="rxo-2d-fmm" firstAttribute="leading" secondItem="d4k-Cm-RFz" secondAttribute="leading" id="WVL-BV-LfZ"/>
+                                            <constraint firstItem="S5d-TT-FHA" firstAttribute="leading" secondItem="d4k-Cm-RFz" secondAttribute="leading" id="hfm-b3-bQg"/>
+                                            <constraint firstAttribute="trailing" secondItem="rxo-2d-fmm" secondAttribute="trailing" id="xN9-3J-5o8"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gNR-f5-mJ7">
+                                        <rect key="frame" x="260" y="216" width="0.0" height="108"/>
+                                        <subviews>
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6M3-pl-J49">
+                                                <rect key="frame" x="-300" y="-256" width="20" height="0.0"/>
+                                                <animations/>
+                                            </activityIndicatorView>
+                                        </subviews>
+                                        <animations/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="jPu-Qm-Ype">
+                                        <rect key="frame" x="260" y="324" width="0.0" height="108"/>
+                                        <subviews>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="loadResult" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23x-e0-SuN">
+                                                <rect key="frame" x="-300" y="-364" width="81" height="0.0"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <animations/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Krp-q3-MKN">
+                                        <rect key="frame" x="237" y="432" width="47" height="108"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HvS-ks-WOW" userLabel="reloadButton">
+                                                <rect key="frame" x="0.0" y="0.0" width="47" height="108"/>
+                                                <animations/>
+                                                <state key="normal" title="Reload"/>
+                                            </button>
+                                        </subviews>
+                                        <animations/>
+                                    </stackView>
                                 </subviews>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstItem="rxo-2d-fmm" firstAttribute="leading" secondItem="d4k-Cm-RFz" secondAttribute="leading" id="WVL-BV-LfZ"/>
-                                    <constraint firstAttribute="trailing" secondItem="rxo-2d-fmm" secondAttribute="trailing" id="xN9-3J-5o8"/>
+                                    <constraint firstItem="d4k-Cm-RFz" firstAttribute="leading" secondItem="aqb-iV-vTg" secondAttribute="leading" id="4qj-xb-3by"/>
+                                    <constraint firstAttribute="trailing" secondItem="d4k-Cm-RFz" secondAttribute="trailing" id="cSA-9n-VWE"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="d4k-Cm-RFz" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="5yl-Iq-dwn"/>
-                            <constraint firstItem="d4k-Cm-RFz" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="20" id="6LQ-SZ-75r"/>
-                            <constraint firstItem="d4k-Cm-RFz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="HlS-x4-UT9"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="d4k-Cm-RFz" secondAttribute="trailing" constant="20" id="ZQS-PF-v07"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="aqb-iV-vTg" secondAttribute="bottom" constant="20" id="9RF-E2-77u"/>
+                            <constraint firstItem="aqb-iV-vTg" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="20" id="KXP-9D-LhC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aqb-iV-vTg" secondAttribute="trailing" constant="20" id="UFP-Ov-kVK"/>
+                            <constraint firstItem="aqb-iV-vTg" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="20" id="gye-G1-Ndm"/>
                         </constraints>
                     </view>
                 </viewController>

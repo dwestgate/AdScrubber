@@ -28,7 +28,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="108"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -41,15 +40,11 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="520" height="21"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gOq-FP-hha" userLabel="hostsFileURI">
                                                 <rect key="frame" x="0.0" y="25" width="520" height="83"/>
                                                 <animations/>
-                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0012552204289473818" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="tintColor" red="0.892874053" green="0.892874053" blue="0.892874053" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="textColor" red="0.892874053" green="0.892874053" blue="0.892874053" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                 <connections>
@@ -67,21 +62,20 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6hE-ZV-XGB">
                                         <rect key="frame" x="260" y="216" width="0.0" height="108"/>
                                         <subviews>
-                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="fhq-jn-ylD" userLabel="activityIndicator">
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fhq-jn-ylD" userLabel="activityIndicator">
                                                 <rect key="frame" x="-300" y="-256" width="20" height="0.0"/>
                                                 <animations/>
                                             </activityIndicatorView>
                                         </subviews>
                                         <animations/>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pI9-Ha-hxU">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pI9-Ha-hxU">
                                         <rect key="frame" x="260" y="324" width="0.0" height="108"/>
                                         <subviews>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Blackhole list successfuly reloaded" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hq1-KC-hgX" userLabel="loadResult">
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Blackhole list successfuly reloaded" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hq1-KC-hgX" userLabel="loadResult">
                                                 <rect key="frame" x="-300" y="-364" width="267" height="0.0"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.892874053" green="0.892874053" blue="0.892874053" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -110,7 +104,7 @@
                             </stackView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="s3J-bl-o2G" secondAttribute="trailing" constant="20" id="60q-xW-OgQ"/>
                             <constraint firstItem="s3J-bl-o2G" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="GCP-o2-UxM"/>

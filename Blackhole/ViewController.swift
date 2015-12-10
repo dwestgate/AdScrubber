@@ -20,6 +20,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+    
   }
   
   override func didReceiveMemoryWarning() {
@@ -42,6 +43,15 @@ class ViewController: UIViewController {
     loadResult.text = "Blackhole list successfully loaded"
     
     if let hostsFile = NSURL(string: hostsFileURI.text) {
+      
+      self.checkShouldDownloadFileAtLocation(hostsFileURI.text, completion: { (shouldDownload) -> () in
+        if shouldDownload {
+          print("Yes download the file")
+        } else {
+          print("No don't download")
+        }
+      })
+      
       // create your document folder url
       let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
       // your destination file url
@@ -132,6 +142,52 @@ class ViewController: UIViewController {
       self.activityIndicator.stopAnimating()
       self.loadResult.hidden = false
     })
+  }
+  
+  
+  func checkShouldDownloadFileAtLocation(urlString:String, completion:((shouldDownload:Bool) -> ())?) {
+    var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+    request.HTTPMethod = "HEAD"
+    var session = NSURLSession.sharedSession()
+    
+    var err: NSError?
+    
+    var task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
+      if let strongSelf = self {
+        var isModified = false
+        print("Response = \(response?.description)")
+        var err: NSError?
+        if let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse {
+          let etag = httpResp.allHeaderFields["Etag"] as? String?
+          if etag != nil {
+            let newEtag = etag!
+            print("\netag = \(etag)\n")
+            print("newEtag = \(newEtag)\n\n")
+            if newEtag != nil {
+              let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString
+              if currentEtag == nil {
+                isModified = true
+              } else {
+                isModified = !newEtag!.isEqual(currentEtag!)
+              }
+              
+              NSUserDefaults.standardUserDefaults().setObject(newEtag!, forKey: "etag")
+              // NSUserDefaults.standardUserDefaults().synchronize()
+            }
+          }
+          
+        }
+        
+        if completion != nil {
+          dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            completion!(shouldDownload: isModified)
+          })
+        }
+      }
+      
+      })
+    
+    task.resume()
   }
   
 }
