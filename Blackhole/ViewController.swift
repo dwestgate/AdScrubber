@@ -185,28 +185,36 @@ class ViewController: UIViewController {
           var ipAddress = true
           
           for arrayElement in filteredArray {
+            
             if ipAddress {
               ipAddress = false
             } else {
-              if let validated = NSURL(string: "http://" + arrayElement) {
-                if let validatedHost = validated.host {
-                  
-                  var components = validatedHost.componentsSeparatedByString(".")
-                  
-                  if (components[0].caseInsensitiveCompare("localhost") != NSComparisonResult.OrderedSame) {
-                    
-                    var domain: String
-                    if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
-                      components[0] = ".*"
-                      domain = components.joinWithSeparator("\\.")
-                    } else {
-                      domain = ".*\\." + components.joinWithSeparator("\\.")
-                    }
-                    // print("  Blocklist entry: \(domain)")
-                    jsonArray.append(["action": ["type": "block"], "trigger": ["url-filter":domain]])
-                  }
-                }
+              
+              guard let validated = NSURL(string: "http://" + arrayElement) else {
+                print("Invalid domain name")
+                break
               }
+              
+              guard let validatedHost = validated.host else {
+                print("Invalid host name")
+                break
+              }
+              
+              var components = validatedHost.componentsSeparatedByString(".")
+              
+              guard components[0].caseInsensitiveCompare("localhost") != NSComparisonResult.OrderedSame else {
+                print("Entry for localhost not being added to list")
+                break
+              }
+              
+              var domain: String
+              if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
+                components[0] = ".*"
+                domain = components.joinWithSeparator("\\.")
+              } else {
+                domain = ".*\\." + components.joinWithSeparator("\\.")
+              }
+              jsonArray.append(["action": ["type": "block"], "trigger": ["url-filter":domain]])
             }
           }
         }
