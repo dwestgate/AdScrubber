@@ -42,7 +42,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rxo-2d-fmm" userLabel="hostFileURI">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="https://raw.githubusercontent.com/dwestgate/hosts/iOS-blackhole/hosts" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rxo-2d-fmm" userLabel="hostFileURI">
                                                 <rect key="frame" x="0.0" y="25" width="520" height="83"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
