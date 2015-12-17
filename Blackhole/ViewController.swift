@@ -65,18 +65,24 @@ class ViewController: UIViewController {
         } else {
           print("File is up-to-date")
           self.loadResult.text = "No updates to download"
+          print("loadResult.text = No updates to download")
         }
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
           self.activityIndicator.stopAnimating()
+          print("self.activityIndicator.stopAnimating (A)")
           self.loadResult.hidden = false
+          print("loadResult.hidden = false (A)")
         })
       })
     } else {
       loadResult.text = "No file at URL provided"
+      print("loadResult.text = No file at URL provided")
       dispatch_async(dispatch_get_main_queue(), { () -> Void in
         self.activityIndicator.stopAnimating()
+        print("self.activityIndicator.stopAnimating (B)")
         self.loadResult.hidden = false
+        print("loadResult.hidden = false (B)")
       })
     }
   }
@@ -87,13 +93,10 @@ class ViewController: UIViewController {
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
     
-    var err: NSError?
-    
-    var task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
+    let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
       if let strongSelf = self {
         var isModified = false
         print("Response = \(response?.description)")
-        var err: NSError?
         if let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse {
           
           if let etag = httpResp.allHeaderFields["Etag"] as? NSString {
@@ -135,26 +138,21 @@ class ViewController: UIViewController {
     // your destination file url
     let destinationUrl = documentsUrl.URLByAppendingPathComponent(hostsFile.lastPathComponent!)
     print(destinationUrl)
-    // check if it exists before downloading it
-    /* if NSFileManager().fileExistsAtPath(destinationUrl.path!) {
-    print("The file already exists at path")
-    loadResult.text = "File already exists"
-    } else { */
-    //  if the file doesn't exist just download the data from your url
-    if let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) {
-      // after downloading your data you need to save it to your destination url
-      if myHostsFileFromUrl.writeToURL(destinationUrl, atomically: true) {
-        print("File saved")
-      } else {
-        print("Error saving file")
-        loadResult.text = "Error: unable to save file"
-      }
-    }
-    if NSFileManager().fileExistsAtPath(destinationUrl.path!) {
-      return destinationUrl
-    } else {
+    
+    guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
+      print("Error saving file")
+      loadResult.text = "Error: unable to save file"
+      print("loadResult.text = Error: unable to save file (cat)")
       return nil
     }
+    guard myHostsFileFromUrl.writeToURL(destinationUrl, atomically: true) else {
+      print("Error saving file")
+      loadResult.text = "Error: unable to save file"
+      print("loadResult.text = Error: unable to save file (rat)")
+      return nil
+    }
+    print("File saved")
+    return destinationUrl
     
   }
   
@@ -221,6 +219,7 @@ class ViewController: UIViewController {
       }
     } else {
       loadResult.text = "Unable to parse file"
+      print("loadResult.text = Unable to parse file")
     }
     
     let valid = NSJSONSerialization.isValidJSONObject(jsonArray)
@@ -249,6 +248,7 @@ class ViewController: UIViewController {
     } catch {
       print("Unable to write parsed file")
       loadResult.text = "Unable to write parsed file"
+      print("loadResult.text = Unable to write parsed file (jimmy)")
     }
     if loadResult.text != "Unable to write parsed file" {
       return true
