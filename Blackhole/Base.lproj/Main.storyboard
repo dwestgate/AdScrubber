@@ -27,6 +27,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blackhole" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zPc-hU-LGX" userLabel="blackholeLabel">
                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="108"/>
                                                 <animations/>
+                                                <accessibility key="accessibilityConfiguration" identifier="blackholeLabel" label="blackholeLabel"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -39,12 +40,14 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sites to block (URL of hosts file):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daM-pZ-J4s" userLabel="listOfSitesLabel">
                                                 <rect key="frame" x="0.0" y="0.0" width="520" height="21"/>
                                                 <animations/>
+                                                <accessibility key="accessibilityConfiguration" identifier="listOfSitesLabel" label="listOfSitesLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="https://raw.githubusercontent.com/dwestgate/hosts/iOS-blackhole/hosts" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gOq-FP-hha" userLabel="hostsFileURI">
                                                 <rect key="frame" x="0.0" y="25" width="520" height="83"/>
                                                 <animations/>
+                                                <accessibility key="accessibilityConfiguration" identifier="hostsFileURI" label="hostsFileURI"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                 <connections>
@@ -72,9 +75,17 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pI9-Ha-hxU">
                                         <rect key="frame" x="260" y="324" width="0.0" height="108"/>
                                         <subviews>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Blackhole list successfuly reloaded" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hq1-KC-hgX" userLabel="loadResult">
-                                                <rect key="frame" x="-300" y="-364" width="267" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Error loading file: link must be HTTPS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uDL-Kx-uhu" userLabel="mustBeHTTPS">
+                                                <rect key="frame" x="-300" y="-364" width="285" height="0.0"/>
                                                 <animations/>
+                                                <accessibility key="accessibilityConfiguration" identifier="loadResult" label="mustBeHTTPS"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Blackhole list successfuly updated" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hq1-KC-hgX" userLabel="blackholeListUpdatedLabel">
+                                                <rect key="frame" x="-300" y="-364" width="285" height="0.0"/>
+                                                <animations/>
+                                                <accessibility key="accessibilityConfiguration" identifier="blackholeListUpdatedLabel" label="blackholeLIstUpdateLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -87,6 +98,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqL-OE-FFi" userLabel="reloadButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="47" height="108"/>
                                                 <animations/>
+                                                <accessibility key="accessibilityConfiguration" identifier="reloadButton" label="reloadButton"/>
                                                 <state key="normal" title="Reload"/>
                                                 <connections>
                                                     <action selector="updateHostsFileButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mdm-Fu-1w3"/>
@@ -114,8 +126,9 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="fhq-jn-ylD" id="pve-Uf-UDQ"/>
+                        <outlet property="blackholeListUpdatedLabel" destination="hq1-KC-hgX" id="CMF-2M-CpR"/>
                         <outlet property="hostsFileURI" destination="gOq-FP-hha" id="7SG-0e-W1Z"/>
-                        <outlet property="loadResult" destination="hq1-KC-hgX" id="6jV-Dz-frt"/>
+                        <outlet property="mustBeHTTPSLabel" destination="uDL-Kx-uhu" id="RGE-wY-eA2"/>
                         <outlet property="reloadButton" destination="iqL-OE-FFi" id="eSA-yJ-Q14"/>
                     </connections>
                 </viewController>

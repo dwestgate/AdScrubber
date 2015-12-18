@@ -14,8 +14,16 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var hostsFileURI: UITextView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-  @IBOutlet weak var loadResult: UILabel!
+  
+  @IBOutlet weak var mustBeHTTPSLabel: UILabel!
+  
+  @IBOutlet weak var blackholeListUpdatedLabel: UILabel!
+  
   @IBOutlet weak var reloadButton: UIButton!
+  
+  enum Status: Int {
+    case success, failure
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -24,6 +32,12 @@ class ViewController: UIViewController {
     hostsFileURI.layer.borderWidth = 1.0
     hostsFileURI.layer.cornerRadius = 5.0
     hostsFileURI.layer.borderColor = UIColor.grayColor().CGColor
+    
+  }
+  
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+    hostsFileURI.resignFirstResponder()
+    super.touchesBegan(touches, withEvent: event)
   }
   
   override func didReceiveMemoryWarning() {
@@ -33,7 +47,7 @@ class ViewController: UIViewController {
   @IBAction func updateHostsFileButtonPressed(sender: UIButton) {
     
     activityIndicator.startAnimating()
-    loadResult.hidden = true
+    hideStatusMessages()
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
       self.refreshBlockList()
@@ -42,49 +56,50 @@ class ViewController: UIViewController {
   
   func refreshBlockList() {
     
-    loadResult.text = "Blackhole list successfully loaded"
+    blackholeListUpdatedLabel.text = "Blackhole list successfully loaded"
     
-    if let hostsFile = NSURL(string: hostsFileURI.text) {
-      
-      self.checkShouldDownloadFileAtLocation(hostsFileURI.text, completion: { (shouldDownload) -> () in
-        if shouldDownload {
-          print("Downloading file")
-          
-          // Create the JSON
-          if let blockList = self.downloadBlocklist(hostsFile) {
-            print("File downloaded successfully")
-            if self.convertHostsToJSON(blockList) {
-              print("File converted to JSON successfully")
-            } else {
-              print("Error converting file to JSON")
-            }
-          } else {
-            print("Error downloading file from \(hostsFile.description)")
-          }
-          
-        } else {
-          print("File is up-to-date")
-          self.loadResult.text = "No updates to download"
-          print("loadResult.text = No updates to download")
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-          self.activityIndicator.stopAnimating()
-          print("self.activityIndicator.stopAnimating (A)")
-          self.loadResult.hidden = false
-          print("loadResult.hidden = false (A)")
-        })
-      })
-    } else {
-      loadResult.text = "No file at URL provided"
-      print("loadResult.text = No file at URL provided")
+    guard let hostsFile = NSURL(string: hostsFileURI.text) else {
+      blackholeListUpdatedLabel.text = "No file at URL provided"
+      print("blackholeListUpdatedLabel.text = No file at URL provided")
       dispatch_async(dispatch_get_main_queue(), { () -> Void in
         self.activityIndicator.stopAnimating()
         print("self.activityIndicator.stopAnimating (B)")
-        self.loadResult.hidden = false
-        print("loadResult.hidden = false (B)")
+        self.blackholeListUpdatedLabel.hidden = false
+        print("blackholeListUpdatedLabel.hidden = false (B)")
       })
+      return
     }
+    
+    self.checkShouldDownloadFileAtLocation(hostsFileURI.text, completion: { (shouldDownload) -> () in
+      if shouldDownload {
+        
+        defer {
+          
+        }
+        
+        print("Downloading file")
+        
+        // Create the JSON
+        if let blockList = self.downloadBlocklist(hostsFile) {
+          print("File downloaded successfully")
+          if self.convertHostsToJSON(blockList) {
+            print("File converted to JSON successfully")
+          } else {
+            print("Error converting file to JSON")
+          }
+        } else {
+          print("Error downloading file from \(hostsFile.description)")
+        }
+        
+      } else {
+        print("File is up-to-date")
+        self.blackholeListUpdatedLabel.text = "No updates to download"
+        print("blackholeListUpdatedLabel.text = No updates to download")
+      }
+      
+      
+    })
+    
   }
   
   
@@ -141,14 +156,14 @@ class ViewController: UIViewController {
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
       print("Error saving file")
-      loadResult.text = "Error: unable to save file"
-      print("loadResult.text = Error: unable to save file (cat)")
+      blackholeListUpdatedLabel.text = "Error: Error downloading file"
+      print("blackholeListUpdatedLabel.text = Error: unable to save file (cat)")
       return nil
     }
     guard myHostsFileFromUrl.writeToURL(destinationUrl, atomically: true) else {
       print("Error saving file")
-      loadResult.text = "Error: unable to save file"
-      print("loadResult.text = Error: unable to save file (rat)")
+      blackholeListUpdatedLabel.text = "Error: unable to save file"
+      print("blackholeListUpdatedLabel.text = Error: Error downloading file (rat)")
       return nil
     }
     print("File saved")
@@ -218,8 +233,8 @@ class ViewController: UIViewController {
         }
       }
     } else {
-      loadResult.text = "Unable to parse file"
-      print("loadResult.text = Unable to parse file")
+      blackholeListUpdatedLabel.text = "Unable to parse file"
+      print("blackholeListUpdatedLabel.text = Unable to parse file")
     }
     
     let valid = NSJSONSerialization.isValidJSONObject(jsonArray)
@@ -247,15 +262,28 @@ class ViewController: UIViewController {
         (error: NSError?) in print("Reload complete\n")})
     } catch {
       print("Unable to write parsed file")
-      loadResult.text = "Unable to write parsed file"
-      print("loadResult.text = Unable to write parsed file (jimmy)")
+      blackholeListUpdatedLabel.text = "Unable to write parsed file"
+      print("blackholeListUpdatedLabel.text = Unable to write parsed file (jimmy)")
     }
-    if loadResult.text != "Unable to write parsed file" {
+    if blackholeListUpdatedLabel.text != "Unable to write parsed file" {
       return true
     } else {
       return false
     }
   }
+  
+  func showStatusMessage(status: Status) {
+    switch status {
+    case .success: blackholeListUpdatedLabel.hidden = false
+    case .failure: mustBeHTTPSLabel.hidden = false
+    }
+  }
+  
+  func hideStatusMessages() {
+    mustBeHTTPSLabel.hidden = true
+    blackholeListUpdatedLabel.hidden = true
+  }
+  
   //TODO: Defaults are stored properly (in defaults)!
   //TODO: Potential fails: hosts file empty; can't write; error creating json; error reading
   //TODO: Every time app runs or reload button is clicked it attempts to load default list
