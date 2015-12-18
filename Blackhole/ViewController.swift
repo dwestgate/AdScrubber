@@ -97,6 +97,10 @@ class ViewController: UIViewController {
         print("blackholeListUpdatedLabel.text = No updates to download")
       }
       
+      dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.activityIndicator.stopAnimating()
+        self.blackholeListUpdatedLabel.hidden = false
+      })
       
     })
     
