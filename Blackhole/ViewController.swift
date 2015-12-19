@@ -20,7 +20,9 @@ class ViewController: UIViewController {
   @IBOutlet weak var noUpdateRequiredLabel: UILabel!
   @IBOutlet weak var notHTTPSLabel: UILabel!
   @IBOutlet weak var invalidURLLabel: UILabel!
+  @IBOutlet weak var serverNotFoundLabel: UILabel!
   @IBOutlet weak var noSuchFileLabel: UILabel!
+  @IBOutlet weak var updateRequiredLabel: UILabel!
   @IBOutlet weak var errorDownloadingLabel: UILabel!
   @IBOutlet weak var errorParsingFileLabel: UILabel!
   @IBOutlet weak var errorSavingParsedFileLabel: UILabel!
@@ -32,7 +34,9 @@ class ViewController: UIViewController {
     NoUpdateRequired,
     NotHTTPS,
     InvalidURL,
+    ServerNotFound,
     NoSuchFile,
+    UpdateRequired,
     ErrorDownloading,
     ErrorParsingFile,
     ErrorSavingParsedFile
@@ -108,8 +112,8 @@ class ViewController: UIViewController {
         })
       }
       
-      guard shouldDownload else {
-        self.updateListStatus = .NoUpdateRequired
+      guard shouldDownload == .UpdateRequired else {
+        self.updateListStatus = shouldDownload
         self.showStatusMessage(self.updateListStatus)
         return
       }
@@ -131,14 +135,14 @@ class ViewController: UIViewController {
   }
   
   
-  func checkShouldDownloadFileAtLocation(urlString:String, completion:((shouldDownload:Bool) -> ())?) {
+  private func checkShouldDownloadFileAtLocation(urlString:String, completion:((shouldDownload:UpdateBlackholeListStatus) -> ())?) {
     let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
     
     let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
       if let strongSelf = self {
-        var isModified = false
+        var isModified = UpdateBlackholeListStatus.NoUpdateRequired
         
         defer {
           if completion != nil {
@@ -150,17 +154,19 @@ class ViewController: UIViewController {
         
         print("Response = \(response?.description)")
         guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
+          isModified = .ServerNotFound
           print("There was no server response")
           return
         }
         
         guard httpResp.statusCode == 200 else {
+          isModified = .NoSuchFile
           print("Server there, but resource not found")
           return
         }
         
         guard let etag = httpResp.allHeaderFields["Etag"] as? NSString else {
-          isModified = true
+          isModified = .UpdateRequired
           return
         }
         
@@ -170,12 +176,12 @@ class ViewController: UIViewController {
         if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
           // print("currentEtag = \(currentEtag)\n\n")
           if !etag.isEqual(currentEtag) {
-            isModified = true
+            isModified = .UpdateRequired
             NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
           }
           
         } else {
-          isModified = true
+          isModified = .UpdateRequired
           NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
         }
       }
@@ -317,7 +323,9 @@ class ViewController: UIViewController {
     case .NoUpdateRequired: noUpdateRequiredLabel.hidden = false
     case .NotHTTPS: notHTTPSLabel.hidden = false
     case .InvalidURL: invalidURLLabel.hidden = false
+    case .ServerNotFound: serverNotFoundLabel.hidden = false
     case .NoSuchFile: noSuchFileLabel.hidden = false
+    case .UpdateRequired: updateRequiredLabel.hidden = false
     case .ErrorDownloading: errorDownloadingLabel.hidden = false
     case .ErrorParsingFile: errorParsingFileLabel.hidden = false
     case .ErrorSavingParsedFile: errorSavingParsedFileLabel.hidden = false
@@ -329,7 +337,9 @@ class ViewController: UIViewController {
     noUpdateRequiredLabel.hidden = true
     notHTTPSLabel.hidden = true
     invalidURLLabel.hidden = true
+    serverNotFoundLabel.hidden = true
     noSuchFileLabel.hidden = true
+    updateRequiredLabel.hidden = true
     errorDownloadingLabel.hidden = true
     errorParsingFileLabel.hidden = true
     errorSavingParsedFileLabel.hidden = true

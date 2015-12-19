@@ -95,7 +95,7 @@ class BlackholeUITests: XCTestCase {
     
     let app = XCUIApplication()
     
-    let testInput = "http://raw.githubusercontent.com/dwestgate/hosts/iOS-blackhole/hosts"
+    let testInput = "http://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge"
     let testResult = app.staticTexts["notHTTPSLabel"]
     
     let exists = NSPredicate(format: "hittable == 1")
@@ -112,14 +112,14 @@ class BlackholeUITests: XCTestCase {
     self.waitForExpectationsWithTimeout(10, handler: nil)
   }
   
-  func test_D_NoSuchFile() {
+  func test_D_InvalidURL() {
     
     let app = XCUIApplication()
     
     print(app.debugDescription)
     
-    let testInput = "https://nosuchdomain/nosuchpath"
-    let testResult = app.staticTexts["noSuchFileLabel"]
+    let testInput = "https://nosuc\\hdomain/nosuchpath"
+    let testResult = app.staticTexts["invalidURLLabel"]
     
     let exists = NSPredicate(format: "hittable == 1")
     self.expectationForPredicate(exists, evaluatedWithObject: testResult, handler: nil)
@@ -135,14 +135,39 @@ class BlackholeUITests: XCTestCase {
     self.waitForExpectationsWithTimeout(10, handler: nil)
   }
   
-  func test_E_InvalidURL() {
+  
+  func test_E_ServerNotFound() {
     
     let app = XCUIApplication()
     
     print(app.debugDescription)
     
-    let testInput = "https://nosuc\\hdomain/nosuchpath"
-    let testResult = app.staticTexts["invalidURLLabel"]
+    let testInput = "https://nosuchserver"
+    let testResult = app.staticTexts["serverNotFoundLabel"]
+    
+    let exists = NSPredicate(format: "hittable == 1")
+    self.expectationForPredicate(exists, evaluatedWithObject: testResult, handler: nil)
+    
+    let element = app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).elementBoundByIndex(1)
+    let textView = element.childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.TextView).element
+    textView.pressForDuration(0.55);
+    app.menuItems["Select All"].tap()
+    textView.typeText(testInput)
+    element.pressForDuration(0.5);
+    app.buttons["reloadButton"].tap()
+    
+    self.waitForExpectationsWithTimeout(10, handler: nil)
+  }
+
+  
+  func test_F_NoSuchFile() {
+    
+    let app = XCUIApplication()
+    
+    print(app.debugDescription)
+    
+    let testInput = "https://raw.githubusercontent.com/nosuchfileexists"
+    let testResult = app.staticTexts["noSuchFileLabel"]
     
     let exists = NSPredicate(format: "hittable == 1")
     self.expectationForPredicate(exists, evaluatedWithObject: testResult, handler: nil)
