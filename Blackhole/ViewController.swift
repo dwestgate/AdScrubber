@@ -5,6 +5,7 @@
 //  Created by David Westgate on 11/23/15.
 //  Copyright © 2015 Refabricants. All rights reserved.
 //
+// Love this! https://gist.github.com/damianesteban/c42eff0496e34d31a410
 
 import SwiftyJSON
 import UIKit
@@ -15,15 +16,29 @@ class ViewController: UIViewController {
   @IBOutlet weak var hostsFileURI: UITextView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
-  @IBOutlet weak var mustBeHTTPSLabel: UILabel!
-  
-  @IBOutlet weak var blackholeListUpdatedLabel: UILabel!
+  @IBOutlet weak var updateSuccessfulLabel: UILabel!
+  @IBOutlet weak var noUpdateRequiredLabel: UILabel!
+  @IBOutlet weak var notHTTPSLabel: UILabel!
+  @IBOutlet weak var invalidURLLabel: UILabel!
+  @IBOutlet weak var noSuchFileLabel: UILabel!
+  @IBOutlet weak var errorDownloadingLabel: UILabel!
+  @IBOutlet weak var errorParsingFileLabel: UILabel!
+  @IBOutlet weak var errorSavingParsedFileLabel: UILabel!
   
   @IBOutlet weak var reloadButton: UIButton!
   
-  enum Status: Int {
-    case success, failure
+  private enum UpdateBlackholeListStatus: Int {
+    case UpdateSuccessful,
+    NoUpdateRequired,
+    NotHTTPS,
+    InvalidURL,
+    NoSuchFile,
+    ErrorDownloading,
+    ErrorParsingFile,
+    ErrorSavingParsedFile
   }
+  
+  private var updateListStatus = UpdateBlackholeListStatus.UpdateSuccessful
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -55,55 +70,64 @@ class ViewController: UIViewController {
   }
   
   func refreshBlockList() {
+
+    var error: NSError?
     
-    blackholeListUpdatedLabel.text = "Blackhole list successfully loaded"
-    
-    guard let hostsFile = NSURL(string: hostsFileURI.text) else {
-      blackholeListUpdatedLabel.text = "No file at URL provided"
-      print("blackholeListUpdatedLabel.text = No file at URL provided")
+    guard hostsFileURI.text.lowercaseString.hasPrefix("https://") else {
       dispatch_async(dispatch_get_main_queue(), { () -> Void in
         self.activityIndicator.stopAnimating()
-        print("self.activityIndicator.stopAnimating (B)")
-        self.blackholeListUpdatedLabel.hidden = false
-        print("blackholeListUpdatedLabel.hidden = false (B)")
+        self.updateListStatus = .NotHTTPS
+        self.showStatusMessage(self.updateListStatus)
+      })
+      return
+    }
+    
+    guard let hostsFile = NSURL(string: hostsFileURI.text) else {
+      dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.activityIndicator.stopAnimating()
+        self.updateListStatus = .InvalidURL
+        self.showStatusMessage(self.updateListStatus)
+      })
+      return
+    }
+    
+    guard !hostsFile.checkResourceIsReachableAndReturnError(&error) else {
+      dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.activityIndicator.stopAnimating()
+        self.updateListStatus = .NoSuchFile
+        self.showStatusMessage(self.updateListStatus)
       })
       return
     }
     
     self.checkShouldDownloadFileAtLocation(hostsFileURI.text, completion: { (shouldDownload) -> () in
-      if shouldDownload {
-        
-        defer {
-          
-        }
-        
-        print("Downloading file")
-        
-        // Create the JSON
-        if let blockList = self.downloadBlocklist(hostsFile) {
-          print("File downloaded successfully")
-          if self.convertHostsToJSON(blockList) {
-            print("File converted to JSON successfully")
-          } else {
-            print("Error converting file to JSON")
-          }
-        } else {
-          print("Error downloading file from \(hostsFile.description)")
-        }
-        
-      } else {
-        print("File is up-to-date")
-        self.blackholeListUpdatedLabel.text = "No updates to download"
-        print("blackholeListUpdatedLabel.text = No updates to download")
+      defer {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+          self.activityIndicator.stopAnimating()
+          self.showStatusMessage(self.updateListStatus)
+        })
       }
       
-      dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        self.activityIndicator.stopAnimating()
-        self.blackholeListUpdatedLabel.hidden = false
-      })
+      guard shouldDownload else {
+        self.updateListStatus = .NoUpdateRequired
+        self.showStatusMessage(self.updateListStatus)
+        return
+      }
+      print("Downloading file")
+      
+      // Create the JSON
+      if let blockList = self.downloadBlocklist(hostsFile) {
+        print("File downloaded successfully")
+        if self.convertHostsToJSON(blockList) {
+          print("File converted to JSON successfully")
+        } else {
+          print("Error converting file to JSON")
+        }
+      } else {
+        print("Error downloading file from \(hostsFile.description)")
+      }
       
     })
-    
   }
   
   
@@ -115,33 +139,44 @@ class ViewController: UIViewController {
     let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
       if let strongSelf = self {
         var isModified = false
-        print("Response = \(response?.description)")
-        if let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse {
-          
-          if let etag = httpResp.allHeaderFields["Etag"] as? NSString {
-            let newEtag = etag
-            print("\netag = \(etag)\n")
-            print("newEtag = \(newEtag)\n")
-            if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
-              print("currentEtag = \(currentEtag)\n\n")
-              if !etag.isEqual(currentEtag) {
-                isModified = true
-                NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
-              }
-              
-            } else {
-              isModified = true
-              NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
-            }
-          } else {
-            isModified = true
+        
+        defer {
+          if completion != nil {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+              completion!(shouldDownload: isModified)
+            })
           }
         }
         
-        if completion != nil {
-          dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            completion!(shouldDownload: isModified)
-          })
+        print("Response = \(response?.description)")
+        guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
+          print("There was no server response")
+          return
+        }
+        
+        guard httpResp.statusCode == 200 else {
+          print("Server there, but resource not found")
+          return
+        }
+        
+        guard let etag = httpResp.allHeaderFields["Etag"] as? NSString else {
+          isModified = true
+          return
+        }
+        
+        let newEtag = etag
+        // print("\netag = \(etag)\n")
+        // print("newEtag = \(newEtag)\n")
+        if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
+          // print("currentEtag = \(currentEtag)\n\n")
+          if !etag.isEqual(currentEtag) {
+            isModified = true
+            NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
+          }
+          
+        } else {
+          isModified = true
+          NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
         }
       }
       
@@ -160,14 +195,14 @@ class ViewController: UIViewController {
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
       print("Error saving file")
-      blackholeListUpdatedLabel.text = "Error: Error downloading file"
-      print("blackholeListUpdatedLabel.text = Error: unable to save file (cat)")
+      updateSuccessfulLabel.text = "Error: Error downloading file"
+      print("updateSuccessfulLabel.text = Error: unable to save file (cat)")
       return nil
     }
     guard myHostsFileFromUrl.writeToURL(destinationUrl, atomically: true) else {
       print("Error saving file")
-      blackholeListUpdatedLabel.text = "Error: unable to save file"
-      print("blackholeListUpdatedLabel.text = Error: Error downloading file (rat)")
+      updateSuccessfulLabel.text = "Error: unable to save file"
+      print("updateSuccessfulLabel.text = Error: Error downloading file (rat)")
       return nil
     }
     print("File saved")
@@ -237,8 +272,8 @@ class ViewController: UIViewController {
         }
       }
     } else {
-      blackholeListUpdatedLabel.text = "Unable to parse file"
-      print("blackholeListUpdatedLabel.text = Unable to parse file")
+      updateSuccessfulLabel.text = "Unable to parse file"
+      print("updateSuccessfulLabel.text = Unable to parse file")
     }
     
     let valid = NSJSONSerialization.isValidJSONObject(jsonArray)
@@ -266,26 +301,38 @@ class ViewController: UIViewController {
         (error: NSError?) in print("Reload complete\n")})
     } catch {
       print("Unable to write parsed file")
-      blackholeListUpdatedLabel.text = "Unable to write parsed file"
-      print("blackholeListUpdatedLabel.text = Unable to write parsed file (jimmy)")
+      updateSuccessfulLabel.text = "Unable to write parsed file"
+      print("updateSuccessfulLabel.text = Unable to write parsed file (jimmy)")
     }
-    if blackholeListUpdatedLabel.text != "Unable to write parsed file" {
+    if updateSuccessfulLabel.text != "Unable to write parsed file" {
       return true
     } else {
       return false
     }
   }
   
-  func showStatusMessage(status: Status) {
+  private func showStatusMessage(status: UpdateBlackholeListStatus) {
     switch status {
-    case .success: blackholeListUpdatedLabel.hidden = false
-    case .failure: mustBeHTTPSLabel.hidden = false
+    case .UpdateSuccessful: updateSuccessfulLabel.hidden = false
+    case .NoUpdateRequired: noUpdateRequiredLabel.hidden = false
+    case .NotHTTPS: notHTTPSLabel.hidden = false
+    case .InvalidURL: invalidURLLabel.hidden = false
+    case .NoSuchFile: noSuchFileLabel.hidden = false
+    case .ErrorDownloading: errorDownloadingLabel.hidden = false
+    case .ErrorParsingFile: errorParsingFileLabel.hidden = false
+    case .ErrorSavingParsedFile: errorSavingParsedFileLabel.hidden = false
     }
   }
   
-  func hideStatusMessages() {
-    mustBeHTTPSLabel.hidden = true
-    blackholeListUpdatedLabel.hidden = true
+  private func hideStatusMessages() {
+    updateSuccessfulLabel.hidden = true
+    noUpdateRequiredLabel.hidden = true
+    notHTTPSLabel.hidden = true
+    invalidURLLabel.hidden = true
+    noSuchFileLabel.hidden = true
+    errorDownloadingLabel.hidden = true
+    errorParsingFileLabel.hidden = true
+    errorSavingParsedFileLabel.hidden = true
   }
   
   //TODO: Defaults are stored properly (in defaults)!
