@@ -74,8 +74,6 @@ class ViewController: UIViewController {
   }
   
   func refreshBlockList() {
-
-    var error: NSError?
     
     guard hostsFileURI.text.lowercaseString.hasPrefix("https://") else {
       dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -90,15 +88,6 @@ class ViewController: UIViewController {
       dispatch_async(dispatch_get_main_queue(), { () -> Void in
         self.activityIndicator.stopAnimating()
         self.updateListStatus = .InvalidURL
-        self.showStatusMessage(self.updateListStatus)
-      })
-      return
-    }
-    
-    guard !hostsFile.checkResourceIsReachableAndReturnError(&error) else {
-      dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        self.activityIndicator.stopAnimating()
-        self.updateListStatus = .NoSuchFile
         self.showStatusMessage(self.updateListStatus)
       })
       return
@@ -136,10 +125,10 @@ class ViewController: UIViewController {
   
   
   private func checkShouldDownloadFileAtLocation(urlString:String, completion:((shouldDownload:UpdateBlackholeListStatus) -> ())?) {
+    
     let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
-    
     let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
       if let strongSelf = self {
         var isModified = UpdateBlackholeListStatus.NoUpdateRequired
@@ -155,13 +144,11 @@ class ViewController: UIViewController {
         print("Response = \(response?.description)")
         guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
           isModified = .ServerNotFound
-          print("There was no server response")
           return
         }
         
         guard httpResp.statusCode == 200 else {
           isModified = .NoSuchFile
-          print("Server there, but resource not found")
           return
         }
         
@@ -171,10 +158,7 @@ class ViewController: UIViewController {
         }
         
         let newEtag = etag
-        // print("\netag = \(etag)\n")
-        // print("newEtag = \(newEtag)\n")
         if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
-          // print("currentEtag = \(currentEtag)\n\n")
           if !etag.isEqual(currentEtag) {
             isModified = .UpdateRequired
             NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
@@ -219,7 +203,11 @@ class ViewController: UIViewController {
   func convertHostsToJSON(blockList: NSURL) -> Bool {
     var jsonArray = [[String: [String: String]]]()
     
-    if let sr = StreamReader(path: blockList.path!) {
+    guard let sr = StreamReader(path: blockList.path!) else {
+      updateSuccessfulLabel.text = "Unable to parse file"
+      print("updateSuccessfulLabel.text = Unable to parse file")
+      return false
+    }
       defer {
         sr.close()
       }
@@ -277,10 +265,7 @@ class ViewController: UIViewController {
           }
         }
       }
-    } else {
-      updateSuccessfulLabel.text = "Unable to parse file"
-      print("updateSuccessfulLabel.text = Unable to parse file")
-    }
+    // }
     
     let valid = NSJSONSerialization.isValidJSONObject(jsonArray)
     print("JSON file is confirmed valid: \(valid)")
