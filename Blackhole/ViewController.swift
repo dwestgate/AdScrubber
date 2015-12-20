@@ -42,6 +42,18 @@ class ViewController: UIViewController {
     ErrorSavingParsedFile
   }
   
+  private enum ListUpdateError: String, ErrorType {
+    case NoUpdateRequired
+    case NotHTTPS
+    case InvalidURL
+    case ServerNotFound
+    case NoSuchFile
+    case UpdateRequired
+    case ErrorDownloading
+    case ErrorParsingFile
+    case ErrorSavingParsedFile
+  }
+  
   private var updateListStatus = UpdateBlackholeListStatus.UpdateSuccessful
   
   override func viewDidLoad() {
@@ -69,34 +81,43 @@ class ViewController: UIViewController {
     hideStatusMessages()
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-        self.refreshBlockList()
+      
+      do {
+        try self.refreshBlockList()
+      } catch ListUpdateError.NotHTTPS {
+        self.showStatusMessage(.NotHTTPS)
+      } catch ListUpdateError.InvalidURL {
+        self.showStatusMessage(.InvalidURL)
+      } catch _ {
+        print("that worked")
+      }
+      
     });
   }
   
-  func refreshBlockList() {
+  func refreshBlockList() throws {
     
     guard hostsFileURI.text.lowercaseString.hasPrefix("https://") else {
-      self.showStatusMessage(.NotHTTPS)
-      return
+      throw ListUpdateError.NotHTTPS
     }
     guard let hostsFile = NSURL(string: hostsFileURI.text) else {
-      self.showStatusMessage(.InvalidURL)
-      return
+      throw ListUpdateError.InvalidURL
     }
-    
-    self.checkShouldDownloadFileAtLocation(hostsFileURI.text, completion: { (shouldDownload) -> () in
+    print(">>>> Step 1")
+    self.validateURL(hostsFileURI.text, completion: { (urlStatus) -> () in
       defer {
+        print(">>>> Step 6")
         self.showStatusMessage(self.updateListStatus)
       }
       
-      guard shouldDownload == .UpdateRequired else {
-        self.updateListStatus = shouldDownload
+      print(">>>> Step 5")
+      guard urlStatus == .UpdateRequired else {
+        self.updateListStatus = urlStatus
         self.showStatusMessage(self.updateListStatus)
         return
       }
       print("Downloading file")
       
-      // Create the JSON
       guard let blockList = self.downloadBlocklist(hostsFile)  else {
         print("Error downloading file from \(hostsFile.description)")
         return
@@ -110,51 +131,45 @@ class ViewController: UIViewController {
       self.updateListStatus = self.writeBlocklist(jsonArray)
     })
   }
+
   
-  
-  private func checkShouldDownloadFileAtLocation(urlString:String, completion:((shouldDownload:UpdateBlackholeListStatus) -> ())?) {
-    
+  private func validateURL(urlString:String, completion:((urlStatus: UpdateBlackholeListStatus) -> ())?) {
+    print(">>>> Step 2")
     let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
     let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
+      print(">>>> Step 3")
       if let strongSelf = self {
-        var isModified = UpdateBlackholeListStatus.NoUpdateRequired
+        var result = UpdateBlackholeListStatus.UpdateRequired
         
         defer {
+          print(">>>> Step 4")
           if completion != nil {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-              completion!(shouldDownload: isModified)
+              completion!(urlStatus: result)
             })
           }
         }
         
         print("Response = \(response?.description)")
         guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
-          isModified = .ServerNotFound
+          result = UpdateBlackholeListStatus.ServerNotFound
           return
         }
         
         guard httpResp.statusCode == 200 else {
-          isModified = .NoSuchFile
+          result = UpdateBlackholeListStatus.NoSuchFile
           return
         }
         
-        guard let etag = httpResp.allHeaderFields["Etag"] as? NSString else {
-          isModified = .UpdateRequired
-          return
-        }
-        
-        let newEtag = etag
-        if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
-          if !etag.isEqual(currentEtag) {
-            isModified = .UpdateRequired
-            NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
-          }
-          
-        } else {
-          isModified = .UpdateRequired
-          NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
+        if let remoteEtag = httpResp.allHeaderFields["Etag"] as? NSString,
+          currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
+            if remoteEtag.isEqual(currentEtag) {
+              result = UpdateBlackholeListStatus.NoUpdateRequired
+            } else {
+              NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
+            }
         }
       }
       
@@ -172,15 +187,11 @@ class ViewController: UIViewController {
     print(destinationUrl)
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
-      print("Error saving file")
-      updateSuccessfulLabel.text = "Error: Error downloading file"
-      print("updateSuccessfulLabel.text = Error: unable to save file (cat)")
+      print("Error: Error downloading file")
       return nil
     }
     guard myHostsFileFromUrl.writeToURL(destinationUrl, atomically: true) else {
       print("Error saving file")
-      updateSuccessfulLabel.text = "Error: unable to save file"
-      print("updateSuccessfulLabel.text = Error: Error downloading file (rat)")
       return nil
     }
     print("File saved")
@@ -261,8 +272,6 @@ class ViewController: UIViewController {
         (error: NSError?) in print("Reload complete\n")})
     } catch {
       print("Unable to write parsed file")
-      updateSuccessfulLabel.text = "Unable to write parsed file"
-      print("updateSuccessfulLabel.text = Unable to write parsed file (jimmy)")
     }
     
     return UpdateBlackholeListStatus.UpdateSuccessful
