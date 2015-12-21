@@ -49,8 +49,10 @@ class ViewController: UIViewController {
     case ServerNotFound
     case NoSuchFile
     case UpdateRequired
-    case ErrorDownloading
+    case ErrorDownloadingFromRemoteLocation
+    case ErrorSavingToLocalFilesystem
     case ErrorParsingFile
+    case UnableToReplaceExistingBlockerlist
     case ErrorSavingParsedFile
   }
   
@@ -88,7 +90,7 @@ class ViewController: UIViewController {
         self.showStatusMessage(.NotHTTPS)
       } catch ListUpdateError.InvalidURL {
         self.showStatusMessage(.InvalidURL)
-      } catch _ {
+      } catch {
         print("that worked")
       }
       
@@ -103,56 +105,43 @@ class ViewController: UIViewController {
     guard let hostsFile = NSURL(string: hostsFileURI.text) else {
       throw ListUpdateError.InvalidURL
     }
-    print(">>>> Step 1")
-    // func asynchronousWork(completion: (r: NSDictionary?) -> Void) -> Void {
-    // func asynchronousWork(completion: (inner: () throws -> NSDictionary) -> Void) -> Void {
     
-    // asynchronousWork { (r) -> Void in
-    // asynchronousWork { (inner: () throws -> NSDictionary) -> Void in
-    
-    self.validateURL(hostsFileURI.text, completion: { (urlStatus) -> () in
+    self.validateURL(hostsFile, completion: { (urlStatus) -> () in
       defer {
-        print(">>>> Step 6")
         self.showStatusMessage(self.updateListStatus)
       }
       
-      print(">>>> Step 5")
       guard urlStatus == .UpdateRequired else {
-        self.updateListStatus = urlStatus
-        self.showStatusMessage(self.updateListStatus)
-        // JUST A TEST FOR NOW
-        // throw ListUpdateError.InvalidURL
+        self.showStatusMessage(urlStatus)
         return
       }
-      print("Downloading file")
       
-      guard let blockList = self.downloadBlocklist(hostsFile)  else {
+      do {
+        let blockList = try self.downloadBlocklist(hostsFile)
+        let jsonArray = self.convertHostsToJSON(blockList!) as [[String: [String: String]]]?
+        self.updateListStatus = try self.writeBlockerlist(jsonArray!)
+      } catch {
         print("Error downloading file from \(hostsFile.description)")
         return
       }
-      print("File downloaded successfully")
-      
-      guard let jsonArray = self.convertHostsToJSON(blockList) as [[String: [String: String]]]? else {
-        print("jsonArray not returned")
-        return
-      }
-      self.updateListStatus = self.writeBlocklist(jsonArray)
+    SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
+        (error: NSError?) in print("Reload complete\n")})
     })
+    
   }
 
   
-  private func validateURL(urlString:String, completion:((urlStatus: UpdateBlackholeListStatus) -> ())?) {
-    print(">>>> Step 2")
-    let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+  private func validateURL(hostsFile:NSURL, completion:((urlStatus: UpdateBlackholeListStatus) -> ())?) {
+    
+    let request = NSMutableURLRequest(URL: hostsFile)
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
+    
     let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
-      print(">>>> Step 3")
       if let strongSelf = self {
         var result = UpdateBlackholeListStatus.UpdateRequired
         
         defer {
-          print(">>>> Step 4")
           if completion != nil {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
               completion!(urlStatus: result)
@@ -180,31 +169,25 @@ class ViewController: UIViewController {
             }
         }
       }
-      
       })
     
     task.resume()
   }
   
-  func downloadBlocklist(hostsFile: NSURL) -> NSURL? {
+  func downloadBlocklist(hostsFile: NSURL) throws -> NSURL? {
     
-    // create your document folder url
-    let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
-    // your destination file url
-    let destinationUrl = documentsUrl.URLByAppendingPathComponent(hostsFile.lastPathComponent!)
-    print(destinationUrl)
+    let documentDirectory =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
+    let localFile = documentDirectory.URLByAppendingPathComponent(hostsFile.lastPathComponent!)
+    print(localFile)
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
-      print("Error: Error downloading file")
-      return nil
+      throw ListUpdateError.ErrorDownloadingFromRemoteLocation
     }
-    guard myHostsFileFromUrl.writeToURL(destinationUrl, atomically: true) else {
-      print("Error saving file")
-      return nil
+    guard myHostsFileFromUrl.writeToURL(localFile, atomically: true) else {
+      throw ListUpdateError.ErrorSavingToLocalFilesystem
     }
     print("File saved")
-    return destinationUrl
-    
+    return localFile
   }
   
   func convertHostsToJSON(blockList: NSURL) -> [[String: [String: String]]] {
@@ -256,32 +239,19 @@ class ViewController: UIViewController {
   }
   
   
-  private func writeBlocklist(jsonArray: [[String: [String: String]]]) -> UpdateBlackholeListStatus {
+  private func writeBlockerlist(jsonArray: [[String: [String: String]]]) throws -> UpdateBlackholeListStatus {
     
-    // Write the new JSON file
     let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
     let destinationUrl = jsonPath.URLByAppendingPathComponent("blockerList.json")
     print(destinationUrl)
-    // check if it exists
-    if NSFileManager().fileExistsAtPath(destinationUrl.path!) {
-      print("The file already exists at path - deleting")
-      do {
-        try NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
-      } catch {
-        print("No file to delete")
-      }
-    }
     
     let json = JSON(jsonArray)
     do {
+      try NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
       try json.description.writeToFile(destinationUrl.path!, atomically: false, encoding: NSUTF8StringEncoding)
-      print("JSON file written succesfully\n")
-      SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
-        (error: NSError?) in print("Reload complete\n")})
     } catch {
-      print("Unable to write parsed file")
+      throw ListUpdateError.UnableToReplaceExistingBlockerlist
     }
-    
     return UpdateBlackholeListStatus.UpdateSuccessful
   }
   
