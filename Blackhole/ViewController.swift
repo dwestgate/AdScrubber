@@ -104,6 +104,12 @@ class ViewController: UIViewController {
       throw ListUpdateError.InvalidURL
     }
     print(">>>> Step 1")
+    // func asynchronousWork(completion: (r: NSDictionary?) -> Void) -> Void {
+    // func asynchronousWork(completion: (inner: () throws -> NSDictionary) -> Void) -> Void {
+    
+    // asynchronousWork { (r) -> Void in
+    // asynchronousWork { (inner: () throws -> NSDictionary) -> Void in
+    
     self.validateURL(hostsFileURI.text, completion: { (urlStatus) -> () in
       defer {
         print(">>>> Step 6")
@@ -114,6 +120,8 @@ class ViewController: UIViewController {
       guard urlStatus == .UpdateRequired else {
         self.updateListStatus = urlStatus
         self.showStatusMessage(self.updateListStatus)
+        // JUST A TEST FOR NOW
+        // throw ListUpdateError.InvalidURL
         return
       }
       print("Downloading file")
