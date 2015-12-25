@@ -29,17 +29,17 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var reloadButton: UIButton!
   
-  private enum UpdateBlackholeListStatus: Int {
-    case UpdateSuccessful,
-    NoUpdateRequired,
-    NotHTTPS,
-    InvalidURL,
-    ServerNotFound,
-    NoSuchFile,
-    UpdateRequired,
-    ErrorDownloading,
-    ErrorParsingFile,
-    ErrorSavingParsedFile
+  private enum ListUpdateStatus: Int {
+    case UpdateSuccessful
+    case NoUpdateRequired
+    case NotHTTPS
+    case InvalidURL
+    case ServerNotFound
+    case NoSuchFile
+    case UpdateRequired
+    case ErrorDownloading
+    case ErrorParsingFile
+    case ErrorSavingParsedFile
   }
   
   private enum ListUpdateError: String, ErrorType {
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
     case ErrorSavingParsedFile
   }
   
-  private var updateListStatus = UpdateBlackholeListStatus.UpdateSuccessful
+  private var updateStatus = ListUpdateStatus.UpdateSuccessful
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -108,18 +108,17 @@ class ViewController: UIViewController {
     
     self.validateURL(hostsFile, completion: { (urlStatus) -> () in
       defer {
-        self.showStatusMessage(self.updateListStatus)
+        self.showStatusMessage(urlStatus)
       }
       
-      guard urlStatus == .UpdateRequired else {
-        self.showStatusMessage(urlStatus)
+      guard urlStatus == ListUpdateStatus.UpdateSuccessful else {
         return
       }
       
       do {
         let blockList = try self.downloadBlocklist(hostsFile)
         let jsonArray = self.convertHostsToJSON(blockList!) as [[String: [String: String]]]?
-        self.updateListStatus = try self.writeBlockerlist(jsonArray!)
+        try self.writeBlockerlist(jsonArray!)
       } catch {
         print("Error downloading file from \(hostsFile.description)")
         return
@@ -131,7 +130,7 @@ class ViewController: UIViewController {
   }
 
   
-  private func validateURL(hostsFile:NSURL, completion:((urlStatus: UpdateBlackholeListStatus) -> ())?) {
+  private func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
     
     let request = NSMutableURLRequest(URL: hostsFile)
     request.HTTPMethod = "HEAD"
@@ -139,7 +138,7 @@ class ViewController: UIViewController {
     
     let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
       if let strongSelf = self {
-        var result = UpdateBlackholeListStatus.UpdateRequired
+        var result = ListUpdateStatus.UpdateSuccessful
         
         defer {
           if completion != nil {
@@ -151,19 +150,19 @@ class ViewController: UIViewController {
         
         print("Response = \(response?.description)")
         guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
-          result = UpdateBlackholeListStatus.ServerNotFound
+          result = ListUpdateStatus.ServerNotFound
           return
         }
         
         guard httpResp.statusCode == 200 else {
-          result = UpdateBlackholeListStatus.NoSuchFile
+          result = ListUpdateStatus.NoSuchFile
           return
         }
         
         if let remoteEtag = httpResp.allHeaderFields["Etag"] as? NSString,
           currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
             if remoteEtag.isEqual(currentEtag) {
-              result = UpdateBlackholeListStatus.NoUpdateRequired
+              result = ListUpdateStatus.NoUpdateRequired
             } else {
               NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
             }
@@ -239,7 +238,7 @@ class ViewController: UIViewController {
   }
   
   
-  private func writeBlockerlist(jsonArray: [[String: [String: String]]]) throws -> UpdateBlackholeListStatus {
+  private func writeBlockerlist(jsonArray: [[String: [String: String]]]) throws -> Void {
     
     let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
     let destinationUrl = jsonPath.URLByAppendingPathComponent("blockerList.json")
@@ -252,10 +251,9 @@ class ViewController: UIViewController {
     } catch {
       throw ListUpdateError.UnableToReplaceExistingBlockerlist
     }
-    return UpdateBlackholeListStatus.UpdateSuccessful
   }
   
-  private func showStatusMessage(status: UpdateBlackholeListStatus) {
+  private func showStatusMessage(status: ListUpdateStatus) {
     
     dispatch_async(dispatch_get_main_queue(), { () -> Void in
       self.activityIndicator.stopAnimating()
@@ -292,7 +290,5 @@ class ViewController: UIViewController {
   //TODO: Defaults are stored properly (in defaults)!
   //TODO: Potential fails: hosts file empty; can't write; error creating json; error reading
   //TODO: Every time app runs or reload button is clicked it attempts to load default list
-  //TODO: If it fails, log message and use the built-in list
-  //TODO: Make sure keyboard doesn't block reload button
 }
 
