@@ -29,7 +29,7 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var reloadButton: UIButton!
   
-  private enum ListUpdateStatus: Int {
+  private enum ListUpdateStatus: ErrorType {
     case UpdateSuccessful
     case NoUpdateRequired
     case NotHTTPS
@@ -38,17 +38,6 @@ class ViewController: UIViewController {
     case NoSuchFile
     case UpdateRequired
     case ErrorDownloading
-    case ErrorParsingFile
-    case ErrorSavingParsedFile
-  }
-  
-  private enum ListUpdateError: String, ErrorType {
-    case NoUpdateRequired
-    case NotHTTPS
-    case InvalidURL
-    case ServerNotFound
-    case NoSuchFile
-    case UpdateRequired
     case ErrorDownloadingFromRemoteLocation
     case ErrorSavingToLocalFilesystem
     case ErrorParsingFile
@@ -56,7 +45,27 @@ class ViewController: UIViewController {
     case ErrorSavingParsedFile
   }
   
-  private var updateStatus = ListUpdateStatus.UpdateSuccessful
+  var GCDMainQueue: dispatch_queue_t {
+    return dispatch_get_main_queue()
+  }
+  
+  var GCDUserInteractiveQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+  }
+  
+  var GCDUserInitiatedQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+  }
+  
+  var GCDUtilityQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)
+  }
+  
+  var GCDBackgroundQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
+  }
+  
+  // private var updateStatus = ListUpdateStatus.UpdateSuccessful
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -82,13 +91,13 @@ class ViewController: UIViewController {
     activityIndicator.startAnimating()
     hideStatusMessages()
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+    dispatch_async(GCDUserInteractiveQueue, { () -> Void in
       
       do {
         try self.refreshBlockList()
-      } catch ListUpdateError.NotHTTPS {
+      } catch ListUpdateStatus.NotHTTPS {
         self.showStatusMessage(.NotHTTPS)
-      } catch ListUpdateError.InvalidURL {
+      } catch ListUpdateStatus.InvalidURL {
         self.showStatusMessage(.InvalidURL)
       } catch {
         print("that worked")
@@ -100,10 +109,10 @@ class ViewController: UIViewController {
   func refreshBlockList() throws {
     
     guard hostsFileURI.text.lowercaseString.hasPrefix("https://") else {
-      throw ListUpdateError.NotHTTPS
+      throw ListUpdateStatus.NotHTTPS
     }
     guard let hostsFile = NSURL(string: hostsFileURI.text) else {
-      throw ListUpdateError.InvalidURL
+      throw ListUpdateStatus.InvalidURL
     }
     
     self.validateURL(hostsFile, completion: { (urlStatus) -> () in
@@ -123,12 +132,12 @@ class ViewController: UIViewController {
         print("Error downloading file from \(hostsFile.description)")
         return
       }
-    SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
+      SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
         (error: NSError?) in print("Reload complete\n")})
     })
     
   }
-
+  
   
   private func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
     
@@ -180,10 +189,10 @@ class ViewController: UIViewController {
     print(localFile)
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
-      throw ListUpdateError.ErrorDownloadingFromRemoteLocation
+      throw ListUpdateStatus.ErrorDownloadingFromRemoteLocation
     }
     guard myHostsFileFromUrl.writeToURL(localFile, atomically: true) else {
-      throw ListUpdateError.ErrorSavingToLocalFilesystem
+      throw ListUpdateStatus.ErrorSavingToLocalFilesystem
     }
     print("File saved")
     return localFile
@@ -249,13 +258,13 @@ class ViewController: UIViewController {
       try NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
       try json.description.writeToFile(destinationUrl.path!, atomically: false, encoding: NSUTF8StringEncoding)
     } catch {
-      throw ListUpdateError.UnableToReplaceExistingBlockerlist
+      throw ListUpdateStatus.UnableToReplaceExistingBlockerlist
     }
   }
   
   private func showStatusMessage(status: ListUpdateStatus) {
     
-    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    dispatch_async(GCDMainQueue, { () -> Void in
       self.activityIndicator.stopAnimating()
       
       switch status {
@@ -269,6 +278,8 @@ class ViewController: UIViewController {
       case .ErrorDownloading: self.errorDownloadingLabel.hidden = false
       case .ErrorParsingFile: self.errorParsingFileLabel.hidden = false
       case .ErrorSavingParsedFile: self.errorSavingParsedFileLabel.hidden = false
+      default:
+        print("Default")
       }
       
     })
@@ -287,8 +298,5 @@ class ViewController: UIViewController {
     errorSavingParsedFileLabel.hidden = true
   }
   
-  //TODO: Defaults are stored properly (in defaults)!
-  //TODO: Potential fails: hosts file empty; can't write; error creating json; error reading
-  //TODO: Every time app runs or reload button is clicked it attempts to load default list
 }
 
