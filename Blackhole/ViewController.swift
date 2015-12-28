@@ -29,20 +29,43 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var reloadButton: UIButton!
   
-  private enum UpdateBlackholeListStatus: Int {
-    case UpdateSuccessful,
-    NoUpdateRequired,
-    NotHTTPS,
-    InvalidURL,
-    ServerNotFound,
-    NoSuchFile,
-    UpdateRequired,
-    ErrorDownloading,
-    ErrorParsingFile,
-    ErrorSavingParsedFile
+  private enum ListUpdateStatus: ErrorType {
+    case UpdateSuccessful
+    case NoUpdateRequired
+    case NotHTTPS
+    case InvalidURL
+    case ServerNotFound
+    case NoSuchFile
+    case UpdateRequired
+    case ErrorDownloading
+    case ErrorDownloadingFromRemoteLocation
+    case ErrorSavingToLocalFilesystem
+    case ErrorParsingFile
+    case UnableToReplaceExistingBlockerlist
+    case ErrorSavingParsedFile
   }
   
-  private var updateListStatus = UpdateBlackholeListStatus.UpdateSuccessful
+  var GCDMainQueue: dispatch_queue_t {
+    return dispatch_get_main_queue()
+  }
+  
+  var GCDUserInteractiveQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+  }
+  
+  var GCDUserInitiatedQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+  }
+  
+  var GCDUtilityQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)
+  }
+  
+  var GCDBackgroundQueue: dispatch_queue_t {
+    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
+  }
+  
+  // private var updateStatus = ListUpdateStatus.UpdateSuccessful
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -68,167 +91,124 @@ class ViewController: UIViewController {
     activityIndicator.startAnimating()
     hideStatusMessages()
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-      self.refreshBlockList()
+    dispatch_async(GCDUserInteractiveQueue, { () -> Void in
+      
+      do {
+        try self.refreshBlockList()
+      } catch ListUpdateStatus.NotHTTPS {
+        self.showStatusMessage(.NotHTTPS)
+      } catch ListUpdateStatus.InvalidURL {
+        self.showStatusMessage(.InvalidURL)
+      } catch {
+        print("that worked")
+      }
+      
     });
   }
   
-  func refreshBlockList() {
-
-    var error: NSError?
+  func refreshBlockList() throws {
     
     guard hostsFileURI.text.lowercaseString.hasPrefix("https://") else {
-      dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        self.activityIndicator.stopAnimating()
-        self.updateListStatus = .NotHTTPS
-        self.showStatusMessage(self.updateListStatus)
-      })
-      return
+      throw ListUpdateStatus.NotHTTPS
     }
-    
     guard let hostsFile = NSURL(string: hostsFileURI.text) else {
-      dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        self.activityIndicator.stopAnimating()
-        self.updateListStatus = .InvalidURL
-        self.showStatusMessage(self.updateListStatus)
-      })
-      return
+      throw ListUpdateStatus.InvalidURL
     }
     
-    guard !hostsFile.checkResourceIsReachableAndReturnError(&error) else {
-      dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        self.activityIndicator.stopAnimating()
-        self.updateListStatus = .NoSuchFile
-        self.showStatusMessage(self.updateListStatus)
-      })
-      return
-    }
-    
-    self.checkShouldDownloadFileAtLocation(hostsFileURI.text, completion: { (shouldDownload) -> () in
+    self.validateURL(hostsFile, completion: { (urlStatus) -> () in
       defer {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-          self.activityIndicator.stopAnimating()
-          self.showStatusMessage(self.updateListStatus)
-        })
+        self.showStatusMessage(urlStatus)
       }
       
-      guard shouldDownload == .UpdateRequired else {
-        self.updateListStatus = shouldDownload
-        self.showStatusMessage(self.updateListStatus)
+      guard urlStatus == ListUpdateStatus.UpdateSuccessful else {
         return
       }
-      print("Downloading file")
       
-      // Create the JSON
-      if let blockList = self.downloadBlocklist(hostsFile) {
-        print("File downloaded successfully")
-        if self.convertHostsToJSON(blockList) {
-          print("File converted to JSON successfully")
-        } else {
-          print("Error converting file to JSON")
-        }
-      } else {
+      do {
+        let blockList = try self.downloadBlocklist(hostsFile)
+        let jsonArray = self.convertHostsToJSON(blockList!) as [[String: [String: String]]]?
+        try self.writeBlockerlist(jsonArray!)
+      } catch {
         print("Error downloading file from \(hostsFile.description)")
+        return
       }
-      
+      SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
+        (error: NSError?) in print("Reload complete\n")})
     })
+    
   }
   
   
-  private func checkShouldDownloadFileAtLocation(urlString:String, completion:((shouldDownload:UpdateBlackholeListStatus) -> ())?) {
-    let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+  private func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
+    
+    let request = NSMutableURLRequest(URL: hostsFile)
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
     
     let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
       if let strongSelf = self {
-        var isModified = UpdateBlackholeListStatus.NoUpdateRequired
+        var result = ListUpdateStatus.UpdateSuccessful
         
         defer {
           if completion != nil {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-              completion!(shouldDownload: isModified)
+              completion!(urlStatus: result)
             })
           }
         }
         
         print("Response = \(response?.description)")
         guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
-          isModified = .ServerNotFound
-          print("There was no server response")
+          result = ListUpdateStatus.ServerNotFound
           return
         }
         
         guard httpResp.statusCode == 200 else {
-          isModified = .NoSuchFile
-          print("Server there, but resource not found")
+          result = ListUpdateStatus.NoSuchFile
           return
         }
         
-        guard let etag = httpResp.allHeaderFields["Etag"] as? NSString else {
-          isModified = .UpdateRequired
-          return
-        }
-        
-        let newEtag = etag
-        // print("\netag = \(etag)\n")
-        // print("newEtag = \(newEtag)\n")
-        if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
-          // print("currentEtag = \(currentEtag)\n\n")
-          if !etag.isEqual(currentEtag) {
-            isModified = .UpdateRequired
-            NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
-          }
-          
-        } else {
-          isModified = .UpdateRequired
-          NSUserDefaults.standardUserDefaults().setObject(newEtag, forKey: "etag")
+        if let remoteEtag = httpResp.allHeaderFields["Etag"] as? NSString,
+          currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
+            if remoteEtag.isEqual(currentEtag) {
+              result = ListUpdateStatus.NoUpdateRequired
+            } else {
+              NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
+            }
         }
       }
-      
       })
     
     task.resume()
   }
   
-  func downloadBlocklist(hostsFile: NSURL) -> NSURL? {
+  func downloadBlocklist(hostsFile: NSURL) throws -> NSURL? {
     
-    // create your document folder url
-    let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
-    // your destination file url
-    let destinationUrl = documentsUrl.URLByAppendingPathComponent(hostsFile.lastPathComponent!)
-    print(destinationUrl)
+    let documentDirectory =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
+    let localFile = documentDirectory.URLByAppendingPathComponent(hostsFile.lastPathComponent!)
+    print(localFile)
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
-      print("Error saving file")
-      updateSuccessfulLabel.text = "Error: Error downloading file"
-      print("updateSuccessfulLabel.text = Error: unable to save file (cat)")
-      return nil
+      throw ListUpdateStatus.ErrorDownloadingFromRemoteLocation
     }
-    guard myHostsFileFromUrl.writeToURL(destinationUrl, atomically: true) else {
-      print("Error saving file")
-      updateSuccessfulLabel.text = "Error: unable to save file"
-      print("updateSuccessfulLabel.text = Error: Error downloading file (rat)")
-      return nil
+    guard myHostsFileFromUrl.writeToURL(localFile, atomically: true) else {
+      throw ListUpdateStatus.ErrorSavingToLocalFilesystem
     }
     print("File saved")
-    return destinationUrl
-    
+    return localFile
   }
   
-  func convertHostsToJSON(blockList: NSURL) -> Bool {
-    var jsonArray = [[String: [String: String]]]()
+  func convertHostsToJSON(blockList: NSURL) -> [[String: [String: String]]] {
+    let validFirstChars = "01234567890abcdef"
+    var jsonSet = [[String: [String: String]]]()
     
     if let sr = StreamReader(path: blockList.path!) {
+      
       defer {
         sr.close()
       }
       
-      var count = 0
-      let validFirstChars = "01234567890abcdef"
-      
       while let line = sr.nextLine() {
-        count++
         
         if ((!line.isEmpty) && (validFirstChars.containsString(String(line.characters.first!)))) {
           
@@ -238,98 +218,71 @@ class ViewController: UIViewController {
             uncommentedText = line[line.startIndex.advancedBy(0)...commentPosition.predecessor()]
           }
           
-          let lineArray = uncommentedText.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-          let filteredArray = lineArray.filter { $0 != "" }
-          var ipAddress = true
+          let lineAsArray = uncommentedText.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+          let listOfDomainsFromLine = lineAsArray.filter { $0 != "" }
           
-          for arrayElement in filteredArray {
+          for domain in Array(listOfDomainsFromLine[1..<listOfDomainsFromLine.count]) {
             
-            if ipAddress {
-              ipAddress = false
+            guard let validated = NSURL(string: "http://" + domain) else { break }
+            guard let validatedHost = validated.host else { break }
+            var components = validatedHost.componentsSeparatedByString(".")
+            guard components[0].lowercaseString != "localhost" else { break }
+            
+            var urlFilter: String
+            if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
+              components[0] = ".*"
+              urlFilter = components.joinWithSeparator("\\.")
             } else {
-              
-              guard let validated = NSURL(string: "http://" + arrayElement) else {
-                print("Invalid domain name")
-                break
-              }
-              
-              guard let validatedHost = validated.host else {
-                print("Invalid host name")
-                break
-              }
-              
-              var components = validatedHost.componentsSeparatedByString(".")
-              
-              guard components[0].caseInsensitiveCompare("localhost") != NSComparisonResult.OrderedSame else {
-                print("Entry for localhost not being added to list")
-                break
-              }
-              
-              var domain: String
-              if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
-                components[0] = ".*"
-                domain = components.joinWithSeparator("\\.")
-              } else {
-                domain = ".*\\." + components.joinWithSeparator("\\.")
-              }
-              jsonArray.append(["action": ["type": "block"], "trigger": ["url-filter":domain]])
+              urlFilter = ".*\\." + components.joinWithSeparator("\\.")
             }
+            jsonSet.append(["action": ["type": "block"], "trigger": ["url-filter":urlFilter]])
           }
         }
       }
-    } else {
-      updateSuccessfulLabel.text = "Unable to parse file"
-      print("updateSuccessfulLabel.text = Unable to parse file")
     }
+    let valid = NSJSONSerialization.isValidJSONObject(jsonSet)
+    print("JSON file is confirmed valid: \(valid). Number of elements = \(jsonSet.count)")
     
-    let valid = NSJSONSerialization.isValidJSONObject(jsonArray)
-    print("JSON file is confirmed valid: \(valid)")
+    return jsonSet
+  }
+  
+  
+  private func writeBlockerlist(jsonArray: [[String: [String: String]]]) throws -> Void {
     
-    // Write the new JSON file
     let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
     let destinationUrl = jsonPath.URLByAppendingPathComponent("blockerList.json")
     print(destinationUrl)
-    // check if it exists
-    if NSFileManager().fileExistsAtPath(destinationUrl.path!) {
-      print("The file already exists at path - deleting")
-      do {
-        try NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
-      } catch {
-        print("No file to delete")
-      }
-    }
     
     let json = JSON(jsonArray)
     do {
+      try NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
       try json.description.writeToFile(destinationUrl.path!, atomically: false, encoding: NSUTF8StringEncoding)
-      print("JSON file written succesfully\n")
-      SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
-        (error: NSError?) in print("Reload complete\n")})
     } catch {
-      print("Unable to write parsed file")
-      updateSuccessfulLabel.text = "Unable to write parsed file"
-      print("updateSuccessfulLabel.text = Unable to write parsed file (jimmy)")
-    }
-    if updateSuccessfulLabel.text != "Unable to write parsed file" {
-      return true
-    } else {
-      return false
+      throw ListUpdateStatus.UnableToReplaceExistingBlockerlist
     }
   }
   
-  private func showStatusMessage(status: UpdateBlackholeListStatus) {
-    switch status {
-    case .UpdateSuccessful: updateSuccessfulLabel.hidden = false
-    case .NoUpdateRequired: noUpdateRequiredLabel.hidden = false
-    case .NotHTTPS: notHTTPSLabel.hidden = false
-    case .InvalidURL: invalidURLLabel.hidden = false
-    case .ServerNotFound: serverNotFoundLabel.hidden = false
-    case .NoSuchFile: noSuchFileLabel.hidden = false
-    case .UpdateRequired: updateRequiredLabel.hidden = false
-    case .ErrorDownloading: errorDownloadingLabel.hidden = false
-    case .ErrorParsingFile: errorParsingFileLabel.hidden = false
-    case .ErrorSavingParsedFile: errorSavingParsedFileLabel.hidden = false
-    }
+  private func showStatusMessage(status: ListUpdateStatus) {
+    
+    dispatch_async(GCDMainQueue, { () -> Void in
+      self.activityIndicator.stopAnimating()
+      
+      switch status {
+      case .UpdateSuccessful: self.updateSuccessfulLabel.hidden = false
+      case .NoUpdateRequired: self.noUpdateRequiredLabel.hidden = false
+      case .NotHTTPS: self.notHTTPSLabel.hidden = false
+      case .InvalidURL: self.invalidURLLabel.hidden = false
+      case .ServerNotFound: self.serverNotFoundLabel.hidden = false
+      case .NoSuchFile: self.noSuchFileLabel.hidden = false
+      case .UpdateRequired: self.updateRequiredLabel.hidden = false
+      case .ErrorDownloading: self.errorDownloadingLabel.hidden = false
+      case .ErrorParsingFile: self.errorParsingFileLabel.hidden = false
+      case .ErrorSavingParsedFile: self.errorSavingParsedFileLabel.hidden = false
+      default:
+        print("Default")
+      }
+      
+    })
   }
   
   private func hideStatusMessages() {
@@ -345,10 +298,5 @@ class ViewController: UIViewController {
     errorSavingParsedFileLabel.hidden = true
   }
   
-  //TODO: Defaults are stored properly (in defaults)!
-  //TODO: Potential fails: hosts file empty; can't write; error creating json; error reading
-  //TODO: Every time app runs or reload button is clicked it attempts to load default list
-  //TODO: If it fails, log message and use the built-in list
-  //TODO: Make sure keyboard doesn't block reload button
 }
 
