@@ -11,8 +11,8 @@ import SwiftyJSON
 import SafariServices
 
 class BLackholeList {
-  
-  private enum ListUpdateStatus: ErrorType {
+  /*
+  enum ListUpdateStatus: ErrorType {
     case UpdateSuccessful
     case NoUpdateRequired
     case NotHTTPS
@@ -26,7 +26,7 @@ class BLackholeList {
     case ErrorParsingFile
     case UnableToReplaceExistingBlockerlist
     case ErrorSavingParsedFile
-  }
+  }*/
   
   var GCDMainQueue: dispatch_queue_t {
     return dispatch_get_main_queue()
@@ -47,16 +47,16 @@ class BLackholeList {
   var GCDBackgroundQueue: dispatch_queue_t {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
   }
-  
+
   
   func updateBlackholeList(hostsFileURI: String) throws {
-    
-    
     
   }
   
   
-  private func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
+  
+  
+  func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
     
     let request = NSMutableURLRequest(URL: hostsFile)
     request.HTTPMethod = "HEAD"
@@ -166,7 +166,7 @@ class BLackholeList {
   }
   
   
-  private func writeBlockerlist(jsonArray: [[String: [String: String]]]) throws -> Void {
+  func writeBlockerlist(jsonArray: [[String: [String: String]]]) throws -> Void {
     
     let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
     let destinationUrl = jsonPath.URLByAppendingPathComponent("blockerList.json")
