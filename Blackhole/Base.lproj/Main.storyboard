@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pji-sI-PQw">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
@@ -19,33 +19,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="s3J-bl-o2G">
-                                <rect key="frame" x="40" y="40" width="520" height="540"/>
+                                <rect key="frame" x="40" y="84" width="520" height="496"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Xlx-EV-mB3">
-                                        <rect key="frame" x="220" y="0.0" width="81" height="108"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blackhole" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zPc-hU-LGX" userLabel="blackholeLabel">
-                                                <rect key="frame" x="0.0" y="0.0" width="81" height="108"/>
-                                                <animations/>
-                                                <accessibility key="accessibilityConfiguration" identifier="blackholeLabel" label="blackholeLabel"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <animations/>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="C6U-Dz-Fye">
-                                        <rect key="frame" x="0.0" y="108" width="520" height="108"/>
+                                        <rect key="frame" x="19" y="0.0" width="482" height="124"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sites to block (URL of hosts file):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daM-pZ-J4s" userLabel="listOfSitesLabel">
-                                                <rect key="frame" x="0.0" y="0.0" width="520" height="21"/>
+                                                <rect key="frame" x="116" y="0.0" width="250" height="21"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="listOfSitesLabel" label="listOfSitesLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="https://raw.githubusercontent.com/dwestgate/hosts/iOS-blackhole/hosts" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gOq-FP-hha" userLabel="hostsFileURI">
-                                                <rect key="frame" x="0.0" y="25" width="520" height="83"/>
+                                                <rect key="frame" x="0.0" y="25" width="482" height="99"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="hostsFileURI" label="hostsFileURI"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -56,97 +43,92 @@
                                             </textView>
                                         </subviews>
                                         <animations/>
-                                        <constraints>
-                                            <constraint firstItem="gOq-FP-hha" firstAttribute="leading" secondItem="C6U-Dz-Fye" secondAttribute="leading" id="Fc2-yI-1Cd"/>
-                                            <constraint firstItem="daM-pZ-J4s" firstAttribute="leading" secondItem="C6U-Dz-Fye" secondAttribute="leading" id="FyV-sd-sEj"/>
-                                            <constraint firstAttribute="trailing" secondItem="gOq-FP-hha" secondAttribute="trailing" id="Zme-uV-GVt"/>
-                                        </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6hE-ZV-XGB">
-                                        <rect key="frame" x="260" y="216" width="0.0" height="108"/>
+                                        <rect key="frame" x="260" y="124" width="0.0" height="124"/>
                                         <subviews>
                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fhq-jn-ylD" userLabel="activityIndicator">
-                                                <rect key="frame" x="-300" y="-256" width="20" height="0.0"/>
+                                                <rect key="frame" x="-300" y="-208" width="20" height="0.0"/>
                                                 <animations/>
                                             </activityIndicatorView>
                                         </subviews>
                                         <animations/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pI9-Ha-hxU">
-                                        <rect key="frame" x="260" y="324" width="0.0" height="108"/>
+                                        <rect key="frame" x="260" y="248" width="0.0" height="124"/>
                                         <subviews>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Blackhole list successfuly updated" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uDL-Kx-uhu" userLabel="updateSuccessfulLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="updateSuccessfulLabel" label="updateSuccessfulLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="No update needed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hq1-KC-hgX" userLabel="noUpdateRequiredLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="No update needed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hq1-KC-hgX" userLabel="noUpdateRequiredLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="noUpdateRequiredLabel" label="noUpdateRequiredLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Error: link must be https" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uR-2l-mPr" userLabel="notHTTPSLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Error: link must be https" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uR-2l-mPr" userLabel="notHTTPSLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="notHTTPSLabel" label="notHTTPSLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Supplied URL is invalid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ma1-g4-SGV" userLabel="invalidURLLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Supplied URL is invalid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ma1-g4-SGV" userLabel="invalidURLLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" label="invalidURLLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Unable to contact server" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S8B-gg-rbE" userLabel="serverNotFoundLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Unable to contact server" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S8B-gg-rbE" userLabel="serverNotFoundLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="serverNotFoundLabel" label="serverNotFoundLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="File not found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IgE-by-nTd" userLabel="noSuchFileLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="File not found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IgE-by-nTd" userLabel="noSuchFileLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="noSuchFileLabel" label="noSuchFileLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="File is available - updating..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LMa-VT-Hof" userLabel="updateRequiredLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="File is available - updating..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LMa-VT-Hof" userLabel="updateRequiredLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" label="updateRequiredLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Download interrupted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YsU-si-cHc" userLabel="errorDownloadingLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Download interrupted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YsU-si-cHc" userLabel="errorDownloadingLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="errorDownloadingLabel" label="errorDownloadingLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Error parsing blackhole list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="28k-nJ-zAE" userLabel="errorParsingFileLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Error parsing blackhole list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="28k-nJ-zAE" userLabel="errorParsingFileLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="errorParsingFileLabel" label="errorParsingFileLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Error saving parsed file" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt5-Ub-7NB" userLabel="errorSavingParsedFileLabel">
-                                                <rect key="frame" x="-300" y="-364" width="264" height="0.0"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Error saving parsed file" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt5-Ub-7NB" userLabel="errorSavingParsedFileLabel">
+                                                <rect key="frame" x="-300" y="-332" width="264" height="0.0"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="errorSavingParsedFileLabel" label="errorSavingParsedFileLabel"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -157,10 +139,10 @@
                                         <animations/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="nks-xS-Wq4">
-                                        <rect key="frame" x="237" y="432" width="47" height="108"/>
+                                        <rect key="frame" x="237" y="372" width="47" height="124"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqL-OE-FFi" userLabel="reloadButton">
-                                                <rect key="frame" x="0.0" y="0.0" width="47" height="108"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="47" height="124"/>
                                                 <animations/>
                                                 <accessibility key="accessibilityConfiguration" identifier="reloadButton" label="reloadButton"/>
                                                 <state key="normal" title="Reload"/>
@@ -173,21 +155,18 @@
                                     </stackView>
                                 </subviews>
                                 <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="C6U-Dz-Fye" secondAttribute="trailing" id="kxw-Vn-bcD"/>
-                                    <constraint firstItem="C6U-Dz-Fye" firstAttribute="leading" secondItem="s3J-bl-o2G" secondAttribute="leading" id="lOT-gI-wh9"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="s3J-bl-o2G" secondAttribute="trailing" constant="20" id="60q-xW-OgQ"/>
-                            <constraint firstItem="s3J-bl-o2G" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="GCP-o2-UxM"/>
-                            <constraint firstItem="s3J-bl-o2G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="MjV-rY-uVB"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="s3J-bl-o2G" secondAttribute="bottom" constant="20" id="l90-5I-TBc"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="s3J-bl-o2G" secondAttribute="bottom" constant="20" id="R5Q-0Z-k1Z"/>
+                            <constraint firstItem="s3J-bl-o2G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="jXX-I1-0sp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="s3J-bl-o2G" secondAttribute="trailing" constant="20" id="sLI-26-rGn"/>
+                            <constraint firstItem="s3J-bl-o2G" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="z77-KF-wkc"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="7gm-vf-Mtn"/>
                     <connections>
                         <outlet property="activityIndicator" destination="fhq-jn-ylD" id="pve-Uf-UDQ"/>
                         <outlet property="errorDownloadingLabel" destination="YsU-si-cHc" id="mSm-ei-Z1j"/>
@@ -205,6 +184,25 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1170" y="372"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fRC-VB-h0g">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pji-sI-PQw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vxw-th-guA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="1lL-wM-4jG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZyB-eS-SC0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="358" y="372"/>
         </scene>
