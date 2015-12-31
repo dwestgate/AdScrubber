@@ -8,18 +8,18 @@
 
 import Foundation
 
-enum ListUpdateStatus: ErrorType {
-  case UpdateSuccessful
-  case NoUpdateRequired
-  case NotHTTPS
-  case InvalidURL
-  case ServerNotFound
-  case NoSuchFile
-  case UpdateRequired
-  case ErrorDownloading
+enum ListUpdateStatus: String, ErrorType {
+  case UpdateSuccessful = "Blackhole list successfuly updated"
+  case NoUpdateRequired = "No update needed"
+  case NotHTTPS = "Error: link must be https"
+  case InvalidURL = "Supplied URL is invalid"
+  case ServerNotFound = "Unable to contact server"
+  case NoSuchFile = "File not found"
+  case UpdateRequired = "File is available - updating..."
+  case ErrorDownloading = "Download interrupted"
   case ErrorDownloadingFromRemoteLocation
   case ErrorSavingToLocalFilesystem
-  case ErrorParsingFile
+  case ErrorParsingFile = "Error parsing blackhole list"
   case UnableToReplaceExistingBlockerlist
-  case ErrorSavingParsedFile
+  case ErrorSavingParsedFile = "Error saving parsed file"
 }

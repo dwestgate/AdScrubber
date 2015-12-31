@@ -1,31 +1,25 @@
 //
-//  ViewController.swift
+//  BlackholeController.swift
 //  Blackhole
 //
-//  Created by David Westgate on 11/23/15.
+//  Created by David Westgate on 12/31/15.
 //  Copyright © 2015 Refabricants. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import SafariServices
 
-class ViewController: UIViewController {
+class BlackholeController: UITableViewController {
   
+
   @IBOutlet weak var hostsFileURI: UITextView!
+  @IBOutlet weak var typeLabel: UILabel!
+  @IBOutlet weak var blockSubdomainSwitch: UISwitch!
+  @IBOutlet weak var resetButton: UIButton!
+  @IBOutlet weak var reloadButton: UIButton!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
-  @IBOutlet weak var updateSuccessfulLabel: UILabel!
-  @IBOutlet weak var noUpdateRequiredLabel: UILabel!
-  @IBOutlet weak var notHTTPSLabel: UILabel!
-  @IBOutlet weak var invalidURLLabel: UILabel!
-  @IBOutlet weak var serverNotFoundLabel: UILabel!
-  @IBOutlet weak var noSuchFileLabel: UILabel!
-  @IBOutlet weak var updateRequiredLabel: UILabel!
-  @IBOutlet weak var errorDownloadingLabel: UILabel!
-  @IBOutlet weak var errorParsingFileLabel: UILabel!
-  @IBOutlet weak var errorSavingParsedFileLabel: UILabel!
-  
-  @IBOutlet weak var reloadButton: UIButton!
   
   var GCDMainQueue: dispatch_queue_t {
     return dispatch_get_main_queue()
@@ -53,11 +47,6 @@ class ViewController: UIViewController {
     
     self.title = "Blackhole"
     
-    hostsFileURI.layer.borderWidth = 5.0
-    hostsFileURI.layer.borderWidth = 1.0
-    hostsFileURI.layer.cornerRadius = 5.0
-    hostsFileURI.layer.borderColor = UIColor.grayColor().CGColor
-    
   }
   
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
@@ -69,10 +58,9 @@ class ViewController: UIViewController {
     super.didReceiveMemoryWarning()
   }
   
-  @IBAction func updateHostsFileButtonPressed(sender: UIButton) {
+  @IBAction func reloadButtonPressed(sender: UIButton) {
     
     activityIndicator.startAnimating()
-    hideStatusMessages()
     
     dispatch_async(GCDUserInteractiveQueue, { () -> Void in
       
@@ -176,36 +164,7 @@ class ViewController: UIViewController {
       alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
       self.presentViewController(alert, animated: true, completion: nil)
       
-      switch status {
-      case .UpdateSuccessful: self.updateSuccessfulLabel.hidden = false
-      case .NoUpdateRequired: self.noUpdateRequiredLabel.hidden = false
-      case .NotHTTPS: self.notHTTPSLabel.hidden = false
-      case .InvalidURL: self.invalidURLLabel.hidden = false
-      case .ServerNotFound: self.serverNotFoundLabel.hidden = false
-      case .NoSuchFile: self.noSuchFileLabel.hidden = false
-      case .UpdateRequired: self.updateRequiredLabel.hidden = false
-      case .ErrorDownloading: self.errorDownloadingLabel.hidden = false
-      case .ErrorParsingFile: self.errorParsingFileLabel.hidden = false
-      case .ErrorSavingParsedFile: self.errorSavingParsedFileLabel.hidden = false
-      default:
-        print("Default")
-      }
-      
     })
   }
   
-  private func hideStatusMessages() {
-    updateSuccessfulLabel.hidden = true
-    noUpdateRequiredLabel.hidden = true
-    notHTTPSLabel.hidden = true
-    invalidURLLabel.hidden = true
-    serverNotFoundLabel.hidden = true
-    noSuchFileLabel.hidden = true
-    updateRequiredLabel.hidden = true
-    errorDownloadingLabel.hidden = true
-    errorParsingFileLabel.hidden = true
-    errorSavingParsedFileLabel.hidden = true
-  }
-  
 }
-

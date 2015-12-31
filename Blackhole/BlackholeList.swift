@@ -11,22 +11,6 @@ import SwiftyJSON
 import SafariServices
 
 class BLackholeList {
-  /*
-  enum ListUpdateStatus: ErrorType {
-    case UpdateSuccessful
-    case NoUpdateRequired
-    case NotHTTPS
-    case InvalidURL
-    case ServerNotFound
-    case NoSuchFile
-    case UpdateRequired
-    case ErrorDownloading
-    case ErrorDownloadingFromRemoteLocation
-    case ErrorSavingToLocalFilesystem
-    case ErrorParsingFile
-    case UnableToReplaceExistingBlockerlist
-    case ErrorSavingParsedFile
-  }*/
   
   var GCDMainQueue: dispatch_queue_t {
     return dispatch_get_main_queue()
@@ -47,56 +31,10 @@ class BLackholeList {
   var GCDBackgroundQueue: dispatch_queue_t {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
   }
-
+  
   
   func updateBlackholeList(hostsFileURI: String) throws {
     
-  }
-  
-  
-  
-  
-  func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
-    
-    let request = NSMutableURLRequest(URL: hostsFile)
-    request.HTTPMethod = "HEAD"
-    let session = NSURLSession.sharedSession()
-    
-    let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
-      if let strongSelf = self {
-        var result = ListUpdateStatus.UpdateSuccessful
-        
-        defer {
-          if completion != nil {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-              completion!(urlStatus: result)
-            })
-          }
-        }
-        
-        print("Response = \(response?.description)")
-        guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
-          result = ListUpdateStatus.ServerNotFound
-          return
-        }
-        
-        guard httpResp.statusCode == 200 else {
-          result = ListUpdateStatus.NoSuchFile
-          return
-        }
-        
-        if let remoteEtag = httpResp.allHeaderFields["Etag"] as? NSString,
-          currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
-            if remoteEtag.isEqual(currentEtag) {
-              result = ListUpdateStatus.NoUpdateRequired
-            } else {
-              NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
-            }
-        }
-      }
-      })
-    
-    task.resume()
   }
   
   
