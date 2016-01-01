@@ -14,7 +14,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="File with URLs to block" id="05e-j7-SPc">
                                 <cells>
@@ -56,34 +56,40 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c3h-xu-G5b">
-                                                    <rect key="frame" x="14" y="8" width="572" height="27"/>
+                                                    <rect key="frame" x="14" y="11" width="572" height="21"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Detected file type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tg5-sI-chF" userLabel="detectedFileTypeLabel">
-                                                            <rect key="frame" x="0.0" y="0.0" width="530" height="27"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detected file type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tg5-sI-chF" userLabel="detectedFileTypeLabel">
+                                                            <rect key="frame" x="0.0" y="0.0" width="522" height="21"/>
                                                             <animations/>
                                                             <accessibility key="accessibilityConfiguration" identifier="detectedFileTypeLabel" label="detectedFileTypeLabel"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="hosts" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uho-yq-NP6" userLabel="fileTypeLabel">
-                                                            <rect key="frame" x="530" y="0.0" width="42" height="27"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hosts" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uho-yq-NP6" userLabel="fileTypeLabel">
+                                                            <rect key="frame" x="522" y="0.0" width="50" height="21"/>
                                                             <animations/>
                                                             <accessibility key="accessibilityConfiguration" identifier="fileTypeLabel" label="fileTypeLabel"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="50" id="AgX-Ch-MIx"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <animations/>
+                                                    <constraints>
+                                                        <constraint firstItem="tg5-sI-chF" firstAttribute="leading" secondItem="c3h-xu-G5b" secondAttribute="leading" id="2Ii-Z9-PbP"/>
+                                                        <constraint firstAttribute="trailing" secondItem="uho-yq-NP6" secondAttribute="trailing" id="HzI-hq-Bb8"/>
+                                                    </constraints>
                                                 </stackView>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="c3h-xu-G5b" secondAttribute="bottom" id="GsS-5z-Bsj"/>
                                                 <constraint firstItem="c3h-xu-G5b" firstAttribute="leading" secondItem="y3P-5g-Gag" secondAttribute="leadingMargin" constant="6" id="Yx0-rL-FhW"/>
-                                                <constraint firstItem="c3h-xu-G5b" firstAttribute="top" secondItem="y3P-5g-Gag" secondAttribute="topMargin" id="ZeU-pO-MfB"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="c3h-xu-G5b" secondAttribute="trailing" constant="6" id="ddI-mr-OdV"/>
+                                                <constraint firstItem="c3h-xu-G5b" firstAttribute="centerY" secondItem="y3P-5g-Gag" secondAttribute="centerY" id="vPY-BQ-JnT"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -100,31 +106,38 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSv-11-Kth">
-                                                    <rect key="frame" x="14" y="8" width="572" height="27"/>
+                                                    <rect key="frame" x="14" y="6" width="572" height="31"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Block subdomains" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KC4-0g-VtC" userLabel="blockSubdomainsLabel">
-                                                            <rect key="frame" x="0.0" y="0.0" width="523" height="27"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="523" height="31"/>
                                                             <animations/>
                                                             <accessibility key="accessibilityConfiguration" identifier="blockSubdomainsLabel" label="blockSubdomainsLabel"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z40-Qb-Rzi" userLabel="blockSubdomainsSwitch">
-                                                            <rect key="frame" x="523" y="0.0" width="51" height="27"/>
+                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z40-Qb-Rzi" userLabel="blockSubdomainsSwitch">
+                                                            <rect key="frame" x="523" y="0.0" width="51" height="31"/>
                                                             <animations/>
                                                             <accessibility key="accessibilityConfiguration" identifier="blockSubdomainsSwitch" label="blockSubdomainsSwitch"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="31" id="Qlf-Zc-pAp"/>
+                                                                <constraint firstAttribute="width" constant="49" id="mv5-qv-nQC"/>
+                                                            </constraints>
                                                         </switch>
                                                     </subviews>
                                                     <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="Z40-Qb-Rzi" secondAttribute="trailing" id="f17-BD-25i"/>
+                                                        <constraint firstItem="KC4-0g-VtC" firstAttribute="leading" secondItem="SSv-11-Kth" secondAttribute="leading" id="nJ5-tp-pN4"/>
+                                                    </constraints>
                                                 </stackView>
                                             </subviews>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="SSv-11-Kth" secondAttribute="trailing" constant="6" id="LZS-vY-Spg"/>
-                                                <constraint firstItem="SSv-11-Kth" firstAttribute="top" secondItem="KU0-R0-V6N" secondAttribute="topMargin" id="Yh7-EJ-gvI"/>
                                                 <constraint firstItem="SSv-11-Kth" firstAttribute="leading" secondItem="KU0-R0-V6N" secondAttribute="leadingMargin" constant="6" id="cff-E0-gCr"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="SSv-11-Kth" secondAttribute="bottom" id="pqc-nN-FY8"/>
+                                                <constraint firstItem="SSv-11-Kth" firstAttribute="centerY" secondItem="KU0-R0-V6N" secondAttribute="centerY" id="szD-cD-4z0"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -140,8 +153,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEh-PZ-UCG" userLabel="resetButton">
-                                                    <rect key="frame" x="11" y="7" width="116" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEh-PZ-UCG" userLabel="resetButton">
+                                                    <rect key="frame" x="14" y="7" width="116" height="30"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration" identifier="resetButton" label="resetButton"/>
                                                     <state key="normal" title="Reset to defaults"/>

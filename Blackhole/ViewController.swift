@@ -108,10 +108,9 @@ class ViewController: UIViewController {
       }
       
       do {
-        let bhl = BLackholeList()
-        let blockList = try bhl.downloadBlocklist(hostsFile)
-        let jsonArray = bhl.convertHostsToJSON(blockList!) as [[String: [String: String]]]?
-        try bhl.writeBlockerlist(jsonArray!)
+        let blockList = try BLackholeList.downloadBlocklist(hostsFile)
+        let jsonArray = BLackholeList.createBlockerListJSON(blockList!) as [[String: [String: String]]]?
+        try BLackholeList.writeBlockerlist(jsonArray!)
       } catch {
         print("Error downloading file from \(hostsFile.description)")
         // result = ListUpdateStatus.ErrorDownloadingFromRemoteLocation

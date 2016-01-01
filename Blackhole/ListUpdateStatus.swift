@@ -20,6 +20,6 @@ enum ListUpdateStatus: String, ErrorType {
   case UnexpectedDownloadError = "Unable to download file"
   case ErrorParsingFile = "Error parsing blackhole list"
   case ErrorSavingToLocalFilesystem = "Unable to save downloaded file"
-  case UnableToReplaceExistingBlockerlist
+  case UnableToReplaceExistingBlockerlist = "Unable to replace existing blackhole list"
   case ErrorSavingParsedFile = "Error saving parsed file"
 }

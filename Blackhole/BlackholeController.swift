@@ -96,12 +96,13 @@ class BlackholeController: UITableViewController {
       }
       
       do {
-        let bhl = BLackholeList()
-        let blockList = try bhl.downloadBlocklist(hostsFile)
-        let jsonArray = bhl.convertHostsToJSON(blockList!) as [[String: [String: String]]]?
-        try bhl.writeBlockerlist(jsonArray!)
+        let blockList = try BLackholeList.downloadBlocklist(hostsFile)
+        let jsonArray = BLackholeList.createBlockerListJSON(blockList!) as [[String: [String: String]]]?
+        try BLackholeList.writeBlockerlist(jsonArray!)
       } catch {
-        urlStatus = ListUpdateStatus.ErrorDownloading
+        if urlStatus == .UpdateSuccessful {
+          urlStatus = ListUpdateStatus.UnableToReplaceExistingBlockerlist
+        }
         return
       }
       SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
