@@ -114,6 +114,7 @@ class ViewController: UIViewController {
         try bhl.writeBlockerlist(jsonArray!)
       } catch {
         print("Error downloading file from \(hostsFile.description)")
+        // result = ListUpdateStatus.ErrorDownloadingFromRemoteLocation
         return
       }
       SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {

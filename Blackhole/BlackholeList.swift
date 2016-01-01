@@ -38,6 +38,50 @@ class BLackholeList {
   }
   
   
+  static func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
+    
+    let request = NSMutableURLRequest(URL: hostsFile)
+    request.HTTPMethod = "HEAD"
+    let session = NSURLSession.sharedSession()
+    
+    let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error -> Void in
+      // if let strongSelf = self {
+        var result = ListUpdateStatus.UpdateSuccessful
+        
+        defer {
+          if completion != nil {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+              completion!(urlStatus: result)
+            })
+          }
+        }
+        
+        print("Response = \(response?.description)")
+        guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
+          result = ListUpdateStatus.ServerNotFound
+          return
+        }
+        
+        guard httpResp.statusCode == 200 else {
+          result = ListUpdateStatus.NoSuchFile
+          return
+        }
+        
+        if let remoteEtag = httpResp.allHeaderFields["Etag"] as? NSString,
+          currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
+            if remoteEtag.isEqual(currentEtag) {
+              result = ListUpdateStatus.NoUpdateRequired
+            } else {
+              NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
+            }
+        }
+      // }
+      })
+    
+    task.resume()
+  }
+  
+  
   func downloadBlocklist(hostsFile: NSURL) throws -> NSURL? {
     
     let documentDirectory =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
@@ -45,12 +89,11 @@ class BLackholeList {
     print(localFile)
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
-      throw ListUpdateStatus.ErrorDownloadingFromRemoteLocation
+      throw ListUpdateStatus.ErrorDownloading
     }
     guard myHostsFileFromUrl.writeToURL(localFile, atomically: true) else {
       throw ListUpdateStatus.ErrorSavingToLocalFilesystem
     }
-    print("File saved")
     return localFile
   }
   

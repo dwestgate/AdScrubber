@@ -71,7 +71,7 @@ class BlackholeController: UITableViewController {
       } catch ListUpdateStatus.InvalidURL {
         self.showStatusMessage(.InvalidURL)
       } catch {
-        print("that worked")
+        self.showStatusMessage(.UnexpectedDownloadError)
       }
       
     });
@@ -86,7 +86,7 @@ class BlackholeController: UITableViewController {
       throw ListUpdateStatus.InvalidURL
     }
     
-    self.validateURL(hostsFile, completion: { (urlStatus) -> () in
+    BLackholeList.validateURL(hostsFile, completion: { (var urlStatus) -> () in
       defer {
         self.showStatusMessage(urlStatus)
       }
@@ -101,7 +101,7 @@ class BlackholeController: UITableViewController {
         let jsonArray = bhl.convertHostsToJSON(blockList!) as [[String: [String: String]]]?
         try bhl.writeBlockerlist(jsonArray!)
       } catch {
-        print("Error downloading file from \(hostsFile.description)")
+        urlStatus = ListUpdateStatus.ErrorDownloading
         return
       }
       SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
@@ -110,7 +110,7 @@ class BlackholeController: UITableViewController {
     
   }
   
-  
+  /*
   func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
     
     let request = NSMutableURLRequest(URL: hostsFile)
@@ -152,7 +152,7 @@ class BlackholeController: UITableViewController {
       })
     
     task.resume()
-  }
+  }*/
   
   
   private func showStatusMessage(status: ListUpdateStatus) {

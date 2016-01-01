@@ -16,10 +16,10 @@ enum ListUpdateStatus: String, ErrorType {
   case ServerNotFound = "Unable to contact server"
   case NoSuchFile = "File not found"
   case UpdateRequired = "File is available - updating..."
-  case ErrorDownloading = "Download interrupted"
-  case ErrorDownloadingFromRemoteLocation
-  case ErrorSavingToLocalFilesystem
+  case ErrorDownloading = "File download interrupted"
+  case UnexpectedDownloadError = "Unable to download file"
   case ErrorParsingFile = "Error parsing blackhole list"
+  case ErrorSavingToLocalFilesystem = "Unable to save downloaded file"
   case UnableToReplaceExistingBlockerlist
   case ErrorSavingParsedFile = "Error saving parsed file"
 }
