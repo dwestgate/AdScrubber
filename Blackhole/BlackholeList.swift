@@ -76,9 +76,10 @@ class BLackholeList {
       //   No: Clear the default etag and update the default filename
       
 
+      let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
       
       if let candidateEtag = httpResp.allHeaderFields["Etag"] as? NSString {
-        if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
+        if let currentEtag = defaults!.objectForKey("etag") as? NSString {
           if candidateEtag.isEqual(currentEtag) {
             result = ListUpdateStatus.NoUpdateRequired
             print("\n\nNo need to update - etags match\n\n")

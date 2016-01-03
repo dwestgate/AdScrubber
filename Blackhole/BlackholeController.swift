@@ -45,30 +45,32 @@ class BlackholeController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    if let blockerListURL = NSUserDefaults.standardUserDefaults().objectForKey("blockerListURL") as? String {
+    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+    
+    if let blockerListURL = defaults!.objectForKey("blockerListURL") as? String {
       hostsFileURI.text = blockerListURL
       print("\n\nDefault value being used to populate textView = \(blockerListURL)")
     } else {
       hostsFileURI.text = "https://raw.githubusercontent.com/dwestgate/hosts/master/hosts"
-      NSUserDefaults.standardUserDefaults().setObject(hostsFileURI.text, forKey: "blockerListURL")
+      defaults!.setObject(hostsFileURI.text, forKey: "blockerListURL")
       print("\n\nSetting Default view to: \(hostsFileURI.text)")
     }
     
-    if let entryCount = NSUserDefaults.standardUserDefaults().objectForKey("entryCount") as? String {
+    if let entryCount = defaults!.objectForKey("entryCount") as? String {
       entryCountLabel.text = entryCount
       print("entryCount exists = \(entryCount)")
     } else {
       entryCountLabel.text = "26798"
-      NSUserDefaults.standardUserDefaults().setObject(entryCountLabel.text, forKey: "entryCount")
+      defaults!.setObject(entryCountLabel.text, forKey: "entryCount")
       print("entryCount set to \(entryCountLabel.text)")
     }
     
-    if let fileType = NSUserDefaults.standardUserDefaults().objectForKey("fileType") as? String {
+    if let fileType = defaults!.objectForKey("fileType") as? String {
       typeLabel.text = fileType
       print("typeLabel exists = \(fileType)")
     } else {
       typeLabel.text = "hosts"
-      NSUserDefaults.standardUserDefaults().setObject(typeLabel.text, forKey: "fileType")
+      defaults!.setObject(typeLabel.text, forKey: "fileType")
       print("typeLabel set to \(typeLabel.text)")
     }
     
@@ -90,22 +92,24 @@ class BlackholeController: UITableViewController {
     
     dispatch_async(GCDUserInteractiveQueue, { () -> Void in
       
+      let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+      
       do {
         try self.refreshBlockList()
       } catch ListUpdateStatus.NotHTTPS {
         self.showStatusMessage(.NotHTTPS)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = NSUserDefaults.standardUserDefaults().objectForKey("blockerListURL") as? String
+          self.hostsFileURI.text = defaults!.objectForKey("blockerListURL") as? String
         })
       } catch ListUpdateStatus.InvalidURL {
         self.showStatusMessage(.InvalidURL)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = NSUserDefaults.standardUserDefaults().objectForKey("blockerListURL") as? String
+          self.hostsFileURI.text = defaults!.objectForKey("blockerListURL") as? String
         })
       } catch {
         self.showStatusMessage(.UnexpectedDownloadError)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = NSUserDefaults.standardUserDefaults().objectForKey("blockerListURL") as? String
+          self.hostsFileURI.text = defaults!.objectForKey("blockerListURL") as? String
         })
       }
       
@@ -115,15 +119,20 @@ class BlackholeController: UITableViewController {
   
   @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
     
+    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+    
     hostsFileURI.text = "https://raw.githubusercontent.com/dwestgate/hosts/master/hosts"
-    NSUserDefaults.standardUserDefaults().setObject(hostsFileURI.text, forKey: "blockerListURL")
+    NSUserDefaults.standardUserDefaults().removeObjectForKey("blockerListURL")
+    defaults!.setObject(hostsFileURI.text, forKey: "blockerListURL")
     
     entryCountLabel.text = "26798"
-    NSUserDefaults.standardUserDefaults().setObject(entryCountLabel.text, forKey: "entryCount")
+    NSUserDefaults.standardUserDefaults().removeObjectForKey("entryCount")
+    defaults!.setObject(entryCountLabel.text, forKey: "entryCount")
     
     typeLabel.text = "hosts"
-    NSUserDefaults.standardUserDefaults().setObject(typeLabel.text, forKey: "fileType")
-    
+    NSUserDefaults.standardUserDefaults().removeObjectForKey("fileType")
+    defaults!.setObject(typeLabel.text, forKey: "fileType")
+    NSUserDefaults.standardUserDefaults().removeObjectForKey("etag")
     reloadButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
   }
   
@@ -169,6 +178,18 @@ class BlackholeController: UITableViewController {
           self.entryCountLabel.text = "\(jsonArrays!.0.count)"
         })
         
+        let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+        
+        defaults!.setObject("\(jsonArrays!.0.count)", forKey:  "entryCount")
+        defaults!.setObject(hostsFile.absoluteString, forKey: "blockerListURL")
+        print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
+        if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") {
+          defaults!.setObject(etag, forKey: "etag")
+          NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+        } else {
+          defaults!.removeObjectForKey("etag")
+        }
+        /*
         NSUserDefaults.standardUserDefaults().setObject("\(jsonArrays!.0.count)", forKey:  "entryCount")
         NSUserDefaults.standardUserDefaults().setObject(hostsFile.absoluteString, forKey: "blockerListURL")
         print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
@@ -177,7 +198,7 @@ class BlackholeController: UITableViewController {
           NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
         } else {
           NSUserDefaults.standardUserDefaults().removeObjectForKey("etag")
-        }
+        }*/
         
       } catch {
         if urlStatus == .UpdateSuccessful {
@@ -258,7 +279,9 @@ class BlackholeController: UITableViewController {
       self.blockSubdomainSwitch.enabled = false
       self.typeLabel.text = "JSON"
     }
-    NSUserDefaults.standardUserDefaults().setObject(self.typeLabel.text, forKey:  "fileType")
+    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+    
+    defaults!.setObject(self.typeLabel.text, forKey:  "fileType")
   }
   
 }
