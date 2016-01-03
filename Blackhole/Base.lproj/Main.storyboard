@@ -24,7 +24,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="97"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="https://raw.githubusercontent.com/dwestgate/hosts/iOS-blackhole/hosts" translatesAutoresizingMaskIntoConstraints="NO" id="UCg-D1-cwE" userLabel="hostsFileURI">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="https://raw.githubusercontent.com/dwestgate/hosts/master/hosts" translatesAutoresizingMaskIntoConstraints="NO" id="UCg-D1-cwE" userLabel="hostsFileURI">
                                                     <rect key="frame" x="8" y="8" width="584" height="81"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="hostsFileURI" label="hostsFileURI"/>
@@ -51,17 +51,17 @@
                                                     <rect key="frame" x="14" y="11" width="572" height="21"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detected file type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tg5-sI-chF" userLabel="detectedFileTypeLabel">
-                                                            <rect key="frame" x="0.0" y="0.0" width="522" height="21"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="442" height="21"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="detectedFileTypeLabel" label="detectedFileTypeLabel"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hosts" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uho-yq-NP6" userLabel="fileTypeLabel">
-                                                            <rect key="frame" x="522" y="0.0" width="50" height="21"/>
+                                                            <rect key="frame" x="442" y="0.0" width="130" height="21"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="fileTypeLabel" label="fileTypeLabel"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="50" id="AgX-Ch-MIx"/>
+                                                                <constraint firstAttribute="width" constant="130" id="AgX-Ch-MIx"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -88,22 +88,63 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6Y-ew-std" userLabel="reloadButton">
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IjC-sV-Ban">
+                                                    <rect key="frame" x="14" y="11" width="572" height="21"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entries in blocklist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGE-aT-EvH" userLabel="entriesInBlocklistLabel">
+                                                            <rect key="frame" x="0.0" y="0.0" width="442" height="21"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="entriesInBlocklistLabel" label="entriesInBlocklistLabel"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyE-2N-tif" userLabel="entryCountLabel">
+                                                            <rect key="frame" x="442" y="0.0" width="130" height="21"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="entryCountLabel" label="entryCountLabel"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="130" id="Vgf-Rr-Ktx"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="LyE-2N-tif" secondAttribute="trailing" id="qFT-xe-FWO"/>
+                                                        <constraint firstItem="IGE-aT-EvH" firstAttribute="leading" secondItem="IjC-sV-Ban" secondAttribute="leading" id="vGh-A1-E1F"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="IjC-sV-Ban" firstAttribute="leading" secondItem="v9r-Bf-VNd" secondAttribute="leadingMargin" constant="6" id="MBl-fj-E3N"/>
+                                                <constraint firstItem="IjC-sV-Ban" firstAttribute="centerY" secondItem="v9r-Bf-VNd" secondAttribute="centerY" id="XAR-NP-uU0"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="IjC-sV-Ban" secondAttribute="trailing" constant="6" id="hsz-7s-EsL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Vw9-TU-Dbs">
+                                        <rect key="frame" x="0.0" y="300" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vw9-TU-Dbs" id="Sd4-cM-GfO">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hum-vh-ZcQ" userLabel="reloadButton">
                                                     <rect key="frame" x="14" y="7" width="71" height="30"/>
                                                     <state key="normal" title="Reload list"/>
                                                     <connections>
-                                                        <action selector="reloadButtonPressed:" destination="ETj-0b-sQp" eventType="touchUpInside" id="fjf-lZ-3ci"/>
+                                                        <action selector="reloadButtonPressed:" destination="ETj-0b-sQp" eventType="touchUpInside" id="Dgj-ST-5Tw"/>
                                                     </connections>
                                                 </button>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ie3-1C-fP2" userLabel="activityIndicator">
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Omt-4p-m0t" userLabel="activityIndicator">
                                                     <rect key="frame" x="290" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="ie3-1C-fP2" firstAttribute="centerY" secondItem="v9r-Bf-VNd" secondAttribute="centerY" id="3t9-Z4-p5J"/>
-                                                <constraint firstItem="ie3-1C-fP2" firstAttribute="centerX" secondItem="v9r-Bf-VNd" secondAttribute="centerX" id="8D1-DU-n6e"/>
-                                                <constraint firstItem="f6Y-ew-std" firstAttribute="centerY" secondItem="v9r-Bf-VNd" secondAttribute="centerY" id="sIb-vL-TAp"/>
-                                                <constraint firstItem="f6Y-ew-std" firstAttribute="leading" secondItem="v9r-Bf-VNd" secondAttribute="leadingMargin" constant="6" id="yzT-Za-1sL"/>
+                                                <constraint firstItem="Omt-4p-m0t" firstAttribute="centerY" secondItem="Sd4-cM-GfO" secondAttribute="centerY" id="AeX-gP-7j5"/>
+                                                <constraint firstItem="Omt-4p-m0t" firstAttribute="centerX" secondItem="Sd4-cM-GfO" secondAttribute="centerX" id="CRc-Jg-hHY"/>
+                                                <constraint firstItem="Hum-vh-ZcQ" firstAttribute="centerY" secondItem="Sd4-cM-GfO" secondAttribute="centerY" id="G5F-sO-pXm"/>
+                                                <constraint firstItem="Hum-vh-ZcQ" firstAttribute="leading" secondItem="Sd4-cM-GfO" secondAttribute="leadingMargin" constant="6" id="f97-Nh-ugQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -112,7 +153,7 @@
                             <tableViewSection headerTitle="Subdomain blocking" footerTitle="Blocking subdomains may break certain sites." id="3ac-8o-8R5">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="D1g-CR-EgB">
-                                        <rect key="frame" x="0.0" y="367" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="411" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D1g-CR-EgB" id="KU0-R0-V6N">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -155,7 +196,7 @@
                             <tableViewSection id="iWk-sW-0YB">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="hO4-x6-hxR">
-                                        <rect key="frame" x="0.0" y="456" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="500" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hO4-x6-hxR" id="2qe-56-MI4">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -165,6 +206,9 @@
                                                     <rect key="frame" x="14" y="7" width="164" height="30"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="restoreDefaultSettingsButton" label="restoreDefaultSettingsButton"/>
                                                     <state key="normal" title="Restore default settings"/>
+                                                    <connections>
+                                                        <action selector="restoreDefaultSettingsTouchUpInside:" destination="ETj-0b-sQp" eventType="touchUpInside" id="6eL-Sq-Z1U"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -183,11 +227,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Blackhole" id="EiI-wG-pCQ"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="ie3-1C-fP2" id="dd2-v6-4i0"/>
+                        <outlet property="activityIndicator" destination="Omt-4p-m0t" id="ci2-0Q-635"/>
                         <outlet property="blockSubdomainSwitch" destination="Z40-Qb-Rzi" id="anw-cL-ryj"/>
+                        <outlet property="entryCountLabel" destination="LyE-2N-tif" id="Wch-Bf-1eH"/>
                         <outlet property="hostsFileURI" destination="UCg-D1-cwE" id="lGQ-Bo-DoS"/>
-                        <outlet property="reloadButton" destination="f6Y-ew-std" id="s0B-tL-CfK"/>
-                        <outlet property="resetButton" destination="gEh-PZ-UCG" id="8TH-Rk-QuV"/>
+                        <outlet property="reloadButton" destination="Hum-vh-ZcQ" id="fGy-CD-do4"/>
                         <outlet property="restoreDefaultSettingsButton" destination="gEh-PZ-UCG" id="G9E-RL-GQD"/>
                         <outlet property="typeLabel" destination="uho-yq-NP6" id="sQI-Ue-2p1"/>
                     </connections>

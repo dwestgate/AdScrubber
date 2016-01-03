@@ -77,21 +77,21 @@ class BLackholeList {
       
 
       
-      if let remoteEtag = httpResp.allHeaderFields["Etag"] as? NSString {
+      if let candidateEtag = httpResp.allHeaderFields["Etag"] as? NSString {
         if let currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
-          if remoteEtag.isEqual(currentEtag) {
+          if candidateEtag.isEqual(currentEtag) {
             result = ListUpdateStatus.NoUpdateRequired
             print("\n\nNo need to update - etags match\n\n")
           } else {
-            NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
+            NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
             print("\n\nSetting default to \(hostsFile.absoluteString)\n\n")
           }
         } else {
-          NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
+          NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
           print("\n\nNo existing etag - setting default to \(hostsFile.absoluteString)\n\n")
         }
       } else {
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("etag")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
         print("\n\nDeleting etag")
       }
     })
