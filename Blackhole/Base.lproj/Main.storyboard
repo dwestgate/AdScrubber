@@ -176,6 +176,9 @@
                                                                 <constraint firstAttribute="height" constant="31" id="Qlf-Zc-pAp"/>
                                                                 <constraint firstAttribute="width" constant="49" id="mv5-qv-nQC"/>
                                                             </constraints>
+                                                            <connections>
+                                                                <action selector="blockingSubdomainsSwitch:" destination="ETj-0b-sQp" eventType="valueChanged" id="bGy-TA-d1o"/>
+                                                            </connections>
                                                         </switch>
                                                     </subviews>
                                                     <constraints>

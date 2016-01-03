@@ -21,12 +21,10 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
     
     let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
     
-    if let fileType = defaults!.objectForKey("fileType") as? NSString {
-      if fileType == "hosts" {
+      if defaults!.boolForKey("blockingSubdomains") == true {
         contentBlockingRules = sharedPath.URLByAppendingPathComponent("wildcardBlockerList.json")
-        logfile += "Using wildcardBlockerList.json"
+        logfile += "Using wildcardBlockerList.json\n"
       }
-    }
     
     var attachment: NSItemProvider
     logfile += "contentBlockingRules = \(contentBlockingRules.description)\n"

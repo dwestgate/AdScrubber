@@ -73,6 +73,7 @@ class BlackholeController: UITableViewController {
       defaults!.setObject(typeLabel.text, forKey: "fileType")
       print("typeLabel set to \(typeLabel.text)")
     }
+    defaults!.setBool(self.blockSubdomainSwitch.on, forKey: "blockingSubdomains")
     
   }
   
@@ -116,6 +117,22 @@ class BlackholeController: UITableViewController {
       
     });
   }
+  
+  
+  @IBAction func blockingSubdomainsSwitch(sender: AnyObject) {
+    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+    
+    defaults!.setBool(self.blockSubdomainSwitch.on, forKey: "blockingSubdomains")
+    
+    if let blockerListURL = defaults!.objectForKey("blockerListURL") as? String {
+      hostsFileURI.text = blockerListURL
+      print("\n\nMaking sure the textfile is accurate = \(blockerListURL)")
+    }
+    
+    SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
+      (error: NSError?) in print("Reload complete\n")})
+  }
+  
   
   @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
     
@@ -282,6 +299,7 @@ class BlackholeController: UITableViewController {
     let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
     
     defaults!.setObject(self.typeLabel.text, forKey:  "fileType")
+    defaults!.setBool(self.blockSubdomainSwitch.on, forKey: "blockingSubdomains")
   }
   
 }
