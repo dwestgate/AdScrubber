@@ -16,7 +16,7 @@ class BlackholeController: UITableViewController {
   @IBOutlet weak var hostsFileURI: UITextView!
   @IBOutlet weak var typeLabel: UILabel!
   @IBOutlet weak var blockSubdomainSwitch: UISwitch!
-  @IBOutlet weak var resetButton: UIButton!
+  @IBOutlet weak var restoreDefaultSettingsButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
@@ -41,16 +41,22 @@ class BlackholeController: UITableViewController {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
   }
   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Blackhole"
-    
+    if let blockerListURL = NSUserDefaults.standardUserDefaults().objectForKey("blockerListURL") as? String {
+      hostsFileURI.text = blockerListURL
+      print("\n\nDefault value being used to populate textView = \(blockerListURL)")
+    } else {
+      NSUserDefaults.standardUserDefaults().setObject(hostsFileURI.text, forKey: "blockerListURL")
+      print("\n\nSetting Default view to: \(hostsFileURI.text)")
+    }
+
   }
   
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
     hostsFileURI.resignFirstResponder()
+    print("\n\nwe're here\n\n")
     super.touchesBegan(touches, withEvent: event)
   }
   
@@ -73,6 +79,9 @@ class BlackholeController: UITableViewController {
       } catch {
         self.showStatusMessage(.UnexpectedDownloadError)
       }
+      dispatch_async(self.GCDMainQueue, { () -> Void in
+        self.hostsFileURI.text = NSUserDefaults.standardUserDefaults().objectForKey("blockerListURL") as? String
+      })
       
     });
   }
@@ -88,6 +97,9 @@ class BlackholeController: UITableViewController {
     
     BLackholeList.validateURL(hostsFile, completion: { (var urlStatus) -> () in
       defer {
+        if (urlStatus == .UpdateSuccessful) {
+          NSUserDefaults.standardUserDefaults().setObject(hostsFile.absoluteString, forKey: "blockerListURL")
+        }
         self.showStatusMessage(urlStatus)
       }
       
@@ -97,14 +109,29 @@ class BlackholeController: UITableViewController {
       
       do {
         let blockList = try BLackholeList.downloadBlocklist(hostsFile)
-        let jsonArray = BLackholeList.createBlockerListJSON(blockList!) as [[String: [String: String]]]?
-        try BLackholeList.writeBlockerlist(jsonArray!)
+        
+        let jsonArrays = BLackholeList.createBlockerListJSON(blockList!) as ([[String: [String: String]]], [[String: [String: String]]])?
+
+        try BLackholeList.writeBlockerlist("blockerList.json", jsonArray: jsonArrays!.0)
+        
+        // If we have just loaded a JSON file, jsonArray!.1, so we will
+        // update the interface accordingly
+        if (jsonArrays!.1.count > 0) {
+          try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.1)
+          self.changeFileType("hosts")
+        } else {
+          try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.0)
+          self.changeFileType("JSON")
+        }
+        
+        
       } catch {
         if urlStatus == .UpdateSuccessful {
           urlStatus = ListUpdateStatus.UnableToReplaceExistingBlockerlist
         }
         return
       }
+      
       SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
         (error: NSError?) in print("Reload complete\n")})
     })
@@ -166,6 +193,17 @@ class BlackholeController: UITableViewController {
       self.presentViewController(alert, animated: true, completion: nil)
       
     })
+  }
+  
+  private func changeFileType(type: String) {
+    if type == "hosts" {
+      self.blockSubdomainSwitch.enabled = true
+      self.typeLabel.text = "hosts"
+    } else {
+      self.blockSubdomainSwitch.setOn(false, animated: true)
+      self.blockSubdomainSwitch.enabled = false
+      self.typeLabel.text = "JSON"
+    }
   }
   
 }
