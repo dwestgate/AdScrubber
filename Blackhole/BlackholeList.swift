@@ -32,11 +32,90 @@ class BLackholeList {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
   }
   
-  
-  func updateBlackholeList(hostsFileURI: String) throws {
-    
+  static let container = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+
+
+  static func getBlockerListURL() -> String {
+    if let value = container!.objectForKey("blockerListURL") as? String {
+      return value
+    } else {
+      let value = "https://raw.githubusercontent.com/dwestgate/hosts/master/hosts"
+      container!.setObject(value, forKey: "blockerListURL")
+      return value
+    }
   }
   
+  
+  static func setBlockerListURL(value: String) {
+    container!.setObject(value, forKey: "blockerListURL")
+  }
+  
+  
+  static func getEntryCount() -> String {
+    if let value = container!.objectForKey("entryCount") as? String {
+      return value
+    } else {
+      let value = "26798"
+      container!.setObject(value, forKey: "entryCount")
+      return value
+    }
+  }
+  
+  
+  static func setEntryCount(value: String) {
+    container!.setObject(value, forKey: "entryCount")
+  }
+  
+  
+  static func getFileType() -> String {
+    if let value = container!.objectForKey("fileType") as? String {
+      return value
+    } else {
+      let value = "hosts"
+      container!.setObject(value, forKey: "fileType")
+      return value
+    }
+  }
+  
+  
+  static func setFileType(value: String) {
+    container!.setObject(value, forKey: "fileType")
+  }
+  
+  
+  static func getEtag() -> String? {
+    if let value = container!.objectForKey("etag") as? String {
+      return value
+    } else {
+      return nil
+    }
+  }
+  
+  
+  static func setEtag(value: String) {
+    container!.setObject(value, forKey: "etag")
+  }
+  
+  
+  static func deleteEtag() {
+    container!.removeObjectForKey("etag")
+  }
+  
+  
+  static func getBlockingSubdomains() -> Bool {
+    if let value = container!.boolForKey("blockingSubdomains") as Bool? {
+      return value
+    } else {
+      let value = false
+      container!.setBool(value, forKey: "blockingSubdomains")
+      return value
+    }
+  }
+  
+  
+  static func setBlockingSubdomains(value: Bool) {
+    container!.setBool(value, forKey: "blockingSubdomains")
+  }
   
   static func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
     
