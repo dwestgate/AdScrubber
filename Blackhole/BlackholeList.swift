@@ -10,27 +10,7 @@ import Foundation
 import SwiftyJSON
 import SafariServices
 
-class BLackholeList {
-  
-  var GCDMainQueue: dispatch_queue_t {
-    return dispatch_get_main_queue()
-  }
-  
-  var GCDUserInteractiveQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
-  }
-  
-  var GCDUserInitiatedQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-  }
-  
-  var GCDUtilityQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)
-  }
-  
-  var GCDBackgroundQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
-  }
+struct BLackholeList {
   
   static let container = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
 
@@ -145,14 +125,6 @@ class BLackholeList {
         result = ListUpdateStatus.NoSuchFile
         return
       }
-      
-      // check to see if the remote file has an etag
-      //   Yes: Do we have a default etag set?
-      //     Yes: Are the two the same?
-      //       Yes: ListUpdateStatus.NoUpdateRequired
-      //       No:  Update the default etag and the default filename
-      //     No: Update the default etag and the default filename
-      //   No: Clear the default etag and update the default filename
       
 
       let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")

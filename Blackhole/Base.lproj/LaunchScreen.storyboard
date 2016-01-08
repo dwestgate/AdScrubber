@@ -132,9 +132,6 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bth-uq-Ehg" userLabel="reloadButton">
                                                     <rect key="frame" x="14" y="7" width="71" height="30"/>
                                                     <state key="normal" title="Reload list"/>
-                                                    <connections>
-                                                        <action selector="reloadButtonPressed:" destination="JgA-oq-CpF" eventType="touchUpInside" id="6YF-Fx-Vil"/>
-                                                    </connections>
                                                 </button>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2Dz-Id-u8s" userLabel="activityIndicator">
                                                     <rect key="frame" x="290" y="12" width="20" height="20"/>
@@ -176,9 +173,6 @@
                                                                 <constraint firstAttribute="height" constant="31" id="5zB-1z-MCU"/>
                                                                 <constraint firstAttribute="width" constant="49" id="NBm-DO-RiV"/>
                                                             </constraints>
-                                                            <connections>
-                                                                <action selector="blockingSubdomainsSwitch:" destination="JgA-oq-CpF" eventType="valueChanged" id="N6s-Qo-l73"/>
-                                                            </connections>
                                                         </switch>
                                                     </subviews>
                                                     <constraints>
@@ -209,9 +203,6 @@
                                                     <rect key="frame" x="14" y="7" width="164" height="30"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="restoreDefaultSettingsButton" label="restoreDefaultSettingsButton"/>
                                                     <state key="normal" title="Restore default settings"/>
-                                                    <connections>
-                                                        <action selector="restoreDefaultSettingsTouchUpInside:" destination="JgA-oq-CpF" eventType="touchUpInside" id="HNm-At-HIH"/>
-                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -223,21 +214,8 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="JgA-oq-CpF" id="Bw6-Ra-SJ9"/>
-                            <outlet property="delegate" destination="JgA-oq-CpF" id="2bO-6S-zU4"/>
-                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Blackhole" id="MaD-f6-LJv"/>
-                    <connections>
-                        <outlet property="activityIndicator" destination="2Dz-Id-u8s" id="2hi-Od-9Uo"/>
-                        <outlet property="blockSubdomainSwitch" destination="b3G-r2-Qvz" id="2sz-qC-7ev"/>
-                        <outlet property="entryCountLabel" destination="3sJ-83-cUj" id="Cj2-5t-I2u"/>
-                        <outlet property="hostsFileURI" destination="xfE-qP-mnk" id="3iH-e3-1eS"/>
-                        <outlet property="reloadButton" destination="bth-uq-Ehg" id="fR5-oR-WeZ"/>
-                        <outlet property="restoreDefaultSettingsButton" destination="Adx-3E-MHe" id="D2K-N8-gdl"/>
-                        <outlet property="typeLabel" destination="O6j-Gq-pAg" id="l7L-wU-0gi"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D5Q-Af-sOH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

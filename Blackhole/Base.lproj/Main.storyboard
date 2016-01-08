@@ -131,6 +131,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hum-vh-ZcQ" userLabel="reloadButton">
                                                     <rect key="frame" x="14" y="7" width="71" height="30"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="reloadButton" label="reloadButton"/>
                                                     <state key="normal" title="Reload list"/>
                                                     <connections>
                                                         <action selector="reloadButtonPressed:" destination="ETj-0b-sQp" eventType="touchUpInside" id="Dgj-ST-5Tw"/>

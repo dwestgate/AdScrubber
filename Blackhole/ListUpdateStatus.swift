@@ -9,8 +9,8 @@
 import Foundation
 
 enum ListUpdateStatus: String, ErrorType {
-  case UpdateSuccessful = "Blackhole list successfuly updated"
-  case NoUpdateRequired = "No update needed"
+  case UpdateSuccessful = "Blackhole list successfully updated"
+  case NoUpdateRequired = "List already up-to-date"
   case NotHTTPS = "Error: link must be https"
   case InvalidURL = "Supplied URL is invalid"
   case ServerNotFound = "Unable to contact server"

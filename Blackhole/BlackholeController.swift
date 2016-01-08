@@ -146,15 +146,9 @@ class BlackholeController: UITableViewController {
         } else {
           try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.0)
           BLackholeList.setFileType("JSON")
-          //self.changeFileType("JSON")
         }
         
         let uniqueEntries = "\(jsonArrays!.0.count)"
-        
-        
-        /* dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.entryCountLabel.text = "\(uniqueEntries)"
-        })*/
         
         BLackholeList.setEntryCount(uniqueEntries)
         BLackholeList.setBlockerListURL(hostsFile.absoluteString)
@@ -192,21 +186,6 @@ class BlackholeController: UITableViewController {
     })
   }
   
-  /*
-  private func changeFileType(type: String) {
-    if type == "hosts" {
-      self.blockSubdomainSwitch.enabled = true
-      self.typeLabel.text = "hosts"
-    } else {
-      self.blockSubdomainSwitch.setOn(false, animated: true)
-      self.blockSubdomainSwitch.enabled = false
-      self.typeLabel.text = "JSON"
-    }
-    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
-    
-    defaults!.setObject(self.typeLabel.text, forKey:  "fileType")
-    defaults!.setBool(self.blockSubdomainSwitch.on, forKey: "blockingSubdomains")
-  }*/
   
   private func refreshControls() {
       self.hostsFileURI.text = BLackholeList.getBlockerListURL()

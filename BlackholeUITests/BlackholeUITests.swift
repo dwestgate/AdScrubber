@@ -10,6 +10,19 @@ import XCTest
 
 class BlackholeUITests: XCTestCase {
   
+  let app = XCUIApplication()
+  var table: XCUIElementQuery!
+  var hostsFileURITextView: XCUIElement!
+  var detectedFileTypeLabel: XCUIElement!
+  var fileTypeLabel: XCUIElement!
+  var entriesInBlocklistLabel: XCUIElement!
+  var entryCountLabel: XCUIElement!
+  var reloadButton: XCUIElement!
+  var blockSubdomainsLabel: XCUIElement!
+  var blocksubdomainsswitchSwitch: XCUIElement!
+  var restoreDefaultSettingsButton: XCUIElement!
+  
+  // MARK: - This method is called before the invocation of each test method in the class.
   override func setUp() {
     super.setUp()
     
@@ -18,8 +31,17 @@ class BlackholeUITests: XCTestCase {
     // In UI tests it is usually best to stop immediately when a failure occurs.
     continueAfterFailure = false
     // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-    XCUIApplication().launch()
-    
+    app.launch()
+    table = app.tables
+    hostsFileURITextView = table.textViews["hostsFileURI"]
+    detectedFileTypeLabel = table.staticTexts["detectedFileTypeLabel"]
+    fileTypeLabel = table.staticTexts["fileTypeLabel"]
+    entriesInBlocklistLabel = table.staticTexts["entriesInBlocklistLabel"]
+    entryCountLabel = table.staticTexts["entryCountLabel"]
+    reloadButton = app.buttons["reloadButton"]
+    blockSubdomainsLabel = table.staticTexts["blockSubdomainsLabel"]
+    blocksubdomainsswitchSwitch = table.switches["blockSubdomainsSwitch"]
+    restoreDefaultSettingsButton = app.buttons["restoreDefaultSettingsButton"]
   }
   
   
@@ -31,133 +53,91 @@ class BlackholeUITests: XCTestCase {
   
   func test_A_UpdateSuccessful() {
     
-    let expectedMessage = "updateSuccessfulLabel"
-    let app = XCUIApplication()
+    let expectedMessage = "Blackhole list successfully updated"
     
-    self.setExpectation(expectedMessage, app: app)
+    self.setAlertExpectationWithMessage(expectedMessage)
     
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN", app: app)
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge", app: app)
+    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
+    app.alerts["Blackhole List Reload"].collectionViews.buttons["OK"].tap()
+    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
   }
   
   
   func test_B_NoUpdateRequired() {
     
-    let expectedMessage = "noUpdateRequiredLabel"
-    let app = XCUIApplication()
+    let expectedMessage = "List already up-to-date"
     
-    self.setExpectation(expectedMessage, app: app)
+    self.setAlertExpectationWithMessage(expectedMessage)
     
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN", app: app)
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN", app: app)
+    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
+    app.alerts["Blackhole List Reload"].collectionViews.buttons["OK"].tap()
+    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
   }
   
   
   func test_C_NotHTTPS() {
     
-    let expectedMessage = "notHTTPSLabel"
-    let app = XCUIApplication()
+    let expectedMessage = "Error: link must be https"
     
-    self.setExpectation(expectedMessage, app: app)
+    self.setAlertExpectationWithMessage(expectedMessage)
     
-    loadHostsFile("http://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge", app: app)
+    loadFile("http://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
-    
   }
+  
   
   func test_D_InvalidURL() {
     
-    let expectedMessage = "invalidURLLabel"
-    let app = XCUIApplication()
+    let expectedMessage = "Supplied URL is invalid"
     
-    self.setExpectation(expectedMessage, app: app)
+    self.setAlertExpectationWithMessage(expectedMessage)
     
-    loadHostsFile("https://nosuc\\hdomain/nosuchpath", app: app)
+    loadFile("https://nosuc\\hdomain/nosuchpath")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
-    
   }
   
   
   func test_E_ServerNotFound() {
     
-    let expectedMessage = "serverNotFoundLabel"
-    let app = XCUIApplication()
+    let expectedMessage = "Unable to contact server"
     
     self.setExpectation(expectedMessage, app: app)
     
-    loadHostsFile("https://nosuchserver", app: app)
+    loadFile("https://nosuchserver")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
-    
   }
 
   
   func test_F_NoSuchFile() {
     
-    let expectedMessage = "noSuchFileLabel"
-    let app = XCUIApplication()
+    let expectedMessage = "File not found"
     
     self.setExpectation(expectedMessage, app: app)
     
-    loadHostsFile("https://raw.githubusercontent.com/nosuchfileexists", app: app)
+    loadFile("https://raw.githubusercontent.com/nosuchfileexists")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
- 
   }
   
   
   func test_G_EmptyFile() {
     
-    let expectedMessage = "updateSuccessfulLabel"
-    let app = XCUIApplication()
+    let expectedMessage = "Blackhole list successfully updated"
     
-    self.setExpectation(expectedMessage, app: app)
+    self.setAlertExpectationWithMessage(expectedMessage)
     
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN", app: app)
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-empty", app: app)
-    
-    self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
-  }
-  
-  
-  func test_G_UpdateSuccessful() {
-    
-    let expectedMessage = "updateSuccessfulLabel"
-    let app = XCUIApplication()
-    
-    self.setExpectation(expectedMessage, app: app)
-    
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN", app: app)
-    loadHostsFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge", app: app)
+    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
+    app.alerts["Blackhole List Reload"].collectionViews.buttons["OK"].tap()
+    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-empty")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
-    self.verifyLabelsAreHidden(expectedMessage, app: app)
-  }
-  
-  
-  private func loadHostsFile(text: String, app: XCUIApplication) {
-    let element = app.otherElements.containingType(.NavigationBar, identifier:"Blackhole").childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.childrenMatchingType(.Other).element
-    let hostsFileURITextView = app.textViews["hostsFileURI"]
-    let reloadButton = app.buttons["reloadButton"]
-    
-    hostsFileURITextView.pressForDuration(0.55);
-    app.menuItems["Select All"].tap()
-    hostsFileURITextView.typeText(text)
-    element.tap()
-    reloadButton.tap()
   }
   
   
@@ -167,23 +147,19 @@ class BlackholeUITests: XCTestCase {
   }
   
   
-  private func verifyLabelsAreHidden(expectedMessage: String, app: XCUIApplication) {
+  private func loadFile(text: String) {
     
-    let messages = ["UpdateSuccessful",
-                    "NoUpdateRequired",
-                    "NotHTTPS",
-                    "InvalidURL",
-                    "ServerNotFound",
-                    "NoSuchFile",
-                    "EmptyFile"]
-    let hidden = NSPredicate(format: "hittable == 0")
-    
-    for message in messages {
-      if message != expectedMessage {
-        self.expectationForPredicate(hidden, evaluatedWithObject: app.staticTexts[message], handler: nil)
-        self.waitForExpectationsWithTimeout(0, handler: nil)
-      }
-    }
+    hostsFileURITextView.pressForDuration(1.55);
+    app.menus.menuItems["Select All"].tap()
+    hostsFileURITextView.typeText(text)
+    // detectedFileTypeLabel.tap()
+    reloadButton.tap()
+  }
+
+  
+  private func setAlertExpectationWithMessage(message: String) {
+    let exists = NSPredicate(format: "exists == 1")
+    self.expectationForPredicate(exists, evaluatedWithObject:app.alerts["Blackhole List Reload"].staticTexts[message], handler: nil)
   }
 
 }
