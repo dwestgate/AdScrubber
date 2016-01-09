@@ -5,6 +5,8 @@
 //  Created by David Westgate on 12/28/15.
 //  Copyright © 2015 Refabricants. All rights reserved.
 //
+// TODO - Ensure I overwrite downloaded files!
+// TODO - When converting to JSON, convert in chunks
 
 import Foundation
 import SwiftyJSON
@@ -12,59 +14,59 @@ import SafariServices
 
 struct BLackholeList {
   
-  static let container = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+  static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
 
 
-  static func getBlockerListURL() -> String {
-    if let value = container!.objectForKey("blockerListURL") as? String {
+  static func getBlacklistURL() -> String {
+    if let value = sharedContainer!.objectForKey("blacklistURL") as? String {
       return value
     } else {
       let value = "https://raw.githubusercontent.com/dwestgate/hosts/master/hosts"
-      container!.setObject(value, forKey: "blockerListURL")
+      sharedContainer!.setObject(value, forKey: "blacklistURL")
       return value
     }
   }
   
   
-  static func setBlockerListURL(value: String) {
-    container!.setObject(value, forKey: "blockerListURL")
+  static func setBlacklistURL(value: String) {
+    sharedContainer!.setObject(value, forKey: "blacklistURL")
   }
   
   
-  static func getEntryCount() -> String {
-    if let value = container!.objectForKey("entryCount") as? String {
+  static func getBlacklistUniqueEntryCount() -> String {
+    if let value = sharedContainer!.objectForKey("blacklistUniqueEntryCount") as? String {
       return value
     } else {
       let value = "26798"
-      container!.setObject(value, forKey: "entryCount")
+      sharedContainer!.setObject(value, forKey: "blacklistUniqueEntryCount")
       return value
     }
   }
   
   
-  static func setEntryCount(value: String) {
-    container!.setObject(value, forKey: "entryCount")
+  static func setBlacklistUniqueEntryCount(value: String) {
+    sharedContainer!.setObject(value, forKey: "blacklistUniqueEntryCount")
   }
   
   
-  static func getFileType() -> String {
-    if let value = container!.objectForKey("fileType") as? String {
+  static func getBlacklistFileType() -> String {
+    if let value = sharedContainer!.objectForKey("blacklistFileType") as? String {
       return value
     } else {
       let value = "hosts"
-      container!.setObject(value, forKey: "fileType")
+      sharedContainer!.setObject(value, forKey: "blacklistFileType")
       return value
     }
   }
   
   
-  static func setFileType(value: String) {
-    container!.setObject(value, forKey: "fileType")
+  static func setBlacklistFileType(value: String) {
+    sharedContainer!.setObject(value, forKey: "blacklistFileType")
   }
   
   
-  static func getEtag() -> String? {
-    if let value = container!.objectForKey("etag") as? String {
+  static func getBlacklistEtag() -> String? {
+    if let value = sharedContainer!.objectForKey("blacklistEtag") as? String {
       return value
     } else {
       return nil
@@ -72,39 +74,39 @@ struct BLackholeList {
   }
   
   
-  static func setEtag(value: String) {
-    container!.setObject(value, forKey: "etag")
+  static func setBlacklistEtag(value: String) {
+    sharedContainer!.setObject(value, forKey: "blacklistEtag")
   }
   
   
-  static func deleteEtag() {
-    container!.removeObjectForKey("etag")
+  static func deleteBlacklistEtag() {
+    sharedContainer!.removeObjectForKey("blacklistEtag")
   }
   
   
-  static func getBlockingSubdomains() -> Bool {
-    if let value = container!.boolForKey("blockingSubdomains") as Bool? {
+  static func getIsBlockingSubdomains() -> Bool {
+    if let value = sharedContainer!.boolForKey("isBlockingSubdomains") as Bool? {
       return value
     } else {
       let value = false
-      container!.setBool(value, forKey: "blockingSubdomains")
+      sharedContainer!.setBool(value, forKey: "isBlockingSubdomains")
       return value
     }
   }
   
   
-  static func setBlockingSubdomains(value: Bool) {
-    container!.setBool(value, forKey: "blockingSubdomains")
+  static func setIsBlockingSubdomains(value: Bool) {
+    sharedContainer!.setBool(value, forKey: "isBlockingSubdomains")
   }
   
   static func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
-    
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let request = NSMutableURLRequest(URL: hostsFile)
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
     
     let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error -> Void in
-      // if let strongSelf = self {
+
       var result = ListUpdateStatus.UpdateSuccessful
       
       defer {
@@ -153,7 +155,7 @@ struct BLackholeList {
   
   
   static func downloadBlocklist(hostsFile: NSURL) throws -> NSURL? {
-    
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let documentDirectory =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
     let localFile = documentDirectory.URLByAppendingPathComponent(hostsFile.lastPathComponent!)
     print(localFile)
@@ -169,7 +171,7 @@ struct BLackholeList {
   
   
   static func createBlockerListJSON(blockList: NSURL) -> (noWildcards: [[String: [String: String]]], withWildcards: [[String: [String: String]]]) {
-    
+    print("\nEntering: \(__FUNCTION__)\n")
     var jsonSet = [[String: [String: String]]]()
     var jsonWildcardSet = [[String: [String: String]]]()
     
@@ -249,7 +251,7 @@ struct BLackholeList {
   
   
   static func writeBlockerlist(fileName: String, jsonArray: [[String: [String: String]]]) throws -> Void {
-    
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
     let destinationUrl = jsonPath.URLByAppendingPathComponent(fileName)
     print(destinationUrl)
@@ -264,6 +266,25 @@ struct BLackholeList {
       throw ListUpdateStatus.UnableToReplaceExistingBlockerlist
     }
   }
+  
+  
+  static func appendJSONToFileWithFileName(fileName: String, jsonArray: [[String: [String: String]]]) throws -> Void {
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
+    let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
+    let destinationUrl = jsonPath.URLByAppendingPathComponent(fileName)
+    print(destinationUrl)
+    
+    let json = JSON(jsonArray)
+    
+    _ = try? NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
+    
+    do {
+      try json.description.writeToFile(destinationUrl.path!, atomically: false, encoding: NSUTF8StringEncoding)
+    } catch {
+      throw ListUpdateStatus.UnableToReplaceExistingBlockerlist
+    }
+  }
+  
   
   static func areEqual(text: String, comparedTo: String) -> Bool {
     if (text.caseInsensitiveCompare(comparedTo) == NSComparisonResult.OrderedSame) {

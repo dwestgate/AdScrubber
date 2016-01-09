@@ -42,25 +42,23 @@ class BlackholeController: UITableViewController {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
   }
   
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    hostsFileURI.text = BLackholeList.getBlockerListURL()
-    entryCountLabel.text = BLackholeList.getEntryCount()
-    typeLabel.text = BLackholeList.getFileType()
-    blockSubdomainSwitch.setOn(BLackholeList.getBlockingSubdomains(), animated: true)
+    hostsFileURI.text = BLackholeList.getBlacklistURL()
+    entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
+    typeLabel.text = BLackholeList.getBlacklistFileType()
+    blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
     
+    view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "endEditing"))
   }
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
-    hostsFileURI.resignFirstResponder()
-    print("\n\nwe're here\n\n")
-    super.touchesBegan(touches, withEvent: event)
-  }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
+  
   
   @IBAction func reloadButtonPressed(sender: AnyObject) {
     
@@ -71,19 +69,19 @@ class BlackholeController: UITableViewController {
       do {
         try self.refreshBlockList()
       } catch ListUpdateStatus.NotHTTPS {
-        self.showStatusMessage(.NotHTTPS)
+        self.showMessageWithStatus(.NotHTTPS)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = BLackholeList.getBlockerListURL()
+          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
         })
       } catch ListUpdateStatus.InvalidURL {
-        self.showStatusMessage(.InvalidURL)
+        self.showMessageWithStatus(.InvalidURL)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = BLackholeList.getBlockerListURL()
+          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
         })
       } catch {
-        self.showStatusMessage(.UnexpectedDownloadError)
+        self.showMessageWithStatus(.UnexpectedDownloadError)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = BLackholeList.getBlockerListURL()
+          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
         })
       }
     });
@@ -91,8 +89,8 @@ class BlackholeController: UITableViewController {
   
   
   @IBAction func blockingSubdomainsSwitch(sender: AnyObject) {
-    BLackholeList.setBlockingSubdomains(self.blockSubdomainSwitch.on)
-    self.hostsFileURI.text = BLackholeList.getBlockerListURL()
+    BLackholeList.setIsBlockingSubdomains(self.blockSubdomainSwitch.on)
+    self.hostsFileURI.text = BLackholeList.getBlacklistURL()
     
     SFContentBlockerManager.reloadContentBlockerWithIdentifier(
       "com.refabricants.Blackhole.ContentBlocker", completionHandler: {
@@ -101,9 +99,9 @@ class BlackholeController: UITableViewController {
   
   
   @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
-    BLackholeList.setBlockerListURL("https://raw.githubusercontent.com/dwestgate/hosts/master/hosts")
-    BLackholeList.setEntryCount("26798")
-    BLackholeList.setFileType("hosts")
+    BLackholeList.setBlacklistURL("https://raw.githubusercontent.com/dwestgate/hosts/master/hosts")
+    BLackholeList.setBlacklistUniqueEntryCount("26798")
+    BLackholeList.setBlacklistFileType("hosts")
     refreshControls()
     reloadButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
   }
@@ -121,7 +119,7 @@ class BlackholeController: UITableViewController {
     BLackholeList.validateURL(hostsFile, completion: { (var urlStatus) -> () in
       defer {
         self.refreshControls()
-        self.showStatusMessage(urlStatus)
+        self.showMessageWithStatus(urlStatus)
       }
       
       guard urlStatus == ListUpdateStatus.UpdateSuccessful else {
@@ -141,23 +139,23 @@ class BlackholeController: UITableViewController {
         // update the interface accordingly
         if (jsonArrays!.1.count > 0) {
           try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.1)
-          BLackholeList.setFileType("hosts")
+          BLackholeList.setBlacklistFileType("hosts")
           // self.changeFileType("hosts")
         } else {
           try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.0)
-          BLackholeList.setFileType("JSON")
+          BLackholeList.setBlacklistFileType("JSON")
         }
         
         let uniqueEntries = "\(jsonArrays!.0.count)"
         
-        BLackholeList.setEntryCount(uniqueEntries)
-        BLackholeList.setBlockerListURL(hostsFile.absoluteString)
+        BLackholeList.setBlacklistUniqueEntryCount(uniqueEntries)
+        BLackholeList.setBlacklistURL(hostsFile.absoluteString)
         print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
         if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") as? String {
-          BLackholeList.setEtag(etag)
+          BLackholeList.setBlacklistEtag(etag)
           NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
         } else {
-          BLackholeList.deleteEtag()
+          BLackholeList.deleteBlacklistEtag()
         }
         
       } catch {
@@ -174,7 +172,12 @@ class BlackholeController: UITableViewController {
   }
   
   
-  private func showStatusMessage(status: ListUpdateStatus) {
+  func endEditing() {
+    view.endEditing(true)
+  }
+  
+  
+  private func showMessageWithStatus(status: ListUpdateStatus) {
     
     dispatch_async(GCDMainQueue, { () -> Void in
       self.activityIndicator.stopAnimating()
@@ -188,16 +191,16 @@ class BlackholeController: UITableViewController {
   
   
   private func refreshControls() {
-      self.hostsFileURI.text = BLackholeList.getBlockerListURL()
-      self.typeLabel.text = BLackholeList.getFileType()
-      self.entryCountLabel.text = BLackholeList.getEntryCount()
-      if (BLackholeList.getFileType() == "hosts") {
+      self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+      self.typeLabel.text = BLackholeList.getBlacklistFileType()
+      self.entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
+      if (BLackholeList.getBlacklistFileType() == "hosts") {
         self.blockSubdomainSwitch.enabled = true
       } else {
-        BLackholeList.setBlockingSubdomains(false)
+        BLackholeList.setIsBlockingSubdomains(false)
         self.blockSubdomainSwitch.enabled = false
       }
-      self.blockSubdomainSwitch.setOn(BLackholeList.getBlockingSubdomains(), animated: true)
+      self.blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
   }
   
 }
