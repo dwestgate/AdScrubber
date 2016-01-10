@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A4923364466325B6AA751B4B /* Pods_Blackhole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E75F8CD52370A8DAE3686D /* Pods_Blackhole.framework */; };
 		C40EF70E1C0E877600B5EB81 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40EF70D1C0E877600B5EB81 /* StreamReader.swift */; };
+		C461B1C01C414E45000F35CD /* NSOutputStreamExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C461B1BF1C414E45000F35CD /* NSOutputStreamExtensions.swift */; };
 		C4650F6F1C132BAB00F4C1B9 /* blockerList.json in Resources */ = {isa = PBXBuildFile; fileRef = C4650F6E1C132BAB00F4C1B9 /* blockerList.json */; };
 		C46AC4731C03FB87008039D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4721C03FB87008039D7 /* AppDelegate.swift */; };
 		C46AC4751C03FB87008039D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4741C03FB87008039D7 /* ViewController.swift */; };
@@ -68,6 +69,7 @@
 		C40EF70B1C0BDE2D00B5EB81 /* Blackhole.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Blackhole.entitlements; sourceTree = "<group>"; };
 		C40EF70C1C0E834100B5EB81 /* ContentBlocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ContentBlocker.entitlements; sourceTree = "<group>"; };
 		C40EF70D1C0E877600B5EB81 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
+		C461B1BF1C414E45000F35CD /* NSOutputStreamExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSOutputStreamExtensions.swift; sourceTree = "<group>"; };
 		C4650F6E1C132BAB00F4C1B9 /* blockerList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blockerList.json; sourceTree = "<group>"; };
 		C46AC46F1C03FB87008039D7 /* Blackhole.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blackhole.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C46AC4721C03FB87008039D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				C4E1BEBB1C31D10C00FB01D8 /* BlackholeList.swift */,
 				C4E1BEBD1C32C22D00FB01D8 /* ListUpdateStatus.swift */,
 				C487309D1C35BE9B000ACBC5 /* BlackholeController.swift */,
+				C461B1BF1C414E45000F35CD /* NSOutputStreamExtensions.swift */,
 			);
 			path = Blackhole;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				C46AC4751C03FB87008039D7 /* ViewController.swift in Sources */,
 				C46AC4731C03FB87008039D7 /* AppDelegate.swift in Sources */,
 				C4E1BEBC1C31D10C00FB01D8 /* BlackholeList.swift in Sources */,
+				C461B1C01C414E45000F35CD /* NSOutputStreamExtensions.swift in Sources */,
 				C487309E1C35BE9B000ACBC5 /* BlackholeController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

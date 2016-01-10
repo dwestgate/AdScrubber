@@ -131,22 +131,22 @@ class BlackholeController: UITableViewController {
         
         // We'll get back two arrays: if starting with a hosts file, the second file will have
         // wildcards. If starting with a JSON file, the arrays will be identical.
-        let jsonArrays = BLackholeList.createBlockerListJSON(blockList!) as ([[String: [String: String]]], [[String: [String: String]]])?
+        let numberOfEntries = BLackholeList.createBlockerListJSON(blockList!)
         
-        try BLackholeList.writeBlockerlist("blockerList.json", jsonArray: jsonArrays!.0)
+        // try BLackholeList.writeBlockerlist("blockerList.json", jsonArray: jsonArrays!.0)
         
         // If we have just loaded a JSON file, jsonArray!.1, so we will
         // update the interface accordingly
-        if (jsonArrays!.1.count > 0) {
+        /* if (jsonArrays!.1.count > 0) {
           try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.1)
           BLackholeList.setBlacklistFileType("hosts")
           // self.changeFileType("hosts")
         } else {
           try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.0)
           BLackholeList.setBlacklistFileType("JSON")
-        }
+        }*/
         
-        let uniqueEntries = "\(jsonArrays!.0.count)"
+        let uniqueEntries = "\(numberOfEntries)"
         
         BLackholeList.setBlacklistUniqueEntryCount(uniqueEntries)
         BLackholeList.setBlacklistURL(hostsFile.absoluteString)

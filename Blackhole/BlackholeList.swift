@@ -7,6 +7,7 @@
 //
 // TODO - Ensure I overwrite downloaded files!
 // TODO - When converting to JSON, convert in chunks
+// TODO - Eliminate whitespace in JSON
 
 import Foundation
 import SwiftyJSON
@@ -15,8 +16,8 @@ import SafariServices
 struct BLackholeList {
   
   static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
-
-
+  
+  
   static func getBlacklistURL() -> String {
     if let value = sharedContainer!.objectForKey("blacklistURL") as? String {
       return value
@@ -106,7 +107,7 @@ struct BLackholeList {
     let session = NSURLSession.sharedSession()
     
     let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error -> Void in
-
+      
       var result = ListUpdateStatus.UpdateSuccessful
       
       defer {
@@ -128,7 +129,7 @@ struct BLackholeList {
         return
       }
       
-
+      
       let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
       
       if let candidateEtag = httpResp.allHeaderFields["Etag"] as? NSString {
@@ -170,10 +171,13 @@ struct BLackholeList {
   }
   
   
-  static func createBlockerListJSON(blockList: NSURL) -> (noWildcards: [[String: [String: String]]], withWildcards: [[String: [String: String]]]) {
+  static func createBlockerListJSON(blockList: NSURL) -> Int {
     print("\nEntering: \(__FUNCTION__)\n")
+    var numberOfEntries = 0
     var jsonSet = [[String: [String: String]]]()
     var jsonWildcardSet = [[String: [String: String]]]()
+    var blockerListBuffer = ""
+    var wildcardBlockerListBuffer = ""
     
     let data = NSData(contentsOfURL: blockList)
     
@@ -198,55 +202,132 @@ struct BLackholeList {
         print("\n\nThe file downloaded is valid JSON\n\n")
       }
     } else {
-      if let sr = StreamReader(path: blockList.path!) {
+      
+      let validFirstChars = "01234567890abcdef"
+      
+      let sharedFolder = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
+      
+      let blockerListURL = sharedFolder.URLByAppendingPathComponent("blockerList.json")
+      let wildcardBlockerListURL = sharedFolder.URLByAppendingPathComponent("wildcardBlockerList.json")
+      
+      _ = try? NSFileManager.defaultManager().removeItemAtPath(blockerListURL.path!)
+      _ = try? NSFileManager.defaultManager().removeItemAtPath(wildcardBlockerListURL.path!)
+      
+      guard let sr = StreamReader(path: blockList.path!) else {
+        // return ListUpdateStatus.ErrorParsingFile
+        return 0
+      }
+      
+      guard let blockerListStream = NSOutputStream(toFileAtPath: blockerListURL.path!, append: true) else {
+        // return ListUpdateStatus.ErrorSavingParsedFile
+        return 0
+      }
+      
+      guard let wildcardBlockerListStream = NSOutputStream(toFileAtPath: wildcardBlockerListURL.path!, append: true) else {
+        // return ListUpdateStatus.ErrorSavingParsedFile
+        return 0
+      }
+      
+      blockerListStream.open()
+      wildcardBlockerListStream.open()
+      
+      defer {
+        sr.close()
         
-        let validFirstChars = "01234567890abcdef"
-        
-        defer {
-          sr.close()
-        }
-        
-        while let line = sr.nextLine() {
+        blockerListStream.write("]")
+        blockerListStream.close()
+
+        wildcardBlockerListStream.write("]")
+        wildcardBlockerListStream.close()
+      }
+      
+      var count = 0
+      
+      var firstCharInBuffer = "["
+      
+      while let line = sr.nextLine() {
+
+        if ((!line.isEmpty) && (validFirstChars.containsString(String(line.characters.first!)))) {
           
-          if ((!line.isEmpty) && (validFirstChars.containsString(String(line.characters.first!)))) {
-            
-            var uncommentedText = line
-            
-            if let commentPosition = line.characters.indexOf("#") {
-              uncommentedText = line[line.startIndex.advancedBy(0)...commentPosition.predecessor()]
-            }
-            
-            let lineAsArray = uncommentedText.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            let listOfDomainsFromLine = lineAsArray.filter { $0 != "" }
-            
-            for domain in Array(listOfDomainsFromLine[1..<listOfDomainsFromLine.count]) {
-              
-              guard let validated = NSURL(string: "http://" + domain) else { break }
-              guard let validatedHost = validated.host else { break }
-              var components = validatedHost.componentsSeparatedByString(".")
-              guard components[0].lowercaseString != "localhost" else { break }
-              
-              let urlFilter = components.joinWithSeparator("\\.")
-              var wildcardURLFilter: String
-              
-              if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
-                components[0] = ".*"
-                wildcardURLFilter = components.joinWithSeparator("\\.")
-              } else {
-                wildcardURLFilter = ".*\\." + components.joinWithSeparator("\\.")
-              }
-              jsonSet.append(["action": ["type": "block"], "trigger": ["url-filter":urlFilter]])
-              jsonWildcardSet.append(["action": ["type": "block"], "trigger": ["url-filter":wildcardURLFilter]])
-            }
+          var uncommentedText = line
+          
+          if let commentPosition = line.characters.indexOf("#") {
+            uncommentedText = line[line.startIndex.advancedBy(0)...commentPosition.predecessor()]
           }
+          
+          let lineAsArray = uncommentedText.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+          let listOfDomainsFromLine = lineAsArray.filter { $0 != "" }
+          
+          for domain in Array(listOfDomainsFromLine[1..<listOfDomainsFromLine.count]) {
+            
+            guard let validated = NSURL(string: "http://" + domain) else { break }
+            guard let validatedHost = validated.host else { break }
+            var components = validatedHost.componentsSeparatedByString(".")
+            guard components[0].lowercaseString != "localhost" else { break }
+            
+            let urlFilter = components.joinWithSeparator("\\\\.")
+            var wildcardURLFilter: String
+            
+            if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
+              components[0] = ".*"
+              wildcardURLFilter = components.joinWithSeparator("\\.")
+            } else {
+              wildcardURLFilter = ".*\\." + components.joinWithSeparator("\\.")
+            }
+            numberOfEntries++
+            // jsonSet.append(["action": ["type": "block"], "trigger": ["url-filter":urlFilter]])
+            blockerListBuffer += ("\(firstCharInBuffer){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(urlFilter)\"}}")
+            // jsonWildcardSet.append(["action": ["type": "block"], "trigger": ["url-filter":wildcardURLFilter]])
+            // wildcardBlockerListBuffer += ("\(firstCharInBuffer){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(urlFilter)}}")
+            firstCharInBuffer = ","
+            
+            if (numberOfEntries % 10000) == 0 {
+              print("We've processed \(numberOfEntries) entries")
+            }
+            
+            // if count < 12 {
+            //  count++
+            // } else {
+              count = 0
+              
+              blockerListStream.write(blockerListBuffer)
+              // wildcardBlockerListStream.write(wildcardBlockerListBuffer)
+              // appendWithJSON(blockerListStream, jsonArray: jsonSet)
+              // appendWithJSON(wildcardBlockerListStream, jsonArray: jsonWildcardSet)
+              blockerListBuffer = ""
+              wildcardBlockerListBuffer = ""
+              // jsonSet.removeAll()
+              // jsonWildcardSet.removeAll()
+            // }
+          }
+        }
+        if count > 0 {
+          blockerListStream.write(blockerListBuffer)
+          // wildcardBlockerListStream.write(wildcardBlockerListBuffer)
+          // appendWithJSON(blockerListStream, jsonArray: jsonSet)
+          // appendWithJSON(wildcardBlockerListStream, jsonArray: jsonWildcardSet)
         }
       }
     }
     
-    let valid = NSJSONSerialization.isValidJSONObject(jsonSet)
+    /*let valid = NSJSONSerialization.isValidJSONObject(jsonSet)
     print("JSON file is confirmed valid: \(valid). Number of elements = \(jsonSet.count)")
     
-    return (jsonSet, jsonWildcardSet)
+    return (jsonSet, jsonWildcardSet) */
+    return numberOfEntries
+  }
+  
+  private static func appendWithJSON(os: NSOutputStream, jsonArray: [[String: [String: String]]]) {
+    // let blockerListJSON = JSON(jsonArray)
+    let blockerListJSONText = jsonArray.description
+    print("\nStraight text from the array looks like this: \(blockerListJSONText)")
+    // let blockerListMap = blockerListJSON.flatMap(<#T##transform: ((String, JSON)) throws -> SequenceType##((String, JSON)) throws -> SequenceType#>)
+    var blockerListText = blockerListJSONText.stringByReplacingOccurrencesOfString("[", withString: "{")
+    blockerListText = blockerListText.stringByReplacingOccurrencesOfString("]", withString: "}")
+    let newStartIndex = blockerListText.startIndex.advancedBy(1)
+    let newEndIndex = blockerListText.endIndex.predecessor()
+    
+    os.write(blockerListText[newStartIndex..<newEndIndex])
   }
   
   
@@ -254,7 +335,7 @@ struct BLackholeList {
     print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
     let destinationUrl = jsonPath.URLByAppendingPathComponent(fileName)
-    print(destinationUrl)
+    print("Writing to file: \(destinationUrl)")
     
     let json = JSON(jsonArray)
     
