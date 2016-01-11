@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Blackhole.xcodeproj">
+      location = "group:/Users/davidwestgate/Documents/Workspace/Blackhole/Ad Scrubber.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
