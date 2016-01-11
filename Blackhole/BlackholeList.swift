@@ -5,9 +5,8 @@
 //  Created by David Westgate on 12/28/15.
 //  Copyright © 2015 Refabricants. All rights reserved.
 //
-// TODO - Ensure I overwrite downloaded files!
-// TODO - When converting to JSON, convert in chunks
-// TODO - Eliminate whitespace in JSON
+//  TODO - Animation stops when resuming
+//  TODO - Change name of "Blocking Subdomains"
 
 import Foundation
 import SwiftyJSON
@@ -100,7 +99,7 @@ struct BLackholeList {
     sharedContainer!.setBool(value, forKey: "isBlockingSubdomains")
   }
   
-  static func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
+  static func validateURL(hostsFile:NSURL, completion:((updateStatus: ListUpdateStatus) -> ())?) {
     print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let request = NSMutableURLRequest(URL: hostsFile)
     request.HTTPMethod = "HEAD"
@@ -113,7 +112,7 @@ struct BLackholeList {
       defer {
         if completion != nil {
           dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            completion!(urlStatus: result)
+            completion!(updateStatus: result)
           })
         }
       }
@@ -133,7 +132,7 @@ struct BLackholeList {
       let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
       
       if let candidateEtag = httpResp.allHeaderFields["Etag"] as? NSString {
-        if let currentEtag = defaults!.objectForKey("etag") as? NSString {
+        if let currentEtag = defaults!.objectForKey("blacklistEtag") as? NSString {
           if candidateEtag.isEqual(currentEtag) {
             result = ListUpdateStatus.NoUpdateRequired
             print("\n\nNo need to update - etags match\n\n")
@@ -158,7 +157,7 @@ struct BLackholeList {
   static func downloadBlocklist(hostsFile: NSURL) throws -> NSURL? {
     print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let documentDirectory =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
-    let localFile = documentDirectory.URLByAppendingPathComponent(hostsFile.lastPathComponent!)
+    let localFile = documentDirectory.URLByAppendingPathComponent("downloadedBlocklist.txt")
     print(localFile)
     
     guard let myHostsFileFromUrl = NSData(contentsOfURL: hostsFile) else {
@@ -171,13 +170,23 @@ struct BLackholeList {
   }
   
   
-  static func createBlockerListJSON(blockList: NSURL) -> Int {
+  static func createBlockerListJSON(blockList: NSURL) -> (updateStatus: ListUpdateStatus, blacklistFileType: String?, numberOfEntries: Int?) {
     print("\nEntering: \(__FUNCTION__)\n")
+    
+    var updateStatus = ListUpdateStatus.UpdateSuccessful
+    let fileManager = NSFileManager.defaultManager()
+    let sharedFolder = fileManager.containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
+    
+    let blockerListURL = sharedFolder.URLByAppendingPathComponent("blockerList.json")
+    let wildcardBlockerListURL = sharedFolder.URLByAppendingPathComponent("wildcardBlockerList.json")
+    
+    var wildcardDomains: Set<String>
+    var blocklistFileType = "hosts"
     var numberOfEntries = 0
     var jsonSet = [[String: [String: String]]]()
     var jsonWildcardSet = [[String: [String: String]]]()
-    var blockerListBuffer = ""
-    var wildcardBlockerListBuffer = ""
+    var blockerListEntry = ""
+    var wildcardBlockerListEntry = ""
     
     let data = NSData(contentsOfURL: blockList)
     
@@ -185,47 +194,52 @@ struct BLackholeList {
       if NSJSONSerialization.isValidJSONObject(jsonArray) {
         
         for element in jsonArray {
-          if let newElement = element as? [String : [String : String]] {
-            if ((newElement.keys.count == 2) &&
-              (((areEqual("action", comparedTo: newElement.first!.0) &&
-                (areEqual("trigger", comparedTo: newElement.dropFirst().first!.0)))) ||
-                ((areEqual("trigger", comparedTo: newElement.first!.0) &&
-                  (areEqual("action", comparedTo: newElement.dropFirst().first!.0)))))) {
-                    jsonSet.append(element as! [String : [String : String]])
-            } else {
-              print("bad entry")
-            }
-          } else {
-            print("Invalid element")
+          
+          guard let newElement = element as? [String : [String : String]] else {
+            return (ListUpdateStatus.InvalidJSON, nil, nil)
           }
+          
+          guard newElement.keys.count == 2 else {
+            return (ListUpdateStatus.InvalidJSON, nil, nil)
+          }
+          
+          let hasAction = contains(Array(newElement.keys), text: "action")
+          let hasTrigger = contains(Array(newElement.keys), text: "trigger")
+          
+          guard hasAction && hasTrigger else {
+            return (ListUpdateStatus.InvalidJSON, nil, nil)
+          }
+          
+          numberOfEntries++
         }
-        print("\n\nThe file downloaded is valid JSON\n\n")
+        
+        do {
+          _ = try? fileManager.removeItemAtURL(blockerListURL)
+          try fileManager.moveItemAtURL(blockList, toURL: blockerListURL)
+        } catch {
+          return (ListUpdateStatus.ErrorSavingToLocalFilesystem, nil, nil)
+        }
+        blocklistFileType = "JSON"
       }
+      
+      
     } else {
       
       let validFirstChars = "01234567890abcdef"
-      
-      let sharedFolder = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
-      
-      let blockerListURL = sharedFolder.URLByAppendingPathComponent("blockerList.json")
-      let wildcardBlockerListURL = sharedFolder.URLByAppendingPathComponent("wildcardBlockerList.json")
       
       _ = try? NSFileManager.defaultManager().removeItemAtPath(blockerListURL.path!)
       _ = try? NSFileManager.defaultManager().removeItemAtPath(wildcardBlockerListURL.path!)
       
       guard let sr = StreamReader(path: blockList.path!) else {
-        // return ListUpdateStatus.ErrorParsingFile
-        return 0
+        return (ListUpdateStatus.ErrorParsingFile, nil, nil)
       }
       
       guard let blockerListStream = NSOutputStream(toFileAtPath: blockerListURL.path!, append: true) else {
-        // return ListUpdateStatus.ErrorSavingParsedFile
-        return 0
+        return (ListUpdateStatus.ErrorSavingParsedFile, nil, nil)
       }
       
       guard let wildcardBlockerListStream = NSOutputStream(toFileAtPath: wildcardBlockerListURL.path!, append: true) else {
-        // return ListUpdateStatus.ErrorSavingParsedFile
-        return 0
+        return (ListUpdateStatus.ErrorSavingParsedFile, nil, nil)
       }
       
       blockerListStream.open()
@@ -236,17 +250,15 @@ struct BLackholeList {
         
         blockerListStream.write("]")
         blockerListStream.close()
-
+        
         wildcardBlockerListStream.write("]")
         wildcardBlockerListStream.close()
       }
       
-      var count = 0
-      
-      var firstCharInBuffer = "["
+      var firstCharInEntry = "["
       
       while let line = sr.nextLine() {
-
+        
         if ((!line.isEmpty) && (validFirstChars.containsString(String(line.characters.first!)))) {
           
           var uncommentedText = line
@@ -269,111 +281,40 @@ struct BLackholeList {
             var wildcardURLFilter: String
             
             if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
-              components[0] = ".*"
-              wildcardURLFilter = components.joinWithSeparator("\\.")
+              wildcardURLFilter = components[1..<components.count].joinWithSeparator("\\\\.")
             } else {
-              wildcardURLFilter = ".*\\." + components.joinWithSeparator("\\.")
+              wildcardURLFilter = components.joinWithSeparator("\\\\.")
             }
+            
             numberOfEntries++
-            // jsonSet.append(["action": ["type": "block"], "trigger": ["url-filter":urlFilter]])
-            blockerListBuffer += ("\(firstCharInBuffer){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(urlFilter)\"}}")
-            // jsonWildcardSet.append(["action": ["type": "block"], "trigger": ["url-filter":wildcardURLFilter]])
-            // wildcardBlockerListBuffer += ("\(firstCharInBuffer){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(urlFilter)}}")
-            firstCharInBuffer = ","
+            blockerListEntry = ("\(firstCharInEntry){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(urlFilter)\"}}")
+            wildcardBlockerListEntry = ("\(firstCharInEntry){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(wildcardURLFilter)\"}}")
+            firstCharInEntry = ","
             
-            if (numberOfEntries % 10000) == 0 {
-              print("We've processed \(numberOfEntries) entries")
-            }
-            
-            // if count < 12 {
-            //  count++
-            // } else {
-              count = 0
-              
-              blockerListStream.write(blockerListBuffer)
-              // wildcardBlockerListStream.write(wildcardBlockerListBuffer)
-              // appendWithJSON(blockerListStream, jsonArray: jsonSet)
-              // appendWithJSON(wildcardBlockerListStream, jsonArray: jsonWildcardSet)
-              blockerListBuffer = ""
-              wildcardBlockerListBuffer = ""
-              // jsonSet.removeAll()
-              // jsonWildcardSet.removeAll()
-            // }
+            blockerListStream.write(blockerListEntry)
+            wildcardBlockerListStream.write(wildcardBlockerListEntry)
           }
-        }
-        if count > 0 {
-          blockerListStream.write(blockerListBuffer)
-          // wildcardBlockerListStream.write(wildcardBlockerListBuffer)
-          // appendWithJSON(blockerListStream, jsonArray: jsonSet)
-          // appendWithJSON(wildcardBlockerListStream, jsonArray: jsonWildcardSet)
         }
       }
     }
+    _ = try? NSFileManager.defaultManager().removeItemAtPath(blockList.path!)
     
-    /*let valid = NSJSONSerialization.isValidJSONObject(jsonSet)
-    print("JSON file is confirmed valid: \(valid). Number of elements = \(jsonSet.count)")
-    
-    return (jsonSet, jsonWildcardSet) */
-    return numberOfEntries
-  }
-  
-  private static func appendWithJSON(os: NSOutputStream, jsonArray: [[String: [String: String]]]) {
-    // let blockerListJSON = JSON(jsonArray)
-    let blockerListJSONText = jsonArray.description
-    print("\nStraight text from the array looks like this: \(blockerListJSONText)")
-    // let blockerListMap = blockerListJSON.flatMap(<#T##transform: ((String, JSON)) throws -> SequenceType##((String, JSON)) throws -> SequenceType#>)
-    var blockerListText = blockerListJSONText.stringByReplacingOccurrencesOfString("[", withString: "{")
-    blockerListText = blockerListText.stringByReplacingOccurrencesOfString("]", withString: "}")
-    let newStartIndex = blockerListText.startIndex.advancedBy(1)
-    let newEndIndex = blockerListText.endIndex.predecessor()
-    
-    os.write(blockerListText[newStartIndex..<newEndIndex])
-  }
-  
-  
-  static func writeBlockerlist(fileName: String, jsonArray: [[String: [String: String]]]) throws -> Void {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
-    let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
-    let destinationUrl = jsonPath.URLByAppendingPathComponent(fileName)
-    print("Writing to file: \(destinationUrl)")
-    
-    let json = JSON(jsonArray)
-    
-    _ = try? NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
-    
-    do {
-      try json.description.writeToFile(destinationUrl.path!, atomically: false, encoding: NSUTF8StringEncoding)
-    } catch {
-      throw ListUpdateStatus.UnableToReplaceExistingBlockerlist
+    if numberOfEntries > 50000 {
+      updateStatus = ListUpdateStatus.TooManyEntries
     }
+    
+    return (updateStatus, blocklistFileType, numberOfEntries)
   }
+
   
-  
-  static func appendJSONToFileWithFileName(fileName: String, jsonArray: [[String: [String: String]]]) throws -> Void {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
-    let jsonPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
-    let destinationUrl = jsonPath.URLByAppendingPathComponent(fileName)
-    print(destinationUrl)
+  static func contains(elements: Array<String>, text: String) -> Bool {
     
-    let json = JSON(jsonArray)
-    
-    _ = try? NSFileManager.defaultManager().removeItemAtPath(destinationUrl.path!)
-    
-    do {
-      try json.description.writeToFile(destinationUrl.path!, atomically: false, encoding: NSUTF8StringEncoding)
-    } catch {
-      throw ListUpdateStatus.UnableToReplaceExistingBlockerlist
+    for element in elements {
+      if (element.caseInsensitiveCompare(text) == NSComparisonResult.OrderedSame) {
+        return true
+      }
     }
-  }
-  
-  
-  static func areEqual(text: String, comparedTo: String) -> Bool {
-    if (text.caseInsensitiveCompare(comparedTo) == NSComparisonResult.OrderedSame) {
-      return true
-    } else {
-      return false
-    }
+    return false
   }
   
 }
-

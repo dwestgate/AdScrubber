@@ -22,4 +22,6 @@ enum ListUpdateStatus: String, ErrorType {
   case ErrorSavingToLocalFilesystem = "Unable to save downloaded file"
   case UnableToReplaceExistingBlockerlist = "Unable to replace existing blackhole list"
   case ErrorSavingParsedFile = "Error saving parsed file"
+  case TooManyEntries = "WARNING: blocklist size exceeds 50,000 entries. If Safari determines the size of the list will adversely impact performance it will ignore the new entries and continue using the rules from the last update."
+  case InvalidJSON = "JSON file does not appear to be in valid Content Blocker format"
 }

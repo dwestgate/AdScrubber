@@ -116,57 +116,41 @@ class BlackholeController: UITableViewController {
       throw ListUpdateStatus.InvalidURL
     }
     
-    BLackholeList.validateURL(hostsFile, completion: { (var urlStatus) -> () in
+    BLackholeList.validateURL(hostsFile, completion: { (var updateStatus) -> () in
       defer {
         self.refreshControls()
-        self.showMessageWithStatus(urlStatus)
+        self.showMessageWithStatus(updateStatus)
       }
       
-      guard urlStatus == ListUpdateStatus.UpdateSuccessful else {
+      guard updateStatus == ListUpdateStatus.UpdateSuccessful else {
         return
       }
       
       do {
         let blockList = try BLackholeList.downloadBlocklist(hostsFile)
-        
-        // We'll get back two arrays: if starting with a hosts file, the second file will have
-        // wildcards. If starting with a JSON file, the arrays will be identical.
-        let numberOfEntries = BLackholeList.createBlockerListJSON(blockList!)
-        
-        // try BLackholeList.writeBlockerlist("blockerList.json", jsonArray: jsonArrays!.0)
-        
-        // If we have just loaded a JSON file, jsonArray!.1, so we will
-        // update the interface accordingly
-        /* if (jsonArrays!.1.count > 0) {
-          try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.1)
-          BLackholeList.setBlacklistFileType("hosts")
-          // self.changeFileType("hosts")
-        } else {
-          try BLackholeList.writeBlockerlist("wildcardBlockerList.json", jsonArray: jsonArrays!.0)
-          BLackholeList.setBlacklistFileType("JSON")
-        }*/
-        
-        let uniqueEntries = "\(numberOfEntries)"
-        
-        BLackholeList.setBlacklistUniqueEntryCount(uniqueEntries)
-        BLackholeList.setBlacklistURL(hostsFile.absoluteString)
-        print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
-        if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") as? String {
-          BLackholeList.setBlacklistEtag(etag)
-          NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
-        } else {
-          BLackholeList.deleteBlacklistEtag()
+        let createBlockerListJSONResult = BLackholeList.createBlockerListJSON(blockList!)
+        updateStatus = createBlockerListJSONResult.updateStatus
+        if (updateStatus == .UpdateSuccessful || updateStatus == .TooManyEntries) {
+          
+          BLackholeList.setBlacklistFileType(createBlockerListJSONResult.blacklistFileType!)
+          BLackholeList.setBlacklistUniqueEntryCount("\(createBlockerListJSONResult.numberOfEntries!)")
+          BLackholeList.setBlacklistURL(hostsFile.absoluteString)
+          print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
+          if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") as? String {
+            BLackholeList.setBlacklistEtag(etag)
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+          } else {
+            BLackholeList.deleteBlacklistEtag()
+          }
+        SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
+            (error: NSError?) in print("Reload complete\n")})
         }
-        
       } catch {
-        if urlStatus == .UpdateSuccessful {
-          urlStatus = ListUpdateStatus.UnableToReplaceExistingBlockerlist
+        if updateStatus == .UpdateSuccessful {
+          updateStatus = ListUpdateStatus.UnableToReplaceExistingBlockerlist
         }
         return
       }
-      
-      SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
-        (error: NSError?) in print("Reload complete\n")})
     })
     
   }
