@@ -84,6 +84,22 @@ struct BLackholeList {
   }
   
   
+  static func getIsReloading() -> Bool {
+    if let value = sharedContainer!.boolForKey("isReloading") as Bool? {
+      return value
+    } else {
+      let value = false
+      sharedContainer!.setBool(value, forKey: "isReloading")
+      return value
+    }
+  }
+  
+  
+  static func setIsReloading(value: Bool) {
+      sharedContainer!.setBool(value, forKey: "isReloading")
+  }
+  
+  
   static func getIsBlockingSubdomains() -> Bool {
     if let value = sharedContainer!.boolForKey("isBlockingSubdomains") as Bool? {
       return value
@@ -101,6 +117,7 @@ struct BLackholeList {
   
   static func validateURL(hostsFile:NSURL, completion:((updateStatus: ListUpdateStatus) -> ())?) {
     print("\n>>> Entering: \(__FUNCTION__) <<<\n")
+    setIsReloading(true)
     let request = NSMutableURLRequest(URL: hostsFile)
     request.HTTPMethod = "HEAD"
     let session = NSURLSession.sharedSession()
@@ -156,6 +173,7 @@ struct BLackholeList {
   
   static func downloadBlocklist(hostsFile: NSURL) throws -> NSURL? {
     print("\n>>> Entering: \(__FUNCTION__) <<<\n")
+    setIsReloading(true)
     let documentDirectory =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
     let localFile = documentDirectory.URLByAppendingPathComponent("downloadedBlocklist.txt")
     print(localFile)
@@ -172,7 +190,7 @@ struct BLackholeList {
   
   static func createBlockerListJSON(blockList: NSURL) -> (updateStatus: ListUpdateStatus, blacklistFileType: String?, numberOfEntries: Int?) {
     print("\nEntering: \(__FUNCTION__)\n")
-    
+    setIsReloading(true)
     var updateStatus = ListUpdateStatus.UpdateSuccessful
     let fileManager = NSFileManager.defaultManager()
     let sharedFolder = fileManager.containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
@@ -303,6 +321,7 @@ struct BLackholeList {
       updateStatus = ListUpdateStatus.TooManyEntries
     }
     
+    setIsReloading(false)
     return (updateStatus, blocklistFileType, numberOfEntries)
   }
 
