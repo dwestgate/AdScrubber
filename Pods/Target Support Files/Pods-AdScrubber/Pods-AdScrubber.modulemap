@@ -1,0 +1,6 @@
+framework module Pods_AdScrubber {
+  umbrella header "Pods-AdScrubber-umbrella.h"
+
+  export *
+  module * { export * }
+}

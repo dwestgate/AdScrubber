@@ -3,15 +3,15 @@ platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 
-target 'Blackhole' do
+target 'AdScrubber' do
   pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 end
 
-target 'BlackholeTests' do
+target 'AdScrubberTests' do
 
 end
 
-target 'BlackholeUITests' do
+target 'AdScrubberUITests' do
 
 end
 

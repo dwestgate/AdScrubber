@@ -7,75 +7,85 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0690C0EAF4D80FA94F46062C38177278 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE506ECE97701EBA44FDBFF401C1A04 /* SwiftyJSON.swift */; };
-		075BE6B0A9B23BD97DDF268A7DB590F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
-		26248F9ED26B028291291ABE843043EA /* SwiftyJSON-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B9BBA8F5B33E56C38F5546432F66B7 /* SwiftyJSON-dummy.m */; };
-		2AB96D50D101FEDD108DDB23148C2F96 /* Pods-Blackhole-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B668C292510A78E32508D32EAC367833 /* Pods-Blackhole-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		53108B191D1AAD53DEB4057C118E40BE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
-		BE792EA8EBD7459367D0E988070538C2 /* SwiftyJSON-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 05CA09B061E193906653AC21FD3A94F1 /* SwiftyJSON-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB0D5CB5728BB8D35D2B4E6EA6D74642 /* Pods-Blackhole-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E147FD39E73ACA874765B8123D1F186B /* Pods-Blackhole-dummy.m */; };
+		1BBB07548C527C0332D75598C997AA34 /* Pods-AdScrubber-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD8326A52223B886AE4F372FFAF0BFD /* Pods-AdScrubber-dummy.m */; };
+		1F607B78BE43D0BF6EC647B9C0D0360C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
+		4629146501082CFB45094AACABC549F5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
+		6398D7365231FE95699B80129D018349 /* SwiftyJSON-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B9BBA8F5B33E56C38F5546432F66B7 /* SwiftyJSON-dummy.m */; };
+		CA27737769A6D0DE032DDFCC3416552A /* Pods-AdScrubber-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D70027F49DC51764ACB52A02337BC782 /* Pods-AdScrubber-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D848C8C7F91CD97A65D151410BA1757D /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE506ECE97701EBA44FDBFF401C1A04 /* SwiftyJSON.swift */; };
+		DAD34BD068CA8C13BB29F2C7A015F507 /* SwiftyJSON-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 05CA09B061E193906653AC21FD3A94F1 /* SwiftyJSON-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		29B2BBAE80B72EE2D98B94B11916E581 /* PBXContainerItemProxy */ = {
+		E67627E7623F0A34F9DAFF8899000D20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 679C09F09EB077B45363712B2FECC57E;
+			remoteGlobalIDString = 081451C804A7E76BB7BB698627D5BAD4;
 			remoteInfo = SwiftyJSON;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		05CA09B061E193906653AC21FD3A94F1 /* SwiftyJSON-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-umbrella.h"; sourceTree = "<group>"; };
+		1ACCD44ACBCAA124C8DD6C0D034BF55F /* Pods-AdScrubber.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-AdScrubber.modulemap"; sourceTree = "<group>"; };
+		28E11F824A5220259230B59CF3573A83 /* Pods-AdScrubber-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AdScrubber-acknowledgements.plist"; sourceTree = "<group>"; };
 		2E7F7C62EE34D2D271E6E1234A2002B2 /* SwiftyJSON.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyJSON.xcconfig; sourceTree = "<group>"; };
 		32B9BBA8F5B33E56C38F5546432F66B7 /* SwiftyJSON-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftyJSON-dummy.m"; sourceTree = "<group>"; };
-		3B539B8A9C1BEFCD7897FF6EA93F27A6 /* Pods-Blackhole-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Blackhole-frameworks.sh"; sourceTree = "<group>"; };
+		335A8F767391F9CE40F7C68BFB1A62FE /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33BC4BB72B56F4E2BFC78DE8A2D7475A /* Pods_AdScrubber.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdScrubber.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		38DDC6D6649809423DA8890E8842E889 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		5644EE0A63AF278ABFD57924A8197F91 /* Pods-Blackhole-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackhole-acknowledgements.plist"; sourceTree = "<group>"; };
-		614148DFA0BB21222FCAF5DD2B07CB4D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6F389F05988068633DC668E61FBAE1A2 /* Pods-Blackhole-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Blackhole-acknowledgements.markdown"; sourceTree = "<group>"; };
-		796582421B2E2FCB62CE5E4718B11CA0 /* Pods-Blackhole.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Blackhole.modulemap"; sourceTree = "<group>"; };
-		857C3AB7AA9116C5E04463C290980393 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9CC91A364ED30D1392E280325FC030EF /* Pods_Blackhole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blackhole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B668C292510A78E32508D32EAC367833 /* Pods-Blackhole-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Blackhole-umbrella.h"; sourceTree = "<group>"; };
+		3FE7F7A1D9CE3FA2F81AE8EE4B8181F9 /* Pods-AdScrubber-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AdScrubber-frameworks.sh"; sourceTree = "<group>"; };
+		5AD8326A52223B886AE4F372FFAF0BFD /* Pods-AdScrubber-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AdScrubber-dummy.m"; sourceTree = "<group>"; };
+		73AE3185C797E47E9FE65B2AA4C2AA6A /* Pods-AdScrubber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdScrubber.debug.xcconfig"; sourceTree = "<group>"; };
 		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BBF610E40BDF6E542FA21FF7E5491205 /* SwiftyJSON-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-prefix.pch"; sourceTree = "<group>"; };
 		BDE506ECE97701EBA44FDBFF401C1A04 /* SwiftyJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Source/SwiftyJSON.swift; sourceTree = "<group>"; };
 		C4A9A658C966F6BB111BEDBDEA1F874A /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C8B03512387194882770306E097DDE8B /* Pods-AdScrubber.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdScrubber.release.xcconfig"; sourceTree = "<group>"; };
 		D032A29E584B77AE187E586922267CF5 /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
-		E03E68219FC98550A0DFB814AAFF4B84 /* Pods-Blackhole-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Blackhole-resources.sh"; sourceTree = "<group>"; };
-		E147FD39E73ACA874765B8123D1F186B /* Pods-Blackhole-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Blackhole-dummy.m"; sourceTree = "<group>"; };
-		E16C50823F874122660B058EB8A8F545 /* Pods-AdScrubber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdScrubber.debug.xcconfig"; sourceTree = "<group>"; };
+		D70027F49DC51764ACB52A02337BC782 /* Pods-AdScrubber-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AdScrubber-umbrella.h"; sourceTree = "<group>"; };
+		F1816A7BB9C7483562CA660390B3A7FE /* Pods-AdScrubber-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AdScrubber-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F729EACA48A0346D9CDF9936D6EC7B38 /* Pods-AdScrubber-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AdScrubber-resources.sh"; sourceTree = "<group>"; };
+		FC8A1C97AB913E0CFB1C4843EFC1AAEA /* Pods-AdScrubber.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdScrubber.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3E9BAEF3F4CF168AE6E5FBDAC163493B /* Frameworks */ = {
+		43BA1DC6FE4044DD3D21273AC92D20A2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53108B191D1AAD53DEB4057C118E40BE /* Foundation.framework in Frameworks */,
+				4629146501082CFB45094AACABC549F5 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		44267CAB376AB8DA8345DCBBA590948C /* Frameworks */ = {
+		50DD67250AFD06E9723FBE3B4C1CB628 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				075BE6B0A9B23BD97DDF268A7DB590F2 /* Foundation.framework in Frameworks */,
+				1F607B78BE43D0BF6EC647B9C0D0360C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		186931D512510AD9474B19720F2FEC5B /* Targets Support Files */ = {
+		68B2D488EDA15196B3C051968AAFC7EC /* Pods-AdScrubber */ = {
 			isa = PBXGroup;
 			children = (
-				B820B3EFF763F5CC12FA88A97AE241CA /* Pods-Blackhole */,
+				335A8F767391F9CE40F7C68BFB1A62FE /* Info.plist */,
+				1ACCD44ACBCAA124C8DD6C0D034BF55F /* Pods-AdScrubber.modulemap */,
+				F1816A7BB9C7483562CA660390B3A7FE /* Pods-AdScrubber-acknowledgements.markdown */,
+				28E11F824A5220259230B59CF3573A83 /* Pods-AdScrubber-acknowledgements.plist */,
+				5AD8326A52223B886AE4F372FFAF0BFD /* Pods-AdScrubber-dummy.m */,
+				3FE7F7A1D9CE3FA2F81AE8EE4B8181F9 /* Pods-AdScrubber-frameworks.sh */,
+				F729EACA48A0346D9CDF9936D6EC7B38 /* Pods-AdScrubber-resources.sh */,
+				D70027F49DC51764ACB52A02337BC782 /* Pods-AdScrubber-umbrella.h */,
+				73AE3185C797E47E9FE65B2AA4C2AA6A /* Pods-AdScrubber.debug.xcconfig */,
+				FC8A1C97AB913E0CFB1C4843EFC1AAEA /* Pods-AdScrubber.release.xcconfig */,
 			);
-			name = "Targets Support Files";
+			name = "Pods-AdScrubber";
+			path = "Target Support Files/Pods-AdScrubber";
 			sourceTree = "<group>";
 		};
 		70A8E4D3C62B6C203D238581DA091C21 /* SwiftyJSON */ = {
@@ -93,8 +103,8 @@
 				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
 				BD1E3C710F12F4B4C092FC8E2AD22110 /* Pods */,
-				A7047AAB222DC4F1D11AB51BAEBE53FD /* Products */,
-				186931D512510AD9474B19720F2FEC5B /* Targets Support Files */,
+				F17C442EB6D56C3A611D07FAC9AA2397 /* Products */,
+				D7DDB2B786C07D14C3B61E83F0A02F96 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,33 +120,6 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SwiftyJSON";
-			sourceTree = "<group>";
-		};
-		A7047AAB222DC4F1D11AB51BAEBE53FD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9CC91A364ED30D1392E280325FC030EF /* Pods_Blackhole.framework */,
-				857C3AB7AA9116C5E04463C290980393 /* SwiftyJSON.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		B820B3EFF763F5CC12FA88A97AE241CA /* Pods-Blackhole */ = {
-			isa = PBXGroup;
-			children = (
-				614148DFA0BB21222FCAF5DD2B07CB4D /* Info.plist */,
-				796582421B2E2FCB62CE5E4718B11CA0 /* Pods-Blackhole.modulemap */,
-				6F389F05988068633DC668E61FBAE1A2 /* Pods-Blackhole-acknowledgements.markdown */,
-				5644EE0A63AF278ABFD57924A8197F91 /* Pods-Blackhole-acknowledgements.plist */,
-				E147FD39E73ACA874765B8123D1F186B /* Pods-Blackhole-dummy.m */,
-				3B539B8A9C1BEFCD7897FF6EA93F27A6 /* Pods-Blackhole-frameworks.sh */,
-				E03E68219FC98550A0DFB814AAFF4B84 /* Pods-Blackhole-resources.sh */,
-				B668C292510A78E32508D32EAC367833 /* Pods-Blackhole-umbrella.h */,
-				E16C50823F874122660B058EB8A8F545 /* Pods-AdScrubber.debug.xcconfig */,
-				C8B03512387194882770306E097DDE8B /* Pods-AdScrubber.release.xcconfig */,
-			);
-			name = "Pods-Blackhole";
-			path = "Target Support Files/Pods-Blackhole";
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
@@ -163,35 +146,52 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		D7DDB2B786C07D14C3B61E83F0A02F96 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				68B2D488EDA15196B3C051968AAFC7EC /* Pods-AdScrubber */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		F17C442EB6D56C3A611D07FAC9AA2397 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				33BC4BB72B56F4E2BFC78DE8A2D7475A /* Pods_AdScrubber.framework */,
+				38DDC6D6649809423DA8890E8842E889 /* SwiftyJSON.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		84D06DDEE1BE6F928BB350D4953950D9 /* Headers */ = {
+		1DBDA0B082ECB697966ACFA9CF723EBC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE792EA8EBD7459367D0E988070538C2 /* SwiftyJSON-umbrella.h in Headers */,
+				DAD34BD068CA8C13BB29F2C7A015F507 /* SwiftyJSON-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A73780C9E677FDA2F54E1384D73C0B4F /* Headers */ = {
+		56D5B6E3B512368C8D4060F727AC4F64 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AB96D50D101FEDD108DDB23148C2F96 /* Pods-Blackhole-umbrella.h in Headers */,
+				CA27737769A6D0DE032DDFCC3416552A /* Pods-AdScrubber-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		679C09F09EB077B45363712B2FECC57E /* SwiftyJSON */ = {
+		081451C804A7E76BB7BB698627D5BAD4 /* SwiftyJSON */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D355DBFEC46287E799DF5BD81AA9ED4F /* Build configuration list for PBXNativeTarget "SwiftyJSON" */;
+			buildConfigurationList = ABE03D5006B50673D59F66FADC735406 /* Build configuration list for PBXNativeTarget "SwiftyJSON" */;
 			buildPhases = (
-				167563961DC57EFFADD58F5789E96474 /* Sources */,
-				3E9BAEF3F4CF168AE6E5FBDAC163493B /* Frameworks */,
-				84D06DDEE1BE6F928BB350D4953950D9 /* Headers */,
+				489C5D52A3E788449CD74A3946C2FA3C /* Sources */,
+				43BA1DC6FE4044DD3D21273AC92D20A2 /* Frameworks */,
+				1DBDA0B082ECB697966ACFA9CF723EBC /* Headers */,
 			);
 			buildRules = (
 			);
@@ -199,25 +199,25 @@
 			);
 			name = SwiftyJSON;
 			productName = SwiftyJSON;
-			productReference = 857C3AB7AA9116C5E04463C290980393 /* SwiftyJSON.framework */;
+			productReference = 38DDC6D6649809423DA8890E8842E889 /* SwiftyJSON.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B9786E41C4BCBFEA87980F566EB49726 /* Pods-Blackhole */ = {
+		E4878C8E58ECF3A0A89FED997A18EDB2 /* Pods-AdScrubber */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8D54C16890D31532962D21AC951AB393 /* Build configuration list for PBXNativeTarget "Pods-Blackhole" */;
+			buildConfigurationList = 0D314667DAF06C2EB4BE68ECE25C9077 /* Build configuration list for PBXNativeTarget "Pods-AdScrubber" */;
 			buildPhases = (
-				70F8C6917CBA40FA90B7FB05319C7384 /* Sources */,
-				44267CAB376AB8DA8345DCBBA590948C /* Frameworks */,
-				A73780C9E677FDA2F54E1384D73C0B4F /* Headers */,
+				DA87C12E71B0C3587F8235F443BE4C76 /* Sources */,
+				50DD67250AFD06E9723FBE3B4C1CB628 /* Frameworks */,
+				56D5B6E3B512368C8D4060F727AC4F64 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F109DE0B1206F101C80FD5699F48FDD1 /* PBXTargetDependency */,
+				5C6EB66481EB189103A4F539E991BB16 /* PBXTargetDependency */,
 			);
-			name = "Pods-Blackhole";
-			productName = "Pods-Blackhole";
-			productReference = 9CC91A364ED30D1392E280325FC030EF /* Pods_Blackhole.framework */;
+			name = "Pods-AdScrubber";
+			productName = "Pods-AdScrubber";
+			productReference = 33BC4BB72B56F4E2BFC78DE8A2D7475A /* Pods_AdScrubber.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -237,49 +237,49 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = A7047AAB222DC4F1D11AB51BAEBE53FD /* Products */;
+			productRefGroup = F17C442EB6D56C3A611D07FAC9AA2397 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B9786E41C4BCBFEA87980F566EB49726 /* Pods-Blackhole */,
-				679C09F09EB077B45363712B2FECC57E /* SwiftyJSON */,
+				E4878C8E58ECF3A0A89FED997A18EDB2 /* Pods-AdScrubber */,
+				081451C804A7E76BB7BB698627D5BAD4 /* SwiftyJSON */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		167563961DC57EFFADD58F5789E96474 /* Sources */ = {
+		489C5D52A3E788449CD74A3946C2FA3C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26248F9ED26B028291291ABE843043EA /* SwiftyJSON-dummy.m in Sources */,
-				0690C0EAF4D80FA94F46062C38177278 /* SwiftyJSON.swift in Sources */,
+				6398D7365231FE95699B80129D018349 /* SwiftyJSON-dummy.m in Sources */,
+				D848C8C7F91CD97A65D151410BA1757D /* SwiftyJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		70F8C6917CBA40FA90B7FB05319C7384 /* Sources */ = {
+		DA87C12E71B0C3587F8235F443BE4C76 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB0D5CB5728BB8D35D2B4E6EA6D74642 /* Pods-Blackhole-dummy.m in Sources */,
+				1BBB07548C527C0332D75598C997AA34 /* Pods-AdScrubber-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F109DE0B1206F101C80FD5699F48FDD1 /* PBXTargetDependency */ = {
+		5C6EB66481EB189103A4F539E991BB16 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftyJSON;
-			target = 679C09F09EB077B45363712B2FECC57E /* SwiftyJSON */;
-			targetProxy = 29B2BBAE80B72EE2D98B94B11916E581 /* PBXContainerItemProxy */;
+			target = 081451C804A7E76BB7BB698627D5BAD4 /* SwiftyJSON */;
+			targetProxy = E67627E7623F0A34F9DAFF8899000D20 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		4E0C068667F3F3B9AEFBB332C95143D6 /* Release */ = {
+		4AB45269FCC3256EB54A7378467C42C6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8B03512387194882770306E097DDE8B /* Pods-AdScrubber.release.xcconfig */;
+			baseConfigurationReference = FC8A1C97AB913E0CFB1C4843EFC1AAEA /* Pods-AdScrubber.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -288,17 +288,17 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Blackhole/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-AdScrubber/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Blackhole/Pods-Blackhole.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-AdScrubber/Pods-AdScrubber.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = Pods_Blackhole;
+				PRODUCT_NAME = Pods_AdScrubber;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -307,9 +307,9 @@
 			};
 			name = Release;
 		};
-		65CF15F877E97BF8F6787DE974A698CB /* Release */ = {
+		4B9F80BAC74BAEC46DEBD9552EFA7557 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E7F7C62EE34D2D271E6E1234A2002B2 /* SwiftyJSON.xcconfig */;
+			baseConfigurationReference = 73AE3185C797E47E9FE65B2AA4C2AA6A /* Pods-AdScrubber.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -318,21 +318,25 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftyJSON/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-AdScrubber/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = SwiftyJSON;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AdScrubber/Pods-AdScrubber.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_AdScrubber;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 		A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -373,9 +377,9 @@
 			};
 			name = Debug;
 		};
-		C3ECD29ADF03EE3B9B3DDFB833227BE0 /* Debug */ = {
+		D2920877B5446D5C4403B53D2C65B8DF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E16C50823F874122660B058EB8A8F545 /* Pods-AdScrubber.debug.xcconfig */;
+			baseConfigurationReference = 2E7F7C62EE34D2D271E6E1234A2002B2 /* SwiftyJSON.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -384,27 +388,23 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Blackhole/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftyJSON/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Blackhole/Pods-Blackhole.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = Pods_Blackhole;
+				MODULEMAP_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SwiftyJSON;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		E253E758BBB09B07D67C669D4FCC818A /* Debug */ = {
+		EDA21A6A63CD882A6FC9FD3F505921E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2E7F7C62EE34D2D271E6E1234A2002B2 /* SwiftyJSON.xcconfig */;
 			buildSettings = {
@@ -469,6 +469,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0D314667DAF06C2EB4BE68ECE25C9077 /* Build configuration list for PBXNativeTarget "Pods-AdScrubber" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B9F80BAC74BAEC46DEBD9552EFA7557 /* Debug */,
+				4AB45269FCC3256EB54A7378467C42C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -478,20 +487,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8D54C16890D31532962D21AC951AB393 /* Build configuration list for PBXNativeTarget "Pods-Blackhole" */ = {
+		ABE03D5006B50673D59F66FADC735406 /* Build configuration list for PBXNativeTarget "SwiftyJSON" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C3ECD29ADF03EE3B9B3DDFB833227BE0 /* Debug */,
-				4E0C068667F3F3B9AEFBB332C95143D6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D355DBFEC46287E799DF5BD81AA9ED4F /* Build configuration list for PBXNativeTarget "SwiftyJSON" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E253E758BBB09B07D67C669D4FCC818A /* Debug */,
-				65CF15F877E97BF8F6787DE974A698CB /* Release */,
+				EDA21A6A63CD882A6FC9FD3F505921E3 /* Debug */,
+				D2920877B5446D5C4403B53D2C65B8DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
