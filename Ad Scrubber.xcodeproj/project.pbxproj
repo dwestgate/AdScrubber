@@ -138,9 +138,9 @@
 		C46AC4661C03FB87008039D7 = {
 			isa = PBXGroup;
 			children = (
-				C46AC4711C03FB87008039D7 /* Blackhole */,
-				C46AC4861C03FB87008039D7 /* BlackholeTests */,
-				C46AC4911C03FB87008039D7 /* BlackholeUITests */,
+				C46AC4711C03FB87008039D7 /* AdScrubber */,
+				C46AC4861C03FB87008039D7 /* AdScrubberTests */,
+				C46AC4911C03FB87008039D7 /* AdScrubberUITests */,
 				C46AC4A51C03FBD6008039D7 /* ContentBlocker */,
 				C46AC4701C03FB87008039D7 /* Products */,
 				BE8F8E926C84E5A022EA514F /* Pods */,
@@ -159,7 +159,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C46AC4711C03FB87008039D7 /* Blackhole */ = {
+		C46AC4711C03FB87008039D7 /* AdScrubber */ = {
 			isa = PBXGroup;
 			children = (
 				C40EF70B1C0BDE2D00B5EB81 /* Blackhole.entitlements */,
@@ -175,24 +175,27 @@
 				C487309D1C35BE9B000ACBC5 /* BlackholeController.swift */,
 				C461B1BF1C414E45000F35CD /* NSOutputStreamExtensions.swift */,
 			);
+			name = AdScrubber;
 			path = Blackhole;
 			sourceTree = "<group>";
 		};
-		C46AC4861C03FB87008039D7 /* BlackholeTests */ = {
+		C46AC4861C03FB87008039D7 /* AdScrubberTests */ = {
 			isa = PBXGroup;
 			children = (
 				C46AC4871C03FB87008039D7 /* BlackholeTests.swift */,
 				C46AC4891C03FB87008039D7 /* Info.plist */,
 			);
+			name = AdScrubberTests;
 			path = BlackholeTests;
 			sourceTree = "<group>";
 		};
-		C46AC4911C03FB87008039D7 /* BlackholeUITests */ = {
+		C46AC4911C03FB87008039D7 /* AdScrubberUITests */ = {
 			isa = PBXGroup;
 			children = (
 				C46AC4921C03FB87008039D7 /* BlackholeUITests.swift */,
 				C46AC4941C03FB87008039D7 /* Info.plist */,
 			);
+			name = AdScrubberUITests;
 			path = BlackholeUITests;
 			sourceTree = "<group>";
 		};

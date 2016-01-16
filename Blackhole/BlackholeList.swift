@@ -8,7 +8,15 @@
 //  TODO - Animation stops when resuming
 //  TODO - Change name of "Blocking Subdomains"
 /*
+BlackholeList                   Struct connected to storage
+sharedContainer
 
+sharedContainer                 Shared folder
+blacklistURL                    The remote URL of a blackhole list
+
+blacklistUniqueEntryCount       the number of entries we count when adding a new blacklist
+blacklistFileType               file type of the remote file
+blacklistEtag                   the
 
 */
 
