@@ -43,11 +43,11 @@
 		BBF610E40BDF6E542FA21FF7E5491205 /* SwiftyJSON-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-prefix.pch"; sourceTree = "<group>"; };
 		BDE506ECE97701EBA44FDBFF401C1A04 /* SwiftyJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Source/SwiftyJSON.swift; sourceTree = "<group>"; };
 		C4A9A658C966F6BB111BEDBDEA1F874A /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C8B03512387194882770306E097DDE8B /* Pods-Blackhole.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackhole.release.xcconfig"; sourceTree = "<group>"; };
+		C8B03512387194882770306E097DDE8B /* Pods-AdScrubber.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdScrubber.release.xcconfig"; sourceTree = "<group>"; };
 		D032A29E584B77AE187E586922267CF5 /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
 		E03E68219FC98550A0DFB814AAFF4B84 /* Pods-Blackhole-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Blackhole-resources.sh"; sourceTree = "<group>"; };
 		E147FD39E73ACA874765B8123D1F186B /* Pods-Blackhole-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Blackhole-dummy.m"; sourceTree = "<group>"; };
-		E16C50823F874122660B058EB8A8F545 /* Pods-Blackhole.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackhole.debug.xcconfig"; sourceTree = "<group>"; };
+		E16C50823F874122660B058EB8A8F545 /* Pods-AdScrubber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdScrubber.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +132,8 @@
 				3B539B8A9C1BEFCD7897FF6EA93F27A6 /* Pods-Blackhole-frameworks.sh */,
 				E03E68219FC98550A0DFB814AAFF4B84 /* Pods-Blackhole-resources.sh */,
 				B668C292510A78E32508D32EAC367833 /* Pods-Blackhole-umbrella.h */,
-				E16C50823F874122660B058EB8A8F545 /* Pods-Blackhole.debug.xcconfig */,
-				C8B03512387194882770306E097DDE8B /* Pods-Blackhole.release.xcconfig */,
+				E16C50823F874122660B058EB8A8F545 /* Pods-AdScrubber.debug.xcconfig */,
+				C8B03512387194882770306E097DDE8B /* Pods-AdScrubber.release.xcconfig */,
 			);
 			name = "Pods-Blackhole";
 			path = "Target Support Files/Pods-Blackhole";
@@ -279,7 +279,7 @@
 /* Begin XCBuildConfiguration section */
 		4E0C068667F3F3B9AEFBB332C95143D6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8B03512387194882770306E097DDE8B /* Pods-Blackhole.release.xcconfig */;
+			baseConfigurationReference = C8B03512387194882770306E097DDE8B /* Pods-AdScrubber.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -375,7 +375,7 @@
 		};
 		C3ECD29ADF03EE3B9B3DDFB833227BE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E16C50823F874122660B058EB8A8F545 /* Pods-Blackhole.debug.xcconfig */;
+			baseConfigurationReference = E16C50823F874122660B058EB8A8F545 /* Pods-AdScrubber.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;

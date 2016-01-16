@@ -1,31 +1,26 @@
 //
-//  ViewController.swift
+//  BlackholeController.swift
 //  Blackhole
 //
-//  Created by David Westgate on 11/23/15.
+//  Created by David Westgate on 12/31/15.
 //  Copyright © 2015 Refabricants. All rights reserved.
 //
-/*
+
+import Foundation
 import UIKit
 import SafariServices
 
-class ViewController: UIViewController {
+class BlackholeController: UITableViewController {
+  
   
   @IBOutlet weak var hostsFileURI: UITextView!
+  @IBOutlet weak var typeLabel: UILabel!
+  @IBOutlet weak var entryCountLabel: UILabel!
+  @IBOutlet weak var blockSubdomainSwitch: UISwitch!
+  @IBOutlet weak var restoreDefaultSettingsButton: UIButton!
+  @IBOutlet weak var reloadButton: UIButton!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
-  @IBOutlet weak var updateSuccessfulLabel: UILabel!
-  @IBOutlet weak var noUpdateRequiredLabel: UILabel!
-  @IBOutlet weak var notHTTPSLabel: UILabel!
-  @IBOutlet weak var invalidURLLabel: UILabel!
-  @IBOutlet weak var serverNotFoundLabel: UILabel!
-  @IBOutlet weak var noSuchFileLabel: UILabel!
-  @IBOutlet weak var updateRequiredLabel: UILabel!
-  @IBOutlet weak var errorDownloadingLabel: UILabel!
-  @IBOutlet weak var errorParsingFileLabel: UILabel!
-  @IBOutlet weak var errorSavingParsedFileLabel: UILabel!
-  
-  @IBOutlet weak var reloadButton: UIButton!
   
   var GCDMainQueue: dispatch_queue_t {
     return dispatch_get_main_queue()
@@ -51,43 +46,66 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Blackhole"
+    hostsFileURI.text = BLackholeList.getBlacklistURL()
+    entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
+    typeLabel.text = BLackholeList.getBlacklistFileType()
+    blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
     
-    hostsFileURI.layer.borderWidth = 5.0
-    hostsFileURI.layer.borderWidth = 1.0
-    hostsFileURI.layer.cornerRadius = 5.0
-    hostsFileURI.layer.borderColor = UIColor.grayColor().CGColor
-    
+    view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "endEditing"))
   }
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
-    hostsFileURI.resignFirstResponder()
-    super.touchesBegan(touches, withEvent: event)
-  }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
   
-  @IBAction func updateHostsFileButtonPressed(sender: UIButton) {
+  
+  @IBAction func reloadButtonPressed(sender: AnyObject) {
     
     activityIndicator.startAnimating()
-    hideStatusMessages()
     
     dispatch_async(GCDUserInteractiveQueue, { () -> Void in
       
       do {
         try self.refreshBlockList()
       } catch ListUpdateStatus.NotHTTPS {
-        self.showStatusMessage(.NotHTTPS)
+        self.showMessageWithStatus(.NotHTTPS)
+        dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+        })
       } catch ListUpdateStatus.InvalidURL {
-        self.showStatusMessage(.InvalidURL)
+        self.showMessageWithStatus(.InvalidURL)
+        dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+        })
       } catch {
-        print("that worked")
+        self.showMessageWithStatus(.UnexpectedDownloadError)
+        dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+        })
       }
-      
     });
   }
+  
+  
+  @IBAction func blockingSubdomainsSwitch(sender: AnyObject) {
+    BLackholeList.setIsBlockingSubdomains(self.blockSubdomainSwitch.on)
+    self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+    
+    SFContentBlockerManager.reloadContentBlockerWithIdentifier(
+      "com.refabricants.Blackhole.ContentBlocker", completionHandler: {
+      (error: NSError?) in print("Reload complete\n")})
+  }
+  
+  
+  @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
+    BLackholeList.setBlacklistURL("https://raw.githubusercontent.com/dwestgate/hosts/master/hosts")
+    BLackholeList.setBlacklistUniqueEntryCount("26798")
+    BLackholeList.setBlacklistFileType("hosts")
+    refreshControls()
+    reloadButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+  }
+  
   
   func refreshBlockList() throws {
     
@@ -98,76 +116,52 @@ class ViewController: UIViewController {
       throw ListUpdateStatus.InvalidURL
     }
     
-    self.validateURL(hostsFile, completion: { (urlStatus) -> () in
+    BLackholeList.validateURL(hostsFile, completion: { (var updateStatus) -> () in
       defer {
-        self.showStatusMessage(urlStatus)
+        self.refreshControls()
+        self.showMessageWithStatus(updateStatus)
       }
       
-      guard urlStatus == ListUpdateStatus.UpdateSuccessful else {
+      guard updateStatus == ListUpdateStatus.UpdateSuccessful else {
         return
       }
       
       do {
         let blockList = try BLackholeList.downloadBlocklist(hostsFile)
-        let jsonArray = BLackholeList.createBlockerListJSON(blockList!) as [[String: [String: String]]]?
-        try BLackholeList.writeBlockerlist(jsonArray!)
+        let createBlockerListJSONResult = BLackholeList.createBlockerListJSON(blockList!)
+        updateStatus = createBlockerListJSONResult.updateStatus
+        if (updateStatus == .UpdateSuccessful || updateStatus == .TooManyEntries) {
+          
+          BLackholeList.setBlacklistFileType(createBlockerListJSONResult.blacklistFileType!)
+          BLackholeList.setBlacklistUniqueEntryCount("\(createBlockerListJSONResult.numberOfEntries!)")
+          BLackholeList.setBlacklistURL(hostsFile.absoluteString)
+          print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
+          if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") as? String {
+            BLackholeList.setBlacklistEtag(etag)
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+          } else {
+            BLackholeList.deleteBlacklistEtag()
+          }
+        SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
+            (error: NSError?) in print("Reload complete\n")})
+        }
       } catch {
-        print("Error downloading file from \(hostsFile.description)")
-        // result = ListUpdateStatus.ErrorDownloadingFromRemoteLocation
+        if updateStatus == .UpdateSuccessful {
+          updateStatus = ListUpdateStatus.UnableToReplaceExistingBlockerlist
+        }
         return
       }
-      SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.Blackhole.ContentBlocker", completionHandler: {
-        (error: NSError?) in print("Reload complete\n")})
     })
     
   }
   
   
-  func validateURL(hostsFile:NSURL, completion:((urlStatus: ListUpdateStatus) -> ())?) {
-    
-    let request = NSMutableURLRequest(URL: hostsFile)
-    request.HTTPMethod = "HEAD"
-    let session = NSURLSession.sharedSession()
-    
-    let task = session.dataTaskWithRequest(request, completionHandler: { [weak self] data, response, error -> Void in
-      if let strongSelf = self {
-        var result = ListUpdateStatus.UpdateSuccessful
-        
-        defer {
-          if completion != nil {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-              completion!(urlStatus: result)
-            })
-          }
-        }
-        
-        print("Response = \(response?.description)")
-        guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
-          result = ListUpdateStatus.ServerNotFound
-          return
-        }
-        
-        guard httpResp.statusCode == 200 else {
-          result = ListUpdateStatus.NoSuchFile
-          return
-        }
-        
-        if let remoteEtag = httpResp.allHeaderFields["Etag"] as? NSString,
-          currentEtag = NSUserDefaults.standardUserDefaults().objectForKey("etag") as? NSString {
-            if remoteEtag.isEqual(currentEtag) {
-              result = ListUpdateStatus.NoUpdateRequired
-            } else {
-              NSUserDefaults.standardUserDefaults().setObject(remoteEtag, forKey: "etag")
-            }
-        }
-      }
-      })
-    
-    task.resume()
+  func endEditing() {
+    view.endEditing(true)
   }
   
   
-  private func showStatusMessage(status: ListUpdateStatus) {
+  private func showMessageWithStatus(status: ListUpdateStatus) {
     
     dispatch_async(GCDMainQueue, { () -> Void in
       self.activityIndicator.stopAnimating()
@@ -176,36 +170,21 @@ class ViewController: UIViewController {
       alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
       self.presentViewController(alert, animated: true, completion: nil)
       
-      switch status {
-      case .UpdateSuccessful: self.updateSuccessfulLabel.hidden = false
-      case .NoUpdateRequired: self.noUpdateRequiredLabel.hidden = false
-      case .NotHTTPS: self.notHTTPSLabel.hidden = false
-      case .InvalidURL: self.invalidURLLabel.hidden = false
-      case .ServerNotFound: self.serverNotFoundLabel.hidden = false
-      case .NoSuchFile: self.noSuchFileLabel.hidden = false
-      case .UpdateRequired: self.updateRequiredLabel.hidden = false
-      case .ErrorDownloading: self.errorDownloadingLabel.hidden = false
-      case .ErrorParsingFile: self.errorParsingFileLabel.hidden = false
-      case .ErrorSavingParsedFile: self.errorSavingParsedFileLabel.hidden = false
-      default:
-        print("Default")
-      }
-      
     })
   }
   
-  private func hideStatusMessages() {
-    updateSuccessfulLabel.hidden = true
-    noUpdateRequiredLabel.hidden = true
-    notHTTPSLabel.hidden = true
-    invalidURLLabel.hidden = true
-    serverNotFoundLabel.hidden = true
-    noSuchFileLabel.hidden = true
-    updateRequiredLabel.hidden = true
-    errorDownloadingLabel.hidden = true
-    errorParsingFileLabel.hidden = true
-    errorSavingParsedFileLabel.hidden = true
+  
+  private func refreshControls() {
+      self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+      self.typeLabel.text = BLackholeList.getBlacklistFileType()
+      self.entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
+      if (BLackholeList.getBlacklistFileType() == "hosts") {
+        self.blockSubdomainSwitch.enabled = true
+      } else {
+        BLackholeList.setIsBlockingSubdomains(false)
+        self.blockSubdomainSwitch.enabled = false
+      }
+      self.blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
   }
   
 }
-*/

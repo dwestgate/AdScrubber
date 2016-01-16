@@ -12,15 +12,14 @@
 		C461B1C01C414E45000F35CD /* NSOutputStreamExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C461B1BF1C414E45000F35CD /* NSOutputStreamExtensions.swift */; };
 		C4650F6F1C132BAB00F4C1B9 /* blockerList.json in Resources */ = {isa = PBXBuildFile; fileRef = C4650F6E1C132BAB00F4C1B9 /* blockerList.json */; };
 		C46AC4731C03FB87008039D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4721C03FB87008039D7 /* AppDelegate.swift */; };
-		C46AC4751C03FB87008039D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4741C03FB87008039D7 /* ViewController.swift */; };
 		C46AC4781C03FB87008039D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C46AC4761C03FB87008039D7 /* Main.storyboard */; };
 		C46AC47A1C03FB87008039D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C46AC4791C03FB87008039D7 /* Assets.xcassets */; };
 		C46AC47D1C03FB87008039D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C46AC47B1C03FB87008039D7 /* LaunchScreen.storyboard */; };
-		C46AC4881C03FB87008039D7 /* BlackholeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4871C03FB87008039D7 /* BlackholeTests.swift */; };
-		C46AC4931C03FB87008039D7 /* BlackholeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4921C03FB87008039D7 /* BlackholeUITests.swift */; };
+		C46AC4881C03FB87008039D7 /* AdScrubberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4871C03FB87008039D7 /* AdScrubberTests.swift */; };
+		C46AC4931C03FB87008039D7 /* AdScrubberUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4921C03FB87008039D7 /* AdScrubberUITests.swift */; };
 		C46AC4A91C03FBD6008039D7 /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4A81C03FBD6008039D7 /* ActionRequestHandler.swift */; };
 		C46AC4AD1C03FBD6008039D7 /* ContentBlocker.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C487309E1C35BE9B000ACBC5 /* BlackholeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C487309D1C35BE9B000ACBC5 /* BlackholeController.swift */; };
+		C487309E1C35BE9B000ACBC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C487309D1C35BE9B000ACBC5 /* ViewController.swift */; };
 		C4E1BEBC1C31D10C00FB01D8 /* BlackholeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1BEBB1C31D10C00FB01D8 /* BlackholeList.swift */; };
 		C4E1BEBE1C32C22D00FB01D8 /* ListUpdateStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1BEBD1C32C22D00FB01D8 /* ListUpdateStatus.swift */; };
 /* End PBXBuildFile section */
@@ -65,7 +64,7 @@
 
 /* Begin PBXFileReference section */
 		74E75F8CD52370A8DAE3686D /* Pods_Blackhole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blackhole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A22DDFE31ED2232D30060B6A /* Pods-Blackhole.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackhole.release.xcconfig"; path = "Pods/Target Support Files/Pods-Blackhole/Pods-Blackhole.release.xcconfig"; sourceTree = "<group>"; };
+		A22DDFE31ED2232D30060B6A /* Pods-AdScrubber.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdScrubber.release.xcconfig"; path = "Pods/Target Support Files/Pods-Blackhole/Pods-AdScrubber.release.xcconfig"; sourceTree = "<group>"; };
 		C40EF70B1C0BDE2D00B5EB81 /* Blackhole.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Blackhole.entitlements; sourceTree = "<group>"; };
 		C40EF70C1C0E834100B5EB81 /* ContentBlocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ContentBlocker.entitlements; sourceTree = "<group>"; };
 		C40EF70D1C0E877600B5EB81 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
@@ -73,24 +72,23 @@
 		C4650F6E1C132BAB00F4C1B9 /* blockerList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blockerList.json; sourceTree = "<group>"; };
 		C46AC46F1C03FB87008039D7 /* Ad Scrubber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ad Scrubber.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C46AC4721C03FB87008039D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C46AC4741C03FB87008039D7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C46AC4771C03FB87008039D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C46AC4791C03FB87008039D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C46AC47C1C03FB87008039D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C46AC47E1C03FB87008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C46AC4831C03FB87008039D7 /* Ad Scrubber.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ad Scrubber.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C46AC4871C03FB87008039D7 /* BlackholeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackholeTests.swift; sourceTree = "<group>"; };
+		C46AC4871C03FB87008039D7 /* AdScrubberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdScrubberTests.swift; sourceTree = "<group>"; };
 		C46AC4891C03FB87008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C46AC48E1C03FB87008039D7 /* Ad Scrubber.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ad Scrubber.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C46AC4921C03FB87008039D7 /* BlackholeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackholeUITests.swift; sourceTree = "<group>"; };
+		C46AC4921C03FB87008039D7 /* AdScrubberUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdScrubberUITests.swift; sourceTree = "<group>"; };
 		C46AC4941C03FB87008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C46AC4A81C03FBD6008039D7 /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
 		C46AC4AA1C03FBD6008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C487309D1C35BE9B000ACBC5 /* BlackholeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlackholeController.swift; sourceTree = "<group>"; };
+		C487309D1C35BE9B000ACBC5 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C4E1BEBB1C31D10C00FB01D8 /* BlackholeList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlackholeList.swift; sourceTree = "<group>"; };
 		C4E1BEBD1C32C22D00FB01D8 /* ListUpdateStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListUpdateStatus.swift; sourceTree = "<group>"; };
-		F5E481C72D686F902A5D9B0B /* Pods-Blackhole.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackhole.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Blackhole/Pods-Blackhole.debug.xcconfig"; sourceTree = "<group>"; };
+		F5E481C72D686F902A5D9B0B /* Pods-AdScrubber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdScrubber.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Blackhole/Pods-AdScrubber.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,8 +127,8 @@
 		BE8F8E926C84E5A022EA514F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F5E481C72D686F902A5D9B0B /* Pods-Blackhole.debug.xcconfig */,
-				A22DDFE31ED2232D30060B6A /* Pods-Blackhole.release.xcconfig */,
+				F5E481C72D686F902A5D9B0B /* Pods-AdScrubber.debug.xcconfig */,
+				A22DDFE31ED2232D30060B6A /* Pods-AdScrubber.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -164,7 +162,6 @@
 			children = (
 				C40EF70B1C0BDE2D00B5EB81 /* Blackhole.entitlements */,
 				C46AC4721C03FB87008039D7 /* AppDelegate.swift */,
-				C46AC4741C03FB87008039D7 /* ViewController.swift */,
 				C40EF70D1C0E877600B5EB81 /* StreamReader.swift */,
 				C46AC4761C03FB87008039D7 /* Main.storyboard */,
 				C46AC4791C03FB87008039D7 /* Assets.xcassets */,
@@ -172,7 +169,7 @@
 				C46AC47E1C03FB87008039D7 /* Info.plist */,
 				C4E1BEBB1C31D10C00FB01D8 /* BlackholeList.swift */,
 				C4E1BEBD1C32C22D00FB01D8 /* ListUpdateStatus.swift */,
-				C487309D1C35BE9B000ACBC5 /* BlackholeController.swift */,
+				C487309D1C35BE9B000ACBC5 /* ViewController.swift */,
 				C461B1BF1C414E45000F35CD /* NSOutputStreamExtensions.swift */,
 			);
 			name = AdScrubber;
@@ -182,7 +179,7 @@
 		C46AC4861C03FB87008039D7 /* AdScrubberTests */ = {
 			isa = PBXGroup;
 			children = (
-				C46AC4871C03FB87008039D7 /* BlackholeTests.swift */,
+				C46AC4871C03FB87008039D7 /* AdScrubberTests.swift */,
 				C46AC4891C03FB87008039D7 /* Info.plist */,
 			);
 			name = AdScrubberTests;
@@ -192,7 +189,7 @@
 		C46AC4911C03FB87008039D7 /* AdScrubberUITests */ = {
 			isa = PBXGroup;
 			children = (
-				C46AC4921C03FB87008039D7 /* BlackholeUITests.swift */,
+				C46AC4921C03FB87008039D7 /* AdScrubberUITests.swift */,
 				C46AC4941C03FB87008039D7 /* Info.plist */,
 			);
 			name = AdScrubberUITests;
@@ -445,11 +442,10 @@
 			files = (
 				C40EF70E1C0E877600B5EB81 /* StreamReader.swift in Sources */,
 				C4E1BEBE1C32C22D00FB01D8 /* ListUpdateStatus.swift in Sources */,
-				C46AC4751C03FB87008039D7 /* ViewController.swift in Sources */,
 				C46AC4731C03FB87008039D7 /* AppDelegate.swift in Sources */,
 				C4E1BEBC1C31D10C00FB01D8 /* BlackholeList.swift in Sources */,
 				C461B1C01C414E45000F35CD /* NSOutputStreamExtensions.swift in Sources */,
-				C487309E1C35BE9B000ACBC5 /* BlackholeController.swift in Sources */,
+				C487309E1C35BE9B000ACBC5 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,7 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C46AC4881C03FB87008039D7 /* BlackholeTests.swift in Sources */,
+				C46AC4881C03FB87008039D7 /* AdScrubberTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C46AC4931C03FB87008039D7 /* BlackholeUITests.swift in Sources */,
+				C46AC4931C03FB87008039D7 /* AdScrubberUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,7 +598,7 @@
 		};
 		C46AC4981C03FB87008039D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5E481C72D686F902A5D9B0B /* Pods-Blackhole.debug.xcconfig */;
+			baseConfigurationReference = F5E481C72D686F902A5D9B0B /* Pods-AdScrubber.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Blackhole/Blackhole.entitlements;
@@ -624,7 +620,7 @@
 		};
 		C46AC4991C03FB87008039D7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A22DDFE31ED2232D30060B6A /* Pods-Blackhole.release.xcconfig */;
+			baseConfigurationReference = A22DDFE31ED2232D30060B6A /* Pods-AdScrubber.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Blackhole/Blackhole.entitlements;
