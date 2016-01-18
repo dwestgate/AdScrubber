@@ -14,17 +14,18 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
 
     var logfile = ""
 
-
-    let sharedPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
+    let sharedPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.adscrubber")! as NSURL
     
     var contentBlockingRules = sharedPath.URLByAppendingPathComponent("blockerList.json")
     
-    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
     
-      if defaults!.boolForKey("blockingSubdomains") == true {
-        contentBlockingRules = sharedPath.URLByAppendingPathComponent("wildcardBlockerList.json")
-        logfile += "Using wildcardBlockerList.json\n"
-      }
+    if defaults!.boolForKey("isBlockingSubdomains") == true {
+      contentBlockingRules = sharedPath.URLByAppendingPathComponent("wildcardBlockerList.json")
+      logfile += "Using wildcardBlockerList.json\n"
+    }
+    
+    logfile += "Using path: \(contentBlockingRules.path)"
     
     var attachment: NSItemProvider
     logfile += "contentBlockingRules = \(contentBlockingRules.description)\n"

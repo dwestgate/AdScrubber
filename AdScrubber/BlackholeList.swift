@@ -6,8 +6,13 @@
 //  Copyright © 2015 Refabricants. All rights reserved.
 //
 //
-//  TODO - Animation stops when resuming
-//  TODO - Change name of "Blocking Subdomains"
+// TODO: Animation stops when resuming
+// TODO: Fix Aggressive blocking description
+// TODO: Have "Aggressive mode" text go grey when it is unavailable
+// TODO: Dismiss keyboard when "Reload list" is pressed
+// TODO: Have "Reload list" change to "Load list" when there is a change to list of sites blocked
+// TODO: Add a check box: "Use custom list"
+//
 /*
 BlackholeList                   Struct connected to storage
 sharedContainer
@@ -29,14 +34,30 @@ import SafariServices
 
 struct BLackholeList {
   
-  static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+  static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
+  
+  
+  static func getIsUsingCustomBlocklist() -> Bool {
+    if let value = sharedContainer!.boolForKey("isUsingCustomBlocklist") as Bool? {
+      return value
+    } else {
+      let value = false
+      sharedContainer!.setBool(value, forKey: "isUsingCustomBlocklist")
+      return value
+    }
+  }
+  
+  
+  static func setIsUsingCustomBlocklist(value: Bool) {
+    sharedContainer!.setBool(value, forKey: "isUsingCustomBlocklist")
+  }
   
   
   static func getBlacklistURL() -> String {
     if let value = sharedContainer!.objectForKey("blacklistURL") as? String {
       return value
     } else {
-      let value = "https://raw.githubusercontent.com/dwestgate/hosts/master/hosts"
+      let value = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
       sharedContainer!.setObject(value, forKey: "blacklistURL")
       return value
     }
@@ -52,7 +73,7 @@ struct BLackholeList {
     if let value = sharedContainer!.objectForKey("blacklistUniqueEntryCount") as? String {
       return value
     } else {
-      let value = "26798"
+      let value = "27137"
       sharedContainer!.setObject(value, forKey: "blacklistUniqueEntryCount")
       return value
     }
@@ -115,6 +136,22 @@ struct BLackholeList {
   }
   
   
+  static func getIsBlockingSmartAppBanners() -> Bool {
+    if let value = sharedContainer!.boolForKey("isBlockingSmartAppBanners") as Bool? {
+      return value
+    } else {
+      let value = true
+      sharedContainer!.setBool(value, forKey: "isBlockingSmartAppBanners")
+      return value
+    }
+  }
+  
+  
+  static func setIsBlockingSmartAppBanners(value: Bool) {
+    sharedContainer!.setBool(value, forKey: "isBlockingSmartAppBanners")
+  }
+  
+  
   static func getIsBlockingSubdomains() -> Bool {
     if let value = sharedContainer!.boolForKey("isBlockingSubdomains") as Bool? {
       return value
@@ -129,6 +166,7 @@ struct BLackholeList {
   static func setIsBlockingSubdomains(value: Bool) {
     sharedContainer!.setBool(value, forKey: "isBlockingSubdomains")
   }
+  
   
   static func validateURL(hostsFile:NSURL, completion:((updateStatus: ListUpdateStatus) -> ())?) {
     print("\n>>> Entering: \(__FUNCTION__) <<<\n")
@@ -161,7 +199,7 @@ struct BLackholeList {
       }
       
       
-      let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.blackhole")
+      let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
       
       if let candidateEtag = httpResp.allHeaderFields["Etag"] as? NSString {
         if let currentEtag = defaults!.objectForKey("blacklistEtag") as? NSString {
@@ -208,7 +246,7 @@ struct BLackholeList {
     setIsReloading(true)
     var updateStatus = ListUpdateStatus.UpdateSuccessful
     let fileManager = NSFileManager.defaultManager()
-    let sharedFolder = fileManager.containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.blackhole")! as NSURL
+    let sharedFolder = fileManager.containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.adscrubber")! as NSURL
     
     let blockerListURL = sharedFolder.URLByAppendingPathComponent("blockerList.json")
     let wildcardBlockerListURL = sharedFolder.URLByAppendingPathComponent("wildcardBlockerList.json")
@@ -228,7 +266,7 @@ struct BLackholeList {
         
         for element in jsonArray {
           
-          guard let newElement = element as? [String : [String : String]] else {
+          guard let newElement = element as? [String : NSDictionary] else {
             return (ListUpdateStatus.InvalidJSON, nil, nil)
           }
           
@@ -281,14 +319,15 @@ struct BLackholeList {
       defer {
         sr.close()
         
-        blockerListStream.write("]")
+        blockerListStream.write("]}}]")
         blockerListStream.close()
         
-        wildcardBlockerListStream.write("]")
+        // wildcardBlockerListStream.write("]")
+        wildcardBlockerListStream.write("]}}]")
         wildcardBlockerListStream.close()
       }
       
-      var firstCharInEntry = "["
+      var firstPartOfString = "[{\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\".*\",\"if-domain\":["
       
       while let line = sr.nextLine() {
         
@@ -303,26 +342,19 @@ struct BLackholeList {
           let lineAsArray = uncommentedText.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
           let listOfDomainsFromLine = lineAsArray.filter { $0 != "" }
           
-          for domain in Array(listOfDomainsFromLine[1..<listOfDomainsFromLine.count]) {
+          for entry in Array(listOfDomainsFromLine[1..<listOfDomainsFromLine.count]) {
             
-            guard let validated = NSURL(string: "http://" + domain) else { break }
-            guard let validatedHost = validated.host else { break }
+            guard let validatedURL = NSURL(string: "http://" + entry) else { break }
+            guard let validatedHost = validatedURL.host else { break }
             var components = validatedHost.componentsSeparatedByString(".")
             guard components[0].lowercaseString != "localhost" else { break }
             
-            let urlFilter = components.joinWithSeparator("\\\\.")
-            var wildcardURLFilter: String
-            
-            if ((components.count > 2) && (components[0].rangeOfString("www?\\d{0,3}", options: .RegularExpressionSearch) != nil)) {
-              wildcardURLFilter = components[1..<components.count].joinWithSeparator("\\\\.")
-            } else {
-              wildcardURLFilter = components.joinWithSeparator("\\\\.")
-            }
+            let domain = components.joinWithSeparator(".")
             
             numberOfEntries++
-            blockerListEntry = ("\(firstCharInEntry){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(urlFilter)\"}}")
-            wildcardBlockerListEntry = ("\(firstCharInEntry){\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\"\(wildcardURLFilter)\"}}")
-            firstCharInEntry = ","
+            blockerListEntry = ("\(firstPartOfString)\"\(domain)\"")
+            wildcardBlockerListEntry = ("\(firstPartOfString)\"*\(domain)\"")
+            firstPartOfString = ","
             
             blockerListStream.write(blockerListEntry)
             wildcardBlockerListStream.write(wildcardBlockerListEntry)

@@ -10,12 +10,15 @@ import Foundation
 import UIKit
 import SafariServices
 
-class ViewController: UITableViewController {
+class ViewController: UITableViewController, UITextViewDelegate {
   
-  
-  @IBOutlet weak var hostsFileURI: UITextView!
+  @IBOutlet weak var useCustomBlocklistLabel: UILabel!
+  @IBOutlet weak var useCustomBlocklistSwitch: UISwitch!
+  @IBOutlet weak var hostsFileURITextView: UITextView!
   @IBOutlet weak var typeLabel: UILabel!
   @IBOutlet weak var entryCountLabel: UILabel!
+  @IBOutlet weak var blockSmartAppBannersLabel: UILabel!
+  @IBOutlet weak var blockSmartAppBannersSwitch: UISwitch!
   @IBOutlet weak var blockSubdomainSwitch: UISwitch!
   @IBOutlet weak var restoreDefaultSettingsButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
@@ -45,10 +48,14 @@ class ViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    hostsFileURI.text = BLackholeList.getBlacklistURL()
+
+    useCustomBlocklistSwitch.setOn(BLackholeList.getIsUsingCustomBlocklist(), animated: true)
+    hostsFileURITextView.delegate = self
+    hostsFileURITextView.returnKeyType = .Done
+    hostsFileURITextView.text = BLackholeList.getBlacklistURL()
     entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
     typeLabel.text = BLackholeList.getBlacklistFileType()
+    blockSmartAppBannersSwitch.setOn(BLackholeList.getIsBlockingSmartAppBanners(), animated: true)
     blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
     
     view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "endEditing"))
@@ -57,6 +64,15 @@ class ViewController: UITableViewController {
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
+  }
+  
+  
+  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    if (text == "\n") {
+      textView.resignFirstResponder()
+      self.reloadButtonPressed(self)
+    }
+    return true
   }
   
   
@@ -71,17 +87,17 @@ class ViewController: UITableViewController {
       } catch ListUpdateStatus.NotHTTPS {
         self.showMessageWithStatus(.NotHTTPS)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+          self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
         })
       } catch ListUpdateStatus.InvalidURL {
         self.showMessageWithStatus(.InvalidURL)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+          self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
         })
       } catch {
         self.showMessageWithStatus(.UnexpectedDownloadError)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+          self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
         })
       }
     });
@@ -90,7 +106,7 @@ class ViewController: UITableViewController {
   
   @IBAction func blockingSubdomainsSwitch(sender: AnyObject) {
     BLackholeList.setIsBlockingSubdomains(self.blockSubdomainSwitch.on)
-    self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+    self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
     
     SFContentBlockerManager.reloadContentBlockerWithIdentifier(
       "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
@@ -109,10 +125,10 @@ class ViewController: UITableViewController {
   
   func refreshBlockList() throws {
     
-    guard hostsFileURI.text.lowercaseString.hasPrefix("https://") else {
+    guard hostsFileURITextView.text.lowercaseString.hasPrefix("https://") else {
       throw ListUpdateStatus.NotHTTPS
     }
-    guard let hostsFile = NSURL(string: hostsFileURI.text) else {
+    guard let hostsFile = NSURL(string: hostsFileURITextView.text) else {
       throw ListUpdateStatus.InvalidURL
     }
     
@@ -175,7 +191,7 @@ class ViewController: UITableViewController {
   
   
   private func refreshControls() {
-      self.hostsFileURI.text = BLackholeList.getBlacklistURL()
+      self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
       self.typeLabel.text = BLackholeList.getBlacklistFileType()
       self.entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
       if (BLackholeList.getBlacklistFileType() == "hosts") {
