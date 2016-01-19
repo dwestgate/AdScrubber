@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SafariServices
 
-class ViewController: UITableViewController, UITextViewDelegate {
+class ViewController: UITableViewController {
   
   @IBOutlet weak var useCustomBlocklistLabel: UILabel!
   @IBOutlet weak var useCustomBlocklistSwitch: UISwitch!
@@ -50,29 +50,17 @@ class ViewController: UITableViewController, UITextViewDelegate {
     super.viewDidLoad()
 
     useCustomBlocklistSwitch.setOn(BLackholeList.getIsUsingCustomBlocklist(), animated: true)
-    hostsFileURITextView.delegate = self
-    hostsFileURITextView.returnKeyType = .Done
     hostsFileURITextView.text = BLackholeList.getBlacklistURL()
     entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
     typeLabel.text = BLackholeList.getBlacklistFileType()
     blockSmartAppBannersSwitch.setOn(BLackholeList.getIsBlockingSmartAppBanners(), animated: true)
     blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
-    
-    view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "endEditing"))
+
   }
   
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-  }
-  
-  
-  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-    if (text == "\n") {
-      textView.resignFirstResponder()
-      self.reloadButtonPressed(self)
-    }
-    return true
   }
   
   
@@ -169,11 +157,6 @@ class ViewController: UITableViewController, UITextViewDelegate {
       }
     })
     
-  }
-  
-  
-  func endEditing() {
-    view.endEditing(true)
   }
   
   

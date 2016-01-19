@@ -10,14 +10,14 @@
         <scene sceneID="4UN-Jx-yNc">
             <objects>
                 <tableViewController id="ETj-0b-sQp" customClass="ViewController" customModule="AdScrubber" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="top" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="QjX-QF-Rou">
+                    <tableView key="view" clipsSubviews="YES" contentMode="top" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="QjX-QF-Rou">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="List of sites to block" footerTitle="File may be a standard hosts file or a JSON file in WebKit Content Blocker Format." id="05e-j7-SPc">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="lDT-nr-VaI">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="lDT-nr-VaI">
                                         <rect key="frame" x="0.0" y="114" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lDT-nr-VaI" id="vMi-UM-3ma">
@@ -59,17 +59,18 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="default" indentationWidth="10" rowHeight="98" id="xed-4G-ZsH">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="98" id="xed-4G-ZsH" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="158" width="414" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xed-4G-ZsH" id="op1-xo-5tL">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="97"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="381" height="97"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="UCg-D1-cwE" userLabel="hostsFileURI">
-                                                    <rect key="frame" x="8" y="8" width="398" height="81"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCg-D1-cwE" userLabel="hostsFileURI">
+                                                    <rect key="frame" x="8" y="8" width="365" height="81"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="hostsFileURI" label="hostsFileURI"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                 </textView>
@@ -81,8 +82,11 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="UCg-D1-cwE" secondAttribute="trailing" id="rXQ-lj-0Kc"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="xWt-lJ-hiY" kind="show" id="PVp-SU-ilA"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Vw9-TU-Dbs">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="Vw9-TU-Dbs" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="256" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vw9-TU-Dbs" id="Sd4-cM-GfO">
@@ -109,7 +113,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bay-0H-ra8">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="bay-0H-ra8" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="300" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bay-0H-ra8" id="y3P-5g-Gag">
@@ -150,7 +154,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="gWP-if-333">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="gWP-if-333" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="344" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gWP-if-333" id="v9r-Bf-VNd">
@@ -195,7 +199,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Options" footerTitle="Aggressive mode blocks each domain in the blocklist as well as all subdomains." id="3ac-8o-8R5">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="D1g-CR-EgB">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="D1g-CR-EgB">
                                         <rect key="frame" x="0.0" y="471" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D1g-CR-EgB" id="KU0-R0-V6N">
@@ -237,7 +241,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="SvM-yq-uXM">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="SvM-yq-uXM">
                                         <rect key="frame" x="0.0" y="515" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SvM-yq-uXM" id="hNE-LF-xNp">
@@ -283,7 +287,7 @@
                             </tableViewSection>
                             <tableViewSection id="iWk-sW-0YB" userLabel="Reset to defaults">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="hO4-x6-hxR">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="hO4-x6-hxR">
                                         <rect key="frame" x="0.0" y="620" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hO4-x6-hxR" id="2qe-56-MI4">
@@ -324,6 +328,7 @@
                         <outlet property="hostsFileURITextView" destination="UCg-D1-cwE" id="VmW-78-2xo"/>
                         <outlet property="reloadButton" destination="Hum-vh-ZcQ" id="fGy-CD-do4"/>
                         <outlet property="restoreDefaultSettingsButton" destination="gEh-PZ-UCG" id="G9E-RL-GQD"/>
+                        <outlet property="tableView" destination="QjX-QF-Rou" id="SYp-5m-opE"/>
                         <outlet property="typeLabel" destination="uho-yq-NP6" id="sQI-Ue-2p1"/>
                         <outlet property="useCustomBlocklistLabel" destination="BIf-bL-5Ar" id="egj-Wd-tlc"/>
                         <outlet property="useCustomBlocklistSwitch" destination="z2S-HS-baR" id="d4Z-u1-zbA"/>
@@ -331,7 +336,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kan-Ry-xqh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1170" y="1056"/>
+            <point key="canvasLocation" x="1244" y="1040"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8Zh-hv-DNl">
@@ -350,6 +355,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ps-T1-esA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="358" y="1056"/>
+        </scene>
+        <!--Hosts FileURI Entry Table View Controller-->
+        <scene sceneID="tY6-a7-Stg">
+            <objects>
+                <tableViewController id="xWt-lJ-hiY" customClass="hostsFileURIEntryTableViewController" customModule="AdScrubber" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3VM-hy-Dz3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="DAM-mp-VNk">
+                                <rect key="frame" x="0.0" y="92" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DAM-mp-VNk" id="8Yn-97-49l">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="xWt-lJ-hiY" id="TSm-BN-pwO"/>
+                            <outlet property="delegate" destination="xWt-lJ-hiY" id="V4B-ZS-Alw"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tOs-Ji-utg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1768" y="1047"/>
         </scene>
     </scenes>
 </document>
