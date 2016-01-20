@@ -15,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection headerTitle="List of sites to block" footerTitle="File may be a standard hosts file or a JSON file in WebKit Content Blocker Format." id="05e-j7-SPc">
+                            <tableViewSection headerTitle="List of sites to block" id="05e-j7-SPc">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="lDT-nr-VaI">
                                         <rect key="frame" x="0.0" y="114" width="414" height="44"/>
@@ -31,7 +31,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="337" height="31"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="useCustomBlocklistLabel" label="useCustomBlocklistLabel"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="z2S-HS-baR" userLabel="useCustomBlocklistSwitch">
@@ -42,7 +42,7 @@
                                                                 <constraint firstAttribute="width" constant="49" id="0xx-fS-g6F"/>
                                                             </constraints>
                                                             <connections>
-                                                                <action selector="blockingSubdomainsSwitch:" destination="ETj-0b-sQp" eventType="valueChanged" id="TYY-nZ-KEY"/>
+                                                                <action selector="useCustomBlocklistSwitchValueChanged:" destination="ETj-0b-sQp" eventType="valueChanged" id="K4e-pn-5Sx"/>
                                                             </connections>
                                                         </switch>
                                                     </subviews>
@@ -66,10 +66,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="97"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCg-D1-cwE" userLabel="hostsFileURI">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCg-D1-cwE" userLabel="blacklistURL">
                                                     <rect key="frame" x="8" y="8" width="365" height="81"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="hostsFileURI" label="hostsFileURI"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="blacklistURL" label="blacklistURL"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -168,7 +168,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="256" height="21"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="entriesInBlocklistLabel" label="entriesInBlocklistLabel"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyE-2N-tif" userLabel="entryCountLabel">
@@ -178,7 +178,7 @@
                                                                 <constraint firstAttribute="width" constant="130" id="Vgf-Rr-Ktx"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -200,7 +200,7 @@
                             <tableViewSection headerTitle="Options" footerTitle="Aggressive mode blocks each domain in the blocklist as well as all subdomains." id="3ac-8o-8R5">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="D1g-CR-EgB">
-                                        <rect key="frame" x="0.0" y="471" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="439" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D1g-CR-EgB" id="KU0-R0-V6N">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -224,7 +224,7 @@
                                                                 <constraint firstAttribute="width" constant="49" id="mv5-qv-nQC"/>
                                                             </constraints>
                                                             <connections>
-                                                                <action selector="blockingSubdomainsSwitch:" destination="ETj-0b-sQp" eventType="valueChanged" id="bGy-TA-d1o"/>
+                                                                <action selector="blockSmartAppBannersSwitchValueChanged:" destination="ETj-0b-sQp" eventType="valueChanged" id="zge-Xx-L2R"/>
                                                             </connections>
                                                         </switch>
                                                     </subviews>
@@ -242,7 +242,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="SvM-yq-uXM">
-                                        <rect key="frame" x="0.0" y="515" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="483" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SvM-yq-uXM" id="hNE-LF-xNp">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -266,6 +266,7 @@
                                                                 <constraint firstAttribute="width" constant="49" id="MFR-gT-7Py"/>
                                                             </constraints>
                                                             <connections>
+                                                                <action selector="aggressiveModeSwitchValueChanged:" destination="ETj-0b-sQp" eventType="valueChanged" id="6Cy-e9-D7j"/>
                                                                 <action selector="blockingSubdomainsSwitch:" destination="ETj-0b-sQp" eventType="valueChanged" id="f9g-1k-TeF"/>
                                                             </connections>
                                                         </switch>
@@ -288,7 +289,7 @@
                             <tableViewSection id="iWk-sW-0YB" userLabel="Reset to defaults">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="hO4-x6-hxR">
-                                        <rect key="frame" x="0.0" y="620" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="588" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hO4-x6-hxR" id="2qe-56-MI4">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -321,11 +322,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="activityIndicator" destination="Omt-4p-m0t" id="ci2-0Q-635"/>
+                        <outlet property="blacklistURLTextView" destination="UCg-D1-cwE" id="VmW-78-2xo"/>
                         <outlet property="blockSmartAppBannersLabel" destination="KC4-0g-VtC" id="yAI-Lk-iRq"/>
                         <outlet property="blockSmartAppBannersSwitch" destination="Z40-Qb-Rzi" id="asS-YX-4dt"/>
                         <outlet property="blockSubdomainSwitch" destination="Z40-Qb-Rzi" id="anw-cL-ryj"/>
+                        <outlet property="detectedFileTypeLabel" destination="tg5-sI-chF" id="9b2-M6-83c"/>
                         <outlet property="entryCountLabel" destination="LyE-2N-tif" id="Wch-Bf-1eH"/>
-                        <outlet property="hostsFileURITextView" destination="UCg-D1-cwE" id="VmW-78-2xo"/>
                         <outlet property="reloadButton" destination="Hum-vh-ZcQ" id="fGy-CD-do4"/>
                         <outlet property="restoreDefaultSettingsButton" destination="gEh-PZ-UCG" id="G9E-RL-GQD"/>
                         <outlet property="tableView" destination="QjX-QF-Rou" id="SYp-5m-opE"/>
@@ -356,34 +358,81 @@
             </objects>
             <point key="canvasLocation" x="358" y="1056"/>
         </scene>
-        <!--Hosts FileURI Entry Table View Controller-->
+        <!--Blacklist URL Entry Table View Controller-->
         <scene sceneID="tY6-a7-Stg">
             <objects>
-                <tableViewController id="xWt-lJ-hiY" customClass="hostsFileURIEntryTableViewController" customModule="AdScrubber" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3VM-hy-Dz3">
+                <tableViewController id="xWt-lJ-hiY" customClass="blacklistURLEntryTableViewController" customModule="AdScrubber" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="3VM-hy-Dz3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="DAM-mp-VNk">
-                                <rect key="frame" x="0.0" y="92" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DAM-mp-VNk" id="8Yn-97-49l">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection headerTitle="Custom Blocklist" footerTitle="File may be a standard hosts file or a JSON file in the WebKit Content Blocker format." id="TUd-y1-7nO">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="98" id="ZnN-0a-7Sm" userLabel="TableViewCell">
+                                        <rect key="frame" x="0.0" y="114" width="414" height="98"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZnN-0a-7Sm" id="Qeo-r1-iO9">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="97"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="e6O-r0-9zS">
+                                                    <rect key="frame" x="8" y="8" width="398" height="81"/>
+                                                    <subviews>
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="aJR-dg-RCD" userLabel="blacklistURL">
+                                                            <rect key="frame" x="0.0" y="0.0" width="378" height="81"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="blacklistURL" label="blacklistURL"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="81" id="yzD-o3-pUv"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                        </textView>
+                                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Red-XK-wFO">
+                                                            <rect key="frame" x="378" y="31" width="20" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="20" id="5JZ-yv-Wor"/>
+                                                                <constraint firstAttribute="height" constant="20" id="ieW-k9-lNX"/>
+                                                            </constraints>
+                                                            <state key="normal" image="cancel-28.png"/>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="Red-XK-wFO" secondAttribute="trailing" id="2U9-M1-lYM"/>
+                                                        <constraint firstItem="aJR-dg-RCD" firstAttribute="leading" secondItem="e6O-r0-9zS" secondAttribute="leading" id="ZXr-SJ-FBE"/>
+                                                        <constraint firstAttribute="bottom" secondItem="aJR-dg-RCD" secondAttribute="bottom" id="sEV-wi-XcO"/>
+                                                        <constraint firstItem="aJR-dg-RCD" firstAttribute="top" secondItem="e6O-r0-9zS" secondAttribute="top" id="zoR-UL-Ecp"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="e6O-r0-9zS" firstAttribute="leading" secondItem="Qeo-r1-iO9" secondAttribute="leadingMargin" id="1mx-VU-cvT"/>
+                                                <constraint firstItem="e6O-r0-9zS" firstAttribute="centerY" secondItem="Qeo-r1-iO9" secondAttribute="centerY" id="KZW-aH-uY2"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="e6O-r0-9zS" secondAttribute="trailing" id="Tty-Gv-p1e"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
                         <connections>
                             <outlet property="dataSource" destination="xWt-lJ-hiY" id="TSm-BN-pwO"/>
                             <outlet property="delegate" destination="xWt-lJ-hiY" id="V4B-ZS-Alw"/>
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="blacklistURLTextView" destination="aJR-dg-RCD" id="9Qe-14-O3H"/>
+                        <outlet property="cancelButton" destination="Red-XK-wFO" id="0Uv-2h-esD"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tOs-Ji-utg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1768" y="1047"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cancel-28.png" width="28" height="28"/>
+    </resources>
 </document>

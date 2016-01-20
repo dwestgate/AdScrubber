@@ -12,7 +12,7 @@ class AdScrubberUITests: XCTestCase {
   
   let app = XCUIApplication()
   var table: XCUIElementQuery!
-  var hostsFileURITextView: XCUIElement!
+  var blacklistURLTextView: XCUIElement!
   var detectedFileTypeLabel: XCUIElement!
   var fileTypeLabel: XCUIElement!
   var entriesInBlocklistLabel: XCUIElement!
@@ -33,7 +33,7 @@ class AdScrubberUITests: XCTestCase {
     // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
     app.launch()
     table = app.tables
-    hostsFileURITextView = table.textViews["hostsFileURI"]
+    blacklistURLTextView = table.textViews["blacklistURL"]
     detectedFileTypeLabel = table.staticTexts["detectedFileTypeLabel"]
     fileTypeLabel = table.staticTexts["fileTypeLabel"]
     entriesInBlocklistLabel = table.staticTexts["entriesInBlocklistLabel"]
@@ -149,9 +149,9 @@ class AdScrubberUITests: XCTestCase {
   
   private func loadFile(text: String) {
     
-    hostsFileURITextView.pressForDuration(1.55);
+    blacklistURLTextView.pressForDuration(1.55);
     app.menus.menuItems["Select All"].tap()
-    hostsFileURITextView.typeText(text)
+    blacklistURLTextView.typeText(text)
     // detectedFileTypeLabel.tap()
     reloadButton.tap()
   }

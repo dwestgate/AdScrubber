@@ -15,9 +15,8 @@
 //
 /*
 BlackholeList                   Struct connected to storage
-sharedContainer
 
-sharedContainer                 Shared folder
+sharedContainer                 "com.refabricants.adscrubber"
 blacklistURL                    The remote URL of a blackhole list
 
 blacklistUniqueEntryCount       the number of entries we count when adding a new blacklist

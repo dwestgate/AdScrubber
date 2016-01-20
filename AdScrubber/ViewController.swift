@@ -14,7 +14,8 @@ class ViewController: UITableViewController {
   
   @IBOutlet weak var useCustomBlocklistLabel: UILabel!
   @IBOutlet weak var useCustomBlocklistSwitch: UISwitch!
-  @IBOutlet weak var hostsFileURITextView: UITextView!
+  @IBOutlet weak var blacklistURLTextView: UITextView!
+  @IBOutlet weak var detectedFileTypeLabel: UILabel!
   @IBOutlet weak var typeLabel: UILabel!
   @IBOutlet weak var entryCountLabel: UILabel!
   @IBOutlet weak var blockSmartAppBannersLabel: UILabel!
@@ -49,18 +50,32 @@ class ViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    refreshControls()
+    /*
     useCustomBlocklistSwitch.setOn(BLackholeList.getIsUsingCustomBlocklist(), animated: true)
-    hostsFileURITextView.text = BLackholeList.getBlacklistURL()
+    blacklistURLTextView.text = BLackholeList.getBlacklistURL()
     entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
     typeLabel.text = BLackholeList.getBlacklistFileType()
     blockSmartAppBannersSwitch.setOn(BLackholeList.getIsBlockingSmartAppBanners(), animated: true)
-    blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
+    blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)*/
 
   }
   
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
+  }
+  
+  
+  @IBAction func useCustomBlocklistSwitchValueChanged(sender: AnyObject) {
+    BLackholeList.setIsUsingCustomBlocklist(self.useCustomBlocklistSwitch.on)
+    if (BLackholeList.getIsUsingCustomBlocklist()) {
+      blacklistURLTextView.textColor = UIColor.darkGrayColor()
+      detectedFileTypeLabel.enabled = true
+    } else {
+      blacklistURLTextView.textColor = UIColor.lightGrayColor()
+      detectedFileTypeLabel.enabled = false
+    }
   }
   
   
@@ -75,26 +90,34 @@ class ViewController: UITableViewController {
       } catch ListUpdateStatus.NotHTTPS {
         self.showMessageWithStatus(.NotHTTPS)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
+          self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
         })
       } catch ListUpdateStatus.InvalidURL {
         self.showMessageWithStatus(.InvalidURL)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
+          self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
         })
       } catch {
         self.showMessageWithStatus(.UnexpectedDownloadError)
         dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
+          self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
         })
       }
     });
   }
   
   
+  @IBAction func blockSmartAppBannersSwitchValueChanged(sender: AnyObject) {
+  }
+  
+  
+  @IBAction func aggressiveModeSwitchValueChanged(sender: AnyObject) {
+  }
+  
+  // TODO: move this code to other handler
   @IBAction func blockingSubdomainsSwitch(sender: AnyObject) {
     BLackholeList.setIsBlockingSubdomains(self.blockSubdomainSwitch.on)
-    self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
+    self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
     
     SFContentBlockerManager.reloadContentBlockerWithIdentifier(
       "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
@@ -113,10 +136,10 @@ class ViewController: UITableViewController {
   
   func refreshBlockList() throws {
     
-    guard hostsFileURITextView.text.lowercaseString.hasPrefix("https://") else {
+    guard blacklistURLTextView.text.lowercaseString.hasPrefix("https://") else {
       throw ListUpdateStatus.NotHTTPS
     }
-    guard let hostsFile = NSURL(string: hostsFileURITextView.text) else {
+    guard let hostsFile = NSURL(string: blacklistURLTextView.text) else {
       throw ListUpdateStatus.InvalidURL
     }
     
@@ -174,16 +197,27 @@ class ViewController: UITableViewController {
   
   
   private func refreshControls() {
-      self.hostsFileURITextView.text = BLackholeList.getBlacklistURL()
-      self.typeLabel.text = BLackholeList.getBlacklistFileType()
-      self.entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
-      if (BLackholeList.getBlacklistFileType() == "hosts") {
-        self.blockSubdomainSwitch.enabled = true
-      } else {
-        BLackholeList.setIsBlockingSubdomains(false)
-        self.blockSubdomainSwitch.enabled = false
-      }
-      self.blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
+    useCustomBlocklistSwitch.setOn(BLackholeList.getIsUsingCustomBlocklist(), animated: true)
+    blacklistURLTextView.text = BLackholeList.getBlacklistURL()
+    typeLabel.text = BLackholeList.getBlacklistFileType()
+    entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
+    blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
+    
+    if (BLackholeList.getIsUsingCustomBlocklist()) {
+      blacklistURLTextView.textColor = UIColor.darkGrayColor()
+      detectedFileTypeLabel.enabled = true
+    } else {
+      blacklistURLTextView.textColor = UIColor.lightGrayColor()
+      detectedFileTypeLabel.enabled = false
+    }
+    
+    if (BLackholeList.getBlacklistFileType() == "hosts") {
+      blockSubdomainSwitch.enabled = true
+    } else {
+      BLackholeList.setIsBlockingSubdomains(false)
+      blockSubdomainSwitch.enabled = false
+    }
+    
   }
   
 }
