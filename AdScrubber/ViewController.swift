@@ -120,16 +120,11 @@ class ViewController: UITableViewController {
   
   
   @IBAction func aggressiveModeSwitchValueChanged(sender: AnyObject) {
-  }
-  
-  // TODO: move this code to other handler
-  @IBAction func blockingSubdomainsSwitch(sender: AnyObject) {
-    BLackholeList.setIsBlockingSubdomains(self.blockSubdomainSwitch.on)
-    self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
+    BLackholeList.setIsBlockingSubdomains(blockSubdomainSwitch.on)
     
     SFContentBlockerManager.reloadContentBlockerWithIdentifier(
       "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
-      (error: NSError?) in print("Reload complete\n")})
+        (error: NSError?) in print("Reload complete\n")})
   }
   
   
@@ -187,7 +182,6 @@ class ViewController: UITableViewController {
         return
       }
     })
-    
   }
   
   

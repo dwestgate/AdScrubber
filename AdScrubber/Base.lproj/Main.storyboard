@@ -267,7 +267,6 @@
                                                             </constraints>
                                                             <connections>
                                                                 <action selector="aggressiveModeSwitchValueChanged:" destination="ETj-0b-sQp" eventType="valueChanged" id="6Cy-e9-D7j"/>
-                                                                <action selector="blockingSubdomainsSwitch:" destination="ETj-0b-sQp" eventType="valueChanged" id="f9g-1k-TeF"/>
                                                             </connections>
                                                         </switch>
                                                     </subviews>
