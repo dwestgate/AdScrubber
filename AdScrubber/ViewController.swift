@@ -49,8 +49,9 @@ class ViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    refreshControls()
+    
+    blacklistURLTextView.userInteractionEnabled = false
+    // refreshControls()
     /*
     useCustomBlocklistSwitch.setOn(BLackholeList.getIsUsingCustomBlocklist(), animated: true)
     blacklistURLTextView.text = BLackholeList.getBlacklistURL()
@@ -59,6 +60,13 @@ class ViewController: UITableViewController {
     blockSmartAppBannersSwitch.setOn(BLackholeList.getIsBlockingSmartAppBanners(), animated: true)
     blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)*/
 
+  }
+  
+  
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    refreshControls()
   }
   
   

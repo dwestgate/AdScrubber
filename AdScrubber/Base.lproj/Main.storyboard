@@ -10,14 +10,14 @@
         <scene sceneID="4UN-Jx-yNc">
             <objects>
                 <tableViewController id="ETj-0b-sQp" customClass="ViewController" customModule="AdScrubber" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="top" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="QjX-QF-Rou">
+                    <tableView key="view" clipsSubviews="YES" contentMode="top" alwaysBounceVertical="YES" dataMode="static" style="grouped" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="QjX-QF-Rou">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="List of sites to block" id="05e-j7-SPc">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="lDT-nr-VaI">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" id="lDT-nr-VaI">
                                         <rect key="frame" x="0.0" y="114" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lDT-nr-VaI" id="vMi-UM-3ma">
@@ -59,7 +59,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="98" id="xed-4G-ZsH" userLabel="TableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="98" id="xed-4G-ZsH" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="158" width="414" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xed-4G-ZsH" id="op1-xo-5tL">
@@ -86,7 +86,7 @@
                                             <segue destination="xWt-lJ-hiY" kind="show" id="PVp-SU-ilA"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="Vw9-TU-Dbs" userLabel="TableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" id="Vw9-TU-Dbs" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="256" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vw9-TU-Dbs" id="Sd4-cM-GfO">
@@ -113,7 +113,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="bay-0H-ra8" userLabel="TableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" id="bay-0H-ra8" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="300" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bay-0H-ra8" id="y3P-5g-Gag">
@@ -154,7 +154,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="gWP-if-333" userLabel="TableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" id="gWP-if-333" userLabel="TableViewCell">
                                         <rect key="frame" x="0.0" y="344" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gWP-if-333" id="v9r-Bf-VNd">
@@ -389,13 +389,17 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                         </textView>
-                                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Red-XK-wFO">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Red-XK-wFO" userLabel="cancelButton">
                                                             <rect key="frame" x="378" y="31" width="20" height="20"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="cancelButton" label="cancelButton"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="5JZ-yv-Wor"/>
                                                                 <constraint firstAttribute="height" constant="20" id="ieW-k9-lNX"/>
                                                             </constraints>
                                                             <state key="normal" image="cancel-28.png"/>
+                                                            <connections>
+                                                                <action selector="cancelButtonTouchUpInside:" destination="xWt-lJ-hiY" eventType="touchUpInside" id="bHt-Vr-7q4"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <constraints>

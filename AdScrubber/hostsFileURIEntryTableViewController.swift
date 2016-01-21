@@ -28,7 +28,9 @@ view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "endEditi
 
 import UIKit
 
-class blacklistURLEntryTableViewController: UITableViewController {
+class blacklistURLEntryTableViewController: UITableViewController, UITextViewDelegate {
+  
+  var incumbantBlacklistURL = BLackholeList.getBlacklistURL()
   
   @IBOutlet weak var blacklistURLTextView: UITextView!
   @IBOutlet weak var cancelButton: UIButton!
@@ -36,8 +38,9 @@ class blacklistURLEntryTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    blacklistURLTextView.delegate = self
+    blacklistURLTextView.text = BLackholeList.getBlacklistURL()
     blacklistURLTextView.becomeFirstResponder()
-    
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = false
@@ -62,7 +65,53 @@ class blacklistURLEntryTableViewController: UITableViewController {
     // #warning Incomplete implementation, return the number of rows
     return 1
   }
+
   
+  @IBAction func cancelButtonTouchUpInside(sender: AnyObject) {
+    blacklistURLTextView.text = incumbantBlacklistURL
+    blacklistURLTextView.textColor = UIColor.lightGrayColor()
+    blacklistURLTextView.becomeFirstResponder()
+    blacklistURLTextView.selectedTextRange = blacklistURLTextView.textRangeFromPosition(blacklistURLTextView.beginningOfDocument, toPosition: blacklistURLTextView.beginningOfDocument)
+  }
+  
+  
+  
+  func textViewDidChangeSelection(textView: UITextView) {
+    if self.view.window != nil {
+      if textView.textColor == UIColor.lightGrayColor() {
+        textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+      }
+    }
+  }
+  
+  
+  // kudos to: http://stackoverflow.com/questions/27652227/text-view-placeholder-swift
+  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    
+    let t: NSString = textView.text
+    let updatedText = t.stringByReplacingCharactersInRange(range, withString:text)
+    
+    guard (updatedText != "") else {
+      textView.text = incumbantBlacklistURL
+      textView.textColor = UIColor.lightGrayColor()
+      textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+      return false
+    }
+
+    if ((textView.textColor == UIColor.lightGrayColor()) && (updatedText != incumbantBlacklistURL)) {
+      textView.text = nil
+      textView.textColor = UIColor.blackColor()
+    }
+    
+    return true
+  }
+  
+  
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    BLackholeList.setBlacklistURL(blacklistURLTextView.text)
+  }
   
   /*
   // Override to support conditional editing of the table view.
