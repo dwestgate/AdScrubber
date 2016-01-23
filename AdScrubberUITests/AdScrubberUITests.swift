@@ -13,7 +13,7 @@ class AdScrubberUITests: XCTestCase {
   let app = XCUIApplication()
   var table: XCUIElementQuery!
   var blacklistURLTextView: XCUIElement!
-  var detectedFileTypeLabel: XCUIElement!
+  var blocklistFileTypeLabel: XCUIElement!
   var fileTypeLabel: XCUIElement!
   var entriesInBlocklistLabel: XCUIElement!
   var entryCountLabel: XCUIElement!
@@ -34,7 +34,7 @@ class AdScrubberUITests: XCTestCase {
     app.launch()
     table = app.tables
     blacklistURLTextView = table.textViews["blacklistURL"]
-    detectedFileTypeLabel = table.staticTexts["detectedFileTypeLabel"]
+    blocklistFileTypeLabel = table.staticTexts["blocklistFileTypeLabel"]
     fileTypeLabel = table.staticTexts["fileTypeLabel"]
     entriesInBlocklistLabel = table.staticTexts["entriesInBlocklistLabel"]
     entryCountLabel = table.staticTexts["entryCountLabel"]
@@ -152,7 +152,7 @@ class AdScrubberUITests: XCTestCase {
     blacklistURLTextView.pressForDuration(1.55);
     app.menus.menuItems["Select All"].tap()
     blacklistURLTextView.typeText(text)
-    // detectedFileTypeLabel.tap()
+    // blocklistFileTypeLabel.tap()
     reloadButton.tap()
   }
 

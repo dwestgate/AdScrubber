@@ -15,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection headerTitle="List of sites to block" footerTitle="File may be a standard hosts file or a JSON file in WebKit Content Blocker Format." id="J4X-AR-YNj">
+                            <tableViewSection headerTitle="List of sites to block" id="J4X-AR-YNj">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RRx-60-FIP">
                                         <rect key="frame" x="0.0" y="114" width="414" height="44"/>
@@ -56,27 +56,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="default" indentationWidth="10" rowHeight="98" id="var-Z7-YDi">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="98" id="var-Z7-YDi">
                                         <rect key="frame" x="0.0" y="158" width="414" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="var-Z7-YDi" id="8i4-t6-vX9">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="97"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="381" height="97"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="xfE-qP-mnk" userLabel="blacklistURL">
-                                                    <rect key="frame" x="8" y="8" width="398" height="81"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="blacklistURL" label="blacklistURL"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                                </textView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="xfE-qP-mnk" secondAttribute="bottom" id="J5Z-FI-hI6"/>
-                                                <constraint firstAttribute="leadingMargin" secondItem="xfE-qP-mnk" secondAttribute="leading" id="OdR-kI-pyS"/>
-                                                <constraint firstItem="xfE-qP-mnk" firstAttribute="top" secondItem="8i4-t6-vX9" secondAttribute="topMargin" id="WlK-Nm-7kb"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="xfE-qP-mnk" secondAttribute="trailing" id="loQ-Rt-hR1"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="lU1-go-sLQ">
@@ -112,9 +97,9 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YZo-QF-Kk5">
                                                     <rect key="frame" x="14" y="11" width="386" height="21"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detected file type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gd3-nW-lpg" userLabel="detectedFileTypeLabel">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blocklist file type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gd3-nW-lpg" userLabel="blocklistFileTypeLabel">
                                                             <rect key="frame" x="0.0" y="0.0" width="256" height="21"/>
-                                                            <accessibility key="accessibilityConfiguration" identifier="detectedFileTypeLabel" label="detectedFileTypeLabel"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="blocklistFileTypeLabel" label="blocklistFileTypeLabel"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -186,49 +171,11 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Options" footerTitle="Aggressive mode blocks each domain in the blocklist as well as all subdomains." id="4t3-sJ-nVq">
+                            <tableViewSection headerTitle="Aggressiveness" id="4t3-sJ-nVq">
+                                <string key="footerTitle">Blocks not only all sites in the blocklist, but also all subdomains of those sites. This setting is unavailble when using custom JSON blocklists.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="XLI-J5-Bcj">
-                                        <rect key="frame" x="0.0" y="471" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XLI-J5-Bcj" id="0FR-yM-FON">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9x-6Z-1Ub">
-                                                    <rect key="frame" x="14" y="6" width="386" height="31"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Block smart app banners" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xib-qc-4y9" userLabel="blockSmartAppBannersLabel">
-                                                            <rect key="frame" x="0.0" y="0.0" width="337" height="31"/>
-                                                            <accessibility key="accessibilityConfiguration" identifier="blockSmartAppBannersLabel" label="blockSmartAppBannersLabel"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lvm-38-2dy" userLabel="blockSmartAppBannersSwitch">
-                                                            <rect key="frame" x="337" y="0.0" width="51" height="31"/>
-                                                            <accessibility key="accessibilityConfiguration" identifier="blockSmartAppBannersSwitch" label="blockSmartAppBannersSwitch"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="49" id="h9I-7h-BSd"/>
-                                                                <constraint firstAttribute="height" constant="31" id="z9L-53-72a"/>
-                                                            </constraints>
-                                                        </switch>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="xib-qc-4y9" firstAttribute="leading" secondItem="n9x-6Z-1Ub" secondAttribute="leading" id="7OQ-qO-CFI"/>
-                                                        <constraint firstAttribute="trailing" secondItem="lvm-38-2dy" secondAttribute="trailing" id="nDi-iH-6OK"/>
-                                                    </constraints>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="n9x-6Z-1Ub" secondAttribute="trailing" constant="6" id="US5-HK-QZz"/>
-                                                <constraint firstItem="n9x-6Z-1Ub" firstAttribute="leading" secondItem="0FR-yM-FON" secondAttribute="leadingMargin" constant="6" id="iNa-gH-Fkx"/>
-                                                <constraint firstItem="n9x-6Z-1Ub" firstAttribute="centerY" secondItem="0FR-yM-FON" secondAttribute="centerY" id="tW7-dR-zTd"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="q8Z-N6-lKf">
-                                        <rect key="frame" x="0.0" y="515" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="439" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8Z-N6-lKf" id="ETr-iS-UBK">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -237,7 +184,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Xw-PA-OMt">
                                                     <rect key="frame" x="14" y="6" width="386" height="31"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aggressive mode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zjh-it-prS" userLabel="blockSubdomainsLabel">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Block subdomains" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zjh-it-prS" userLabel="blockSubdomainsLabel">
                                                             <rect key="frame" x="0.0" y="0.0" width="337" height="31"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="blockSubdomainsLabel" label="blockSubdomainsLabel"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -271,7 +218,7 @@
                             <tableViewSection id="Rit-wg-5VT" userLabel="Reset to defaults">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="dTy-Rn-Cmt">
-                                        <rect key="frame" x="0.0" y="620" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="560" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dTy-Rn-Cmt" id="jam-vr-JPW">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>

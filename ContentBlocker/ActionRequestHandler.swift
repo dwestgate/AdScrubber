@@ -20,7 +20,7 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
     
     let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
     
-    if defaults!.boolForKey("isBlockingSubdomains") == true {
+    if defaults!.boolForKey("isBlockSubdomainsOn") == true {
       contentBlockingRules = sharedPath.URLByAppendingPathComponent("wildcardBlockerList.json")
       logfile += "Using wildcardBlockerList.json\n"
     }

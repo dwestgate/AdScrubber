@@ -7,8 +7,8 @@
 //
 //
 // TODO: Animation stops when resuming
-// TODO: Fix Aggressive blocking description
-// TODO: Have "Aggressive mode" text go grey when it is unavailable
+// TODO: Fix Block subdomains blocking description
+// TODO: Have "Block subdomains" text go grey when it is unavailable
 // TODO: Dismiss keyboard when "Reload list" is pressed
 // TODO: Have "Reload list" change to "Load list" when there is a change to list of sites blocked
 // TODO: Add a check box: "Use custom list"
@@ -19,7 +19,7 @@ BlackholeList                   Struct connected to storage
 sharedContainer                 "com.refabricants.adscrubber"
 blacklistURL                    The remote URL of a blackhole list
 
-blacklistUniqueEntryCount       the number of entries we count when adding a new blacklist
+blacklistEntryCount       the number of entries we count when adding a new blacklist
 blacklistFileType               file type of the remote file
 blacklistEtag                   the
 
@@ -31,77 +31,102 @@ import Foundation
 import SwiftyJSON
 import SafariServices
 
-struct BLackholeList {
+
+struct BlackholeList {
   
+  struct Blacklist {
+    private let name: String
+    
+    init(withListName value: String, url: String, fileType: String, entryCount: String, etag: String) {
+      name = value
+      setValueWithKey(url, forKey: "URL")
+      setValueWithKey(fileType, forKey: "FileType")
+      setValueWithKey(entryCount, forKey: "EntryCount")
+      setValueWithKey(etag, forKey: "Etag")
+    }
+    
+    init(withListName: String, url: String, fileType: String) {
+      name = withListName
+      setValueWithKey(url, forKey: "\(name)BlacklistURL")
+      setValueWithKey(fileType, forKey: "\(name)BlacklistFileType")
+    }
+    
+    init(withListName: String) {
+      name = withListName
+    }
+    
+    func getValueForKey(key: String) -> String? {
+      // return sharedContainer!.objectForKey("\(name)URL") as? String
+      print("getValueForKey: \(name)Blacklist\(key)")
+      if let value = sharedContainer!.objectForKey("\(name)Blacklist\(key)") as? String {
+        return value
+      } else {
+        return nil
+      }
+    }
+    
+    func setValueWithKey(value: String, forKey: String) {
+      print("setValueWithKey: \(name)Blacklist\(forKey)\n")
+      sharedContainer!.setObject(value, forKey: "\(name)Blacklist\(forKey)")
+    }
+    
+    func removeValueForKey(key: String) {
+      sharedContainer!.removeObjectForKey("\(name)\(key)")
+    }
+    
+  }
+  
+  // Set preloadedBlacklist etag
   static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
+  static var preloadedBlacklist = Blacklist(withListName: "preloaded", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in", entryCount: "27137", etag: "aaaa")
+  static var defaultBlacklist = Blacklist(withListName: "default", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in")
+  static var customBlacklist = Blacklist(withListName: "custom")
+  static var candidateBlacklist = Blacklist(withListName: "candidate")
   
-  
-  static func getIsUsingCustomBlocklist() -> Bool {
-    if let value = sharedContainer!.boolForKey("isUsingCustomBlocklist") as Bool? {
+  static func getIsUseCustomBlocklistOn() -> Bool {
+    if let value = sharedContainer!.boolForKey("isUseCustomBlocklistOn") as Bool? {
       return value
     } else {
       let value = false
-      sharedContainer!.setBool(value, forKey: "isUsingCustomBlocklist")
+      sharedContainer!.setBool(value, forKey: "isUseCustomBlocklistOn")
       return value
     }
   }
   
   
-  static func setIsUsingCustomBlocklist(value: Bool) {
-    sharedContainer!.setBool(value, forKey: "isUsingCustomBlocklist")
+  static func setIsUseCustomBlocklistOn(value: Bool) {
+    sharedContainer!.setBool(value, forKey: "isUseCustomBlocklistOn")
   }
   
   
-  static func getBlacklistURL() -> String {
-    if let value = sharedContainer!.objectForKey("blacklistURL") as? String {
+  static func getDownloadedBlacklistType() -> String {
+    if let value = sharedContainer!.objectForKey("downloadedBlacklistType") as? String {
       return value
     } else {
-      let value = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-      sharedContainer!.setObject(value, forKey: "blacklistURL")
+      let value = "none"
+      sharedContainer!.setObject(value, forKey: "downloadedBlacklistType")
       return value
     }
   }
   
   
-  static func setBlacklistURL(value: String) {
-    sharedContainer!.setObject(value, forKey: "blacklistURL")
+  static func setDownloadedBlacklistType(value: String) {
+    sharedContainer!.setObject(value, forKey: "downloadedBlacklistType")
+  }
+  
+  /*
+  static func getPreloadedBlacklistURL() -> String {
+    return "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
   }
   
   
-  static func getBlacklistUniqueEntryCount() -> String {
-    if let value = sharedContainer!.objectForKey("blacklistUniqueEntryCount") as? String {
-      return value
-    } else {
-      let value = "27137"
-      sharedContainer!.setObject(value, forKey: "blacklistUniqueEntryCount")
-      return value
-    }
+  static func getDefaultBlacklistURL() -> String {
+    return "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
   }
   
   
-  static func setBlacklistUniqueEntryCount(value: String) {
-    sharedContainer!.setObject(value, forKey: "blacklistUniqueEntryCount")
-  }
-  
-  
-  static func getBlacklistFileType() -> String {
-    if let value = sharedContainer!.objectForKey("blacklistFileType") as? String {
-      return value
-    } else {
-      let value = "hosts"
-      sharedContainer!.setObject(value, forKey: "blacklistFileType")
-      return value
-    }
-  }
-  
-  
-  static func setBlacklistFileType(value: String) {
-    sharedContainer!.setObject(value, forKey: "blacklistFileType")
-  }
-  
-  
-  static func getBlacklistEtag() -> String? {
-    if let value = sharedContainer!.objectForKey("blacklistEtag") as? String {
+  static func getCustomBlacklistURL() -> String? {
+    if let value = sharedContainer!.objectForKey("customBlacklistURL") as? String {
       return value
     } else {
       return nil
@@ -109,15 +134,112 @@ struct BLackholeList {
   }
   
   
-  static func setBlacklistEtag(value: String) {
-    sharedContainer!.setObject(value, forKey: "blacklistEtag")
+  static func setCustomBlacklistURL(value: String) {
+    sharedContainer!.setObject(value, forKey: "customBlacklistURL")
   }
   
   
-  static func deleteBlacklistEtag() {
-    sharedContainer!.removeObjectForKey("blacklistEtag")
+  static func getPreloadedBlacklistFileType() -> String {
+    return "built-in"
   }
   
+  
+  static func getDefaultBlacklistFileType() -> String {
+    return "hosts"
+  }
+  
+  
+  static func getCustomBlacklistFileType() -> String? {
+    if let value = sharedContainer!.objectForKey("customBlacklistFileType") as? String {
+      return value
+    } else {
+      return nil
+    }
+  }
+  
+  
+  static func setCustomBlacklistFileType(value: String) {
+    sharedContainer!.setObject(value, forKey: "customBlacklistFileType")
+  }
+  
+  
+  static func getPreloadedBlacklistEntryCount() -> String {
+    return "27137"
+  }
+  
+  
+  static func getDefaultBlacklistEntryCount() -> String {
+    if let value = sharedContainer!.objectForKey("defaultBlacklistEntryCount") as? String {
+      return value
+    } else {
+      let value = "0"
+      sharedContainer!.setObject(value, forKey: "defaultBlacklistEntryCount")
+      return value
+    }
+  }
+  
+  
+  static func setDefaultBlacklistEntryCount(value: String) {
+    sharedContainer!.setObject(value, forKey: "defaultBlacklistEntryCount")
+  }
+  
+  
+  static func getCustomBlacklistEntryCount() -> String? {
+    if let value = sharedContainer!.objectForKey("customBlacklistEntryCount") as? String {
+      return value
+    } else {
+      return nil
+    }
+  }
+  
+  
+  static func setCustomBlacklistEntryCount(value: String) {
+    sharedContainer!.setObject(value, forKey: "customBlacklistEntryCount")
+  }
+  
+  // TODO: get etag for preload
+  static func getPreloadedBlacklistEtag() -> String {
+    return "temp"
+  }
+  
+  
+  static func getDefaultBlacklistEtag() -> String? {
+    if let value = sharedContainer!.objectForKey("defaultBlacklistEtag") as? String {
+      return value
+    } else {
+      return nil
+    }
+  }
+  
+  
+  static func setDefaultBlacklistEtag(value: String) {
+    sharedContainer!.setObject(value, forKey: "defaultBlacklistEtag")
+  }
+  
+  
+  static func deleteDefaultBlacklistEtag() {
+    sharedContainer!.removeObjectForKey("defaultBlacklistEtag")
+  }
+  
+  
+  static func getCustomBlacklistEtag() -> String? {
+    if let value = sharedContainer!.objectForKey("customBlacklistEtag") as? String {
+      return value
+    } else {
+      return nil
+    }
+  }
+  
+  
+  static func setCustomBlacklistEtag(value: String) {
+    sharedContainer!.setObject(value, forKey: "customBlacklistEtag")
+  }
+  
+  
+  static func deleteCustomBlacklistEtag() {
+    sharedContainer!.removeObjectForKey("customBlacklistEtag")
+  }
+  */
   
   static func getIsReloading() -> Bool {
     if let value = sharedContainer!.boolForKey("isReloading") as Bool? {
@@ -131,39 +253,23 @@ struct BLackholeList {
   
   
   static func setIsReloading(value: Bool) {
-      sharedContainer!.setBool(value, forKey: "isReloading")
-  }
-  
-  
-  static func getIsBlockingSmartAppBanners() -> Bool {
-    if let value = sharedContainer!.boolForKey("isBlockingSmartAppBanners") as Bool? {
-      return value
-    } else {
-      let value = true
-      sharedContainer!.setBool(value, forKey: "isBlockingSmartAppBanners")
-      return value
-    }
-  }
-  
-  
-  static func setIsBlockingSmartAppBanners(value: Bool) {
-    sharedContainer!.setBool(value, forKey: "isBlockingSmartAppBanners")
+    sharedContainer!.setBool(value, forKey: "isReloading")
   }
   
   
   static func getIsBlockingSubdomains() -> Bool {
-    if let value = sharedContainer!.boolForKey("isBlockingSubdomains") as Bool? {
+    if let value = sharedContainer!.boolForKey("isBlockSubdomainsOn") as Bool? {
       return value
     } else {
       let value = false
-      sharedContainer!.setBool(value, forKey: "isBlockingSubdomains")
+      sharedContainer!.setBool(value, forKey: "isBlockSubdomainsOn")
       return value
     }
   }
   
   
   static func setIsBlockingSubdomains(value: Bool) {
-    sharedContainer!.setBool(value, forKey: "isBlockingSubdomains")
+    sharedContainer!.setBool(value, forKey: "isBlockSubdomainsOn")
   }
   
   
@@ -370,7 +476,7 @@ struct BLackholeList {
     setIsReloading(false)
     return (updateStatus, blocklistFileType, numberOfEntries)
   }
-
+  
   
   static func contains(elements: Array<String>, text: String) -> Bool {
     

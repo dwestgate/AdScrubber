@@ -15,12 +15,11 @@ class ViewController: UITableViewController {
   @IBOutlet weak var useCustomBlocklistLabel: UILabel!
   @IBOutlet weak var useCustomBlocklistSwitch: UISwitch!
   @IBOutlet weak var blacklistURLTextView: UITextView!
-  @IBOutlet weak var detectedFileTypeLabel: UILabel!
+  @IBOutlet weak var blocklistFileTypeLabel: UILabel!
   @IBOutlet weak var typeLabel: UILabel!
   @IBOutlet weak var entryCountLabel: UILabel!
-  @IBOutlet weak var blockSmartAppBannersLabel: UILabel!
-  @IBOutlet weak var blockSmartAppBannersSwitch: UISwitch!
-  @IBOutlet weak var blockSubdomainSwitch: UISwitch!
+  @IBOutlet weak var blockSubdomainsLabel: UILabel!
+  @IBOutlet weak var blockSubdomainsSwitch: UISwitch!
   @IBOutlet weak var restoreDefaultSettingsButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -51,15 +50,6 @@ class ViewController: UITableViewController {
     super.viewDidLoad()
     
     blacklistURLTextView.userInteractionEnabled = false
-    // refreshControls()
-    /*
-    useCustomBlocklistSwitch.setOn(BLackholeList.getIsUsingCustomBlocklist(), animated: true)
-    blacklistURLTextView.text = BLackholeList.getBlacklistURL()
-    entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
-    typeLabel.text = BLackholeList.getBlacklistFileType()
-    blockSmartAppBannersSwitch.setOn(BLackholeList.getIsBlockingSmartAppBanners(), animated: true)
-    blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)*/
-
   }
   
   
@@ -76,14 +66,8 @@ class ViewController: UITableViewController {
   
   
   @IBAction func useCustomBlocklistSwitchValueChanged(sender: AnyObject) {
-    BLackholeList.setIsUsingCustomBlocklist(self.useCustomBlocklistSwitch.on)
-    if (BLackholeList.getIsUsingCustomBlocklist()) {
-      blacklistURLTextView.textColor = UIColor.darkGrayColor()
-      detectedFileTypeLabel.enabled = true
-    } else {
-      blacklistURLTextView.textColor = UIColor.lightGrayColor()
-      detectedFileTypeLabel.enabled = false
-    }
+    BlackholeList.setIsUseCustomBlocklistOn(self.useCustomBlocklistSwitch.on)
+    refreshControls()
   }
   
   
@@ -97,30 +81,26 @@ class ViewController: UITableViewController {
         try self.refreshBlockList()
       } catch ListUpdateStatus.NotHTTPS {
         self.showMessageWithStatus(.NotHTTPS)
-        dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
-        })
+        /* dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
+        })*/
       } catch ListUpdateStatus.InvalidURL {
         self.showMessageWithStatus(.InvalidURL)
-        dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
-        })
+        /*dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
+        })*/
       } catch {
         self.showMessageWithStatus(.UnexpectedDownloadError)
-        dispatch_async(self.GCDMainQueue, { () -> Void in
-          self.blacklistURLTextView.text = BLackholeList.getBlacklistURL()
-        })
+        /*dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
+        })*/
       }
     });
   }
   
   
-  @IBAction func blockSmartAppBannersSwitchValueChanged(sender: AnyObject) {
-  }
-  
-  
-  @IBAction func aggressiveModeSwitchValueChanged(sender: AnyObject) {
-    BLackholeList.setIsBlockingSubdomains(blockSubdomainSwitch.on)
+  @IBAction func blockSubdomainsSwitchValueChanged(sender: AnyObject) {
+    BlackholeList.setIsBlockingSubdomains(blockSubdomainsSwitch.on)
     
     SFContentBlockerManager.reloadContentBlockerWithIdentifier(
       "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
@@ -129,9 +109,7 @@ class ViewController: UITableViewController {
   
   
   @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
-    BLackholeList.setBlacklistURL("https://raw.githubusercontent.com/dwestgate/hosts/master/hosts")
-    BLackholeList.setBlacklistUniqueEntryCount("26798")
-    BLackholeList.setBlacklistFileType("hosts")
+    BlackholeList.setDownloadedBlacklistType("none")
     refreshControls()
     reloadButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
   }
@@ -146,7 +124,7 @@ class ViewController: UITableViewController {
       throw ListUpdateStatus.InvalidURL
     }
     
-    BLackholeList.validateURL(hostsFile, completion: { (var updateStatus) -> () in
+    BlackholeList.validateURL(hostsFile, completion: { (var updateStatus) -> () in
       defer {
         self.refreshControls()
         self.showMessageWithStatus(updateStatus)
@@ -157,21 +135,45 @@ class ViewController: UITableViewController {
       }
       
       do {
-        let blockList = try BLackholeList.downloadBlocklist(hostsFile)
-        let createBlockerListJSONResult = BLackholeList.createBlockerListJSON(blockList!)
+        let blockList = try BlackholeList.downloadBlocklist(hostsFile)
+        let createBlockerListJSONResult = BlackholeList.createBlockerListJSON(blockList!)
         updateStatus = createBlockerListJSONResult.updateStatus
         if (updateStatus == .UpdateSuccessful || updateStatus == .TooManyEntries) {
           
-          BLackholeList.setBlacklistFileType(createBlockerListJSONResult.blacklistFileType!)
-          BLackholeList.setBlacklistUniqueEntryCount("\(createBlockerListJSONResult.numberOfEntries!)")
-          BLackholeList.setBlacklistURL(hostsFile.absoluteString)
-          print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
-          if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") as? String {
-            BLackholeList.setBlacklistEtag(etag)
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+          // if (hostsFile.absoluteString == BlackholeList.getDefaultBlacklistURL()) {
+          if (hostsFile.absoluteString == BlackholeList.defaultBlacklist.getValueForKey("URL")) {
+            // BlackholeList.setDefaultBlacklistEntryCount("\(createBlockerListJSONResult.numberOfEntries!)")
+            BlackholeList.defaultBlacklist.setValueWithKey("\(createBlockerListJSONResult.numberOfEntries!)", forKey: "EntryCount")
+            print("Updating default list: \(hostsFile.absoluteString)")
+            if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") as? String {
+              // BlackholeList.setDefaultBlacklistEtag(etag)
+              BlackholeList.defaultBlacklist.setValueWithKey(etag, forKey: "Etag")
+              NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+            } else {
+              // BlackholeList.deleteDefaultBlacklistEtag()
+              BlackholeList.defaultBlacklist.removeValueForKey("Etag")
+            }
           } else {
-            BLackholeList.deleteBlacklistEtag()
+            /* BlackholeList.setCustomBlacklistFileType(createBlockerListJSONResult.blacklistFileType!)
+            BlackholeList.setCustomBlacklistEntryCount("\(createBlockerListJSONResult.numberOfEntries!)")
+            BlackholeList.setCustomBlacklistURL(hostsFile.absoluteString) */
+            BlackholeList.customBlacklist.setValueWithKey(createBlockerListJSONResult.blacklistFileType!, forKey: "FileType")
+            BlackholeList.customBlacklist.setValueWithKey("\(createBlockerListJSONResult.numberOfEntries!)", forKey: "EntryCount")
+            BlackholeList.customBlacklist.setValueWithKey(hostsFile.absoluteString, forKey: "URL")
+            print("setting blockerLIstURL default to: \(hostsFile.absoluteString)")
+            if let etag = NSUserDefaults.standardUserDefaults().objectForKey("candidateEtag") as? String {
+              // BlackholeList.setCustomBlacklistEtag(etag)
+              BlackholeList.customBlacklist.setValueWithKey(etag, forKey: "Etag")
+              NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+            } else {
+              // BlackholeList.deleteCustomBlacklistEtag()
+              BlackholeList.customBlacklist.removeValueForKey("Etag")
+            }
           }
+          
+          
+          
+          
         SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
             (error: NSError?) in print("Reload complete\n")})
         }
@@ -199,27 +201,86 @@ class ViewController: UITableViewController {
   
   
   private func refreshControls() {
-    useCustomBlocklistSwitch.setOn(BLackholeList.getIsUsingCustomBlocklist(), animated: true)
-    blacklistURLTextView.text = BLackholeList.getBlacklistURL()
-    typeLabel.text = BLackholeList.getBlacklistFileType()
-    entryCountLabel.text = BLackholeList.getBlacklistUniqueEntryCount()
-    blockSubdomainSwitch.setOn(BLackholeList.getIsBlockingSubdomains(), animated: true)
+    print("\(BlackholeList.preloadedBlacklist.getValueForKey("URL"))")
+    print("\(BlackholeList.preloadedBlacklist.getValueForKey("FileType"))")
+    print("\(BlackholeList.preloadedBlacklist.getValueForKey("EntryCount"))")
+    print("\(BlackholeList.defaultBlacklist.getValueForKey("URL"))")
+    print("\(BlackholeList.defaultBlacklist.getValueForKey("FileType"))")
+    print("\(BlackholeList.defaultBlacklist.getValueForKey("EntryCount"))")
+    print("\(BlackholeList.customBlacklist.getValueForKey("URL"))")
+    print("\(BlackholeList.customBlacklist.getValueForKey("FileType"))")
+    print("\(BlackholeList.customBlacklist.getValueForKey("EntryCount"))")
     
-    if (BLackholeList.getIsUsingCustomBlocklist()) {
-      blacklistURLTextView.textColor = UIColor.darkGrayColor()
-      detectedFileTypeLabel.enabled = true
+    useCustomBlocklistSwitch.setOn(BlackholeList.getIsUseCustomBlocklistOn(), animated: true)
+    if (BlackholeList.getDownloadedBlacklistType() == "custom") {
+      blacklistURLTextView.text = BlackholeList.customBlacklist.getValueForKey("URL")
+      typeLabel.text = BlackholeList.customBlacklist.getValueForKey("FileType")
+      entryCountLabel.text = BlackholeList.customBlacklist.getValueForKey("EntryCount")
+    } else if (BlackholeList.getDownloadedBlacklistType() == "default") {
+      blacklistURLTextView.text = BlackholeList.defaultBlacklist.getValueForKey("URL")
+      typeLabel.text = BlackholeList.defaultBlacklist.getValueForKey("FileType")
+      entryCountLabel.text = BlackholeList.defaultBlacklist.getValueForKey("EntryCount")
     } else {
-      blacklistURLTextView.textColor = UIColor.lightGrayColor()
-      detectedFileTypeLabel.enabled = false
+      blacklistURLTextView.text = BlackholeList.preloadedBlacklist.getValueForKey("URL")
+      typeLabel.text = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
+      entryCountLabel.text = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")
     }
     
-    if (BLackholeList.getBlacklistFileType() == "hosts") {
-      blockSubdomainSwitch.enabled = true
+    blockSubdomainsSwitch.setOn(BlackholeList.getIsBlockingSubdomains(), animated: true)
+    
+    if (BlackholeList.getIsUseCustomBlocklistOn()) {
+      blacklistURLTextView.textColor = UIColor.darkGrayColor()
+      
+      if (BlackholeList.customBlacklist.getValueForKey("FileType") == "JSON") {
+        BlackholeList.setIsBlockingSubdomains(false)
+        blockSubdomainsSwitch.enabled = false
+        blockSubdomainsLabel.enabled = false
+      } else {
+        blockSubdomainsSwitch.enabled = true
+        blockSubdomainsLabel.enabled = true
+      }
+      
     } else {
-      BLackholeList.setIsBlockingSubdomains(false)
-      blockSubdomainSwitch.enabled = false
+      blacklistURLTextView.textColor = UIColor.lightGrayColor()
     }
     
   }
+  
+  /*
+  private func refreshControls() {
+    useCustomBlocklistSwitch.setOn(BlackholeList.getIsUseCustomBlocklistOn(), animated: true)
+    if (BlackholeList.getDownloadedBlacklistType() == "custom") {
+      blacklistURLTextView.text = BlackholeList.getCustomBlacklistURL()
+      typeLabel.text = BlackholeList.getCustomBlacklistFileType()
+      entryCountLabel.text = BlackholeList.getCustomBlacklistEntryCount()
+    } else if (BlackholeList.getDownloadedBlacklistType() == "default") {
+      blacklistURLTextView.text = BlackholeList.getDefaultBlacklistURL()
+      typeLabel.text = BlackholeList.getDefaultBlacklistFileType()
+      entryCountLabel.text = BlackholeList.getDefaultBlacklistEntryCount()
+    } else {
+      blacklistURLTextView.text = BlackholeList.getDefaultBlacklistURL()
+      typeLabel.text = BlackholeList.getPreloadedBlacklistFileType()
+      entryCountLabel.text = BlackholeList.getDefaultBlacklistEntryCount()
+    }
+    
+    blockSubdomainsSwitch.setOn(BlackholeList.getIsBlockingSubdomains(), animated: true)
+    
+    if (BlackholeList.getIsUseCustomBlocklistOn()) {
+      blacklistURLTextView.textColor = UIColor.darkGrayColor()
+      
+      if (BlackholeList.getCustomBlacklistFileType() == "JSON") {
+        BlackholeList.setIsBlockingSubdomains(false)
+        blockSubdomainsSwitch.enabled = false
+        blockSubdomainsLabel.enabled = false
+      } else {
+        blockSubdomainsSwitch.enabled = true
+        blockSubdomainsLabel.enabled = true
+      }
+      
+    } else {
+      blacklistURLTextView.textColor = UIColor.lightGrayColor()
+    }
+    
+  }*/
   
 }

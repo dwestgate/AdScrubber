@@ -30,7 +30,7 @@ import UIKit
 
 class blacklistURLEntryTableViewController: UITableViewController, UITextViewDelegate {
   
-  var incumbantBlacklistURL = BLackholeList.getBlacklistURL()
+  var incumbantBlacklistURL = BlackholeList.customBlacklist.getValueForKey("URL")
   
   @IBOutlet weak var blacklistURLTextView: UITextView!
   @IBOutlet weak var cancelButton: UIButton!
@@ -39,7 +39,7 @@ class blacklistURLEntryTableViewController: UITableViewController, UITextViewDel
     super.viewDidLoad()
     
     blacklistURLTextView.delegate = self
-    blacklistURLTextView.text = BLackholeList.getBlacklistURL()
+    blacklistURLTextView.text = BlackholeList.customBlacklist.getValueForKey("URL")
     blacklistURLTextView.becomeFirstResponder()
     
     // Uncomment the following line to preserve selection between presentations
@@ -110,7 +110,8 @@ class blacklistURLEntryTableViewController: UITableViewController, UITextViewDel
   override func viewWillDisappear(animated: Bool) {
     super.viewWillDisappear(animated)
     
-    BLackholeList.setBlacklistURL(blacklistURLTextView.text)
+    // BlackholeList.setCustomBlacklistURL(blacklistURLTextView.text)
+    BlackholeList.customBlacklist.setValueWithKey(blacklistURLTextView.text, forKey: "URL")
   }
   
   /*
