@@ -47,8 +47,8 @@ struct BlackholeList {
     
     init(withListName: String, url: String, fileType: String) {
       name = withListName
-      setValueWithKey(url, forKey: "\(name)BlacklistURL")
-      setValueWithKey(fileType, forKey: "\(name)BlacklistFileType")
+      setValueWithKey(url, forKey: "URL")
+      setValueWithKey(fileType, forKey: "FileType")
     }
     
     init(withListName: String) {
@@ -57,7 +57,8 @@ struct BlackholeList {
     
     func getValueForKey(key: String) -> String? {
       // return sharedContainer!.objectForKey("\(name)URL") as? String
-      print("getValueForKey: \(name)Blacklist\(key)")
+      // NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+      // TODO: Use defaultcontainer for most of these?
       if let value = sharedContainer!.objectForKey("\(name)Blacklist\(key)") as? String {
         return value
       } else {
@@ -66,7 +67,6 @@ struct BlackholeList {
     }
     
     func setValueWithKey(value: String, forKey: String) {
-      print("setValueWithKey: \(name)Blacklist\(forKey)\n")
       sharedContainer!.setObject(value, forKey: "\(name)Blacklist\(forKey)")
     }
     
@@ -74,13 +74,20 @@ struct BlackholeList {
       sharedContainer!.removeObjectForKey("\(name)\(key)")
     }
     
+    func removeAllValues() {
+      removeValueForKey("URL")
+      removeValueForKey("FileType")
+      removeValueForKey("EntryCount")
+      removeValueForKey("Etag")
+    }
+    
   }
   
   // Set preloadedBlacklist etag
   static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
   static var preloadedBlacklist = Blacklist(withListName: "preloaded", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in", entryCount: "27137", etag: "aaaa")
-  static var defaultBlacklist = Blacklist(withListName: "default", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in")
-  static var customBlacklist = Blacklist(withListName: "custom")
+  static var currentBlacklist = Blacklist(withListName: "current")
+  static var displayedBlacklist = Blacklist(withListName: "displayed")
   static var candidateBlacklist = Blacklist(withListName: "candidate")
   
   static func getIsUseCustomBlocklistOn() -> Bool {
@@ -114,132 +121,6 @@ struct BlackholeList {
     sharedContainer!.setObject(value, forKey: "downloadedBlacklistType")
   }
   
-  /*
-  static func getPreloadedBlacklistURL() -> String {
-    return "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-  }
-  
-  
-  static func getDefaultBlacklistURL() -> String {
-    return "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-  }
-  
-  
-  static func getCustomBlacklistURL() -> String? {
-    if let value = sharedContainer!.objectForKey("customBlacklistURL") as? String {
-      return value
-    } else {
-      return nil
-    }
-  }
-  
-  
-  static func setCustomBlacklistURL(value: String) {
-    sharedContainer!.setObject(value, forKey: "customBlacklistURL")
-  }
-  
-  
-  static func getPreloadedBlacklistFileType() -> String {
-    return "built-in"
-  }
-  
-  
-  static func getDefaultBlacklistFileType() -> String {
-    return "hosts"
-  }
-  
-  
-  static func getCustomBlacklistFileType() -> String? {
-    if let value = sharedContainer!.objectForKey("customBlacklistFileType") as? String {
-      return value
-    } else {
-      return nil
-    }
-  }
-  
-  
-  static func setCustomBlacklistFileType(value: String) {
-    sharedContainer!.setObject(value, forKey: "customBlacklistFileType")
-  }
-  
-  
-  static func getPreloadedBlacklistEntryCount() -> String {
-    return "27137"
-  }
-  
-  
-  static func getDefaultBlacklistEntryCount() -> String {
-    if let value = sharedContainer!.objectForKey("defaultBlacklistEntryCount") as? String {
-      return value
-    } else {
-      let value = "0"
-      sharedContainer!.setObject(value, forKey: "defaultBlacklistEntryCount")
-      return value
-    }
-  }
-  
-  
-  static func setDefaultBlacklistEntryCount(value: String) {
-    sharedContainer!.setObject(value, forKey: "defaultBlacklistEntryCount")
-  }
-  
-  
-  static func getCustomBlacklistEntryCount() -> String? {
-    if let value = sharedContainer!.objectForKey("customBlacklistEntryCount") as? String {
-      return value
-    } else {
-      return nil
-    }
-  }
-  
-  
-  static func setCustomBlacklistEntryCount(value: String) {
-    sharedContainer!.setObject(value, forKey: "customBlacklistEntryCount")
-  }
-  
-  // TODO: get etag for preload
-  static func getPreloadedBlacklistEtag() -> String {
-    return "temp"
-  }
-  
-  
-  static func getDefaultBlacklistEtag() -> String? {
-    if let value = sharedContainer!.objectForKey("defaultBlacklistEtag") as? String {
-      return value
-    } else {
-      return nil
-    }
-  }
-  
-  
-  static func setDefaultBlacklistEtag(value: String) {
-    sharedContainer!.setObject(value, forKey: "defaultBlacklistEtag")
-  }
-  
-  
-  static func deleteDefaultBlacklistEtag() {
-    sharedContainer!.removeObjectForKey("defaultBlacklistEtag")
-  }
-  
-  
-  static func getCustomBlacklistEtag() -> String? {
-    if let value = sharedContainer!.objectForKey("customBlacklistEtag") as? String {
-      return value
-    } else {
-      return nil
-    }
-  }
-  
-  
-  static func setCustomBlacklistEtag(value: String) {
-    sharedContainer!.setObject(value, forKey: "customBlacklistEtag")
-  }
-  
-  
-  static func deleteCustomBlacklistEtag() {
-    sharedContainer!.removeObjectForKey("customBlacklistEtag")
-  }
-  */
   
   static func getIsReloading() -> Bool {
     if let value = sharedContainer!.boolForKey("isReloading") as Bool? {
@@ -304,23 +185,26 @@ struct BlackholeList {
       }
       
       
-      let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
+      // let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
       
       if let candidateEtag = httpResp.allHeaderFields["Etag"] as? NSString {
-        if let currentEtag = defaults!.objectForKey("blacklistEtag") as? NSString {
+        if let currentEtag = currentBlacklist.getValueForKey("Etag") {
           if candidateEtag.isEqual(currentEtag) {
             result = ListUpdateStatus.NoUpdateRequired
             print("\n\nNo need to update - etags match\n\n")
           } else {
-            NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
+            candidateBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
+            // NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
             print("\n\nSetting default to \(hostsFile.absoluteString)\n\n")
           }
         } else {
-          NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
+          candidateBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
+          // NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
           print("\n\nNo existing etag - setting default to \(hostsFile.absoluteString)\n\n")
         }
       } else {
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
+        candidateBlacklist.removeValueForKey("Etag")
+        // NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
         print("\n\nDeleting etag")
       }
     })

@@ -15,80 +15,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection headerTitle="List of sites to block" id="J4X-AR-YNj">
+                            <tableViewSection headerTitle="Blocklist details" id="4Gh-7M-Fce">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RRx-60-FIP">
-                                        <rect key="frame" x="0.0" y="114" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RRx-60-FIP" id="9M1-Tg-fiX">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5YC-R6-MIq">
-                                                    <rect key="frame" x="14" y="6" width="386" height="31"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use custom blocklist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZW-z2-XLh" userLabel="useCustomBlocklistLabel">
-                                                            <rect key="frame" x="0.0" y="0.0" width="337" height="31"/>
-                                                            <accessibility key="accessibilityConfiguration" identifier="useCustomBlocklistLabel" label="useCustomBlocklistLabel"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ifx-Oo-NNS" userLabel="useCustomBlocklistSwitch">
-                                                            <rect key="frame" x="337" y="0.0" width="51" height="31"/>
-                                                            <accessibility key="accessibilityConfiguration" identifier="useCustomBlocklistSwitch" label="useCustomBlocklistSwitch"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="31" id="1Yl-iK-Cxn"/>
-                                                                <constraint firstAttribute="width" constant="49" id="5Dr-hY-hOM"/>
-                                                            </constraints>
-                                                        </switch>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="Ifx-Oo-NNS" secondAttribute="trailing" id="BQC-vl-RQj"/>
-                                                        <constraint firstItem="DZW-z2-XLh" firstAttribute="leading" secondItem="5YC-R6-MIq" secondAttribute="leading" id="QTR-oo-oV4"/>
-                                                    </constraints>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="5YC-R6-MIq" firstAttribute="centerY" secondItem="9M1-Tg-fiX" secondAttribute="centerY" id="FFg-oB-j6h"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="5YC-R6-MIq" secondAttribute="trailing" constant="6" id="hA3-MF-LKv"/>
-                                                <constraint firstItem="5YC-R6-MIq" firstAttribute="leading" secondItem="9M1-Tg-fiX" secondAttribute="leadingMargin" constant="6" id="zMw-jR-uor"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="98" id="var-Z7-YDi">
-                                        <rect key="frame" x="0.0" y="158" width="414" height="98"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="var-Z7-YDi" id="8i4-t6-vX9">
-                                            <rect key="frame" x="0.0" y="0.0" width="381" height="97"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="lU1-go-sLQ">
-                                        <rect key="frame" x="0.0" y="256" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU1-go-sLQ" id="HVb-hB-Pef">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bth-uq-Ehg" userLabel="reloadButton">
-                                                    <rect key="frame" x="14" y="7" width="71" height="30"/>
-                                                    <state key="normal" title="Reload list"/>
-                                                </button>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2Dz-Id-u8s" userLabel="activityIndicator">
-                                                    <rect key="frame" x="197" y="12" width="20" height="20"/>
-                                                </activityIndicatorView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="2Dz-Id-u8s" firstAttribute="centerX" secondItem="HVb-hB-Pef" secondAttribute="centerX" id="7kc-vZ-fPx"/>
-                                                <constraint firstItem="bth-uq-Ehg" firstAttribute="centerY" secondItem="HVb-hB-Pef" secondAttribute="centerY" id="F33-3u-AHR"/>
-                                                <constraint firstItem="2Dz-Id-u8s" firstAttribute="centerY" secondItem="HVb-hB-Pef" secondAttribute="centerY" id="kep-PG-khM"/>
-                                                <constraint firstItem="bth-uq-Ehg" firstAttribute="leading" secondItem="HVb-hB-Pef" secondAttribute="leadingMargin" constant="6" id="oRr-a1-GYL"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="MxV-9K-TXb">
-                                        <rect key="frame" x="0.0" y="300" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="114" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MxV-9K-TXb" id="LqN-VR-esj">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -104,7 +34,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hosts" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6j-Gq-pAg" userLabel="fileTypeLabel">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6j-Gq-pAg" userLabel="fileTypeLabel">
                                                             <rect key="frame" x="256" y="0.0" width="130" height="21"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="fileTypeLabel" label="fileTypeLabel"/>
                                                             <constraints>
@@ -129,7 +59,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3UB-JY-3Nv">
-                                        <rect key="frame" x="0.0" y="344" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="158" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3UB-JY-3Nv" id="CbB-B4-epK">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -145,7 +75,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3sJ-83-cUj" userLabel="entryCountLabel">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3sJ-83-cUj" userLabel="entryCountLabel">
                                                             <rect key="frame" x="256" y="0.0" width="130" height="21"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="entryCountLabel" label="entryCountLabel"/>
                                                             <constraints>
@@ -175,7 +105,7 @@
                                 <string key="footerTitle">Blocks not only all sites in the blocklist, but also all subdomains of those sites. This setting is unavailble when using custom JSON blocklists.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="q8Z-N6-lKf">
-                                        <rect key="frame" x="0.0" y="439" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="253" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8Z-N6-lKf" id="ETr-iS-UBK">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -215,10 +145,84 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Custom blocklist" id="J4X-AR-YNj">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RRx-60-FIP">
+                                        <rect key="frame" x="0.0" y="396" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RRx-60-FIP" id="9M1-Tg-fiX">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5YC-R6-MIq">
+                                                    <rect key="frame" x="14" y="6" width="386" height="31"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use custom blocklist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZW-z2-XLh" userLabel="useCustomBlocklistLabel">
+                                                            <rect key="frame" x="0.0" y="0.0" width="337" height="31"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="useCustomBlocklistLabel" label="useCustomBlocklistLabel"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ifx-Oo-NNS" userLabel="useCustomBlocklistSwitch">
+                                                            <rect key="frame" x="337" y="0.0" width="51" height="31"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="useCustomBlocklistSwitch" label="useCustomBlocklistSwitch"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="31" id="1Yl-iK-Cxn"/>
+                                                                <constraint firstAttribute="width" constant="49" id="5Dr-hY-hOM"/>
+                                                            </constraints>
+                                                        </switch>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="Ifx-Oo-NNS" secondAttribute="trailing" id="BQC-vl-RQj"/>
+                                                        <constraint firstItem="DZW-z2-XLh" firstAttribute="leading" secondItem="5YC-R6-MIq" secondAttribute="leading" id="QTR-oo-oV4"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="5YC-R6-MIq" firstAttribute="centerY" secondItem="9M1-Tg-fiX" secondAttribute="centerY" id="FFg-oB-j6h"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="5YC-R6-MIq" secondAttribute="trailing" constant="6" id="hA3-MF-LKv"/>
+                                                <constraint firstItem="5YC-R6-MIq" firstAttribute="leading" secondItem="9M1-Tg-fiX" secondAttribute="leadingMargin" constant="6" id="zMw-jR-uor"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="98" id="var-Z7-YDi">
+                                        <rect key="frame" x="0.0" y="440" width="414" height="98"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="var-Z7-YDi" id="8i4-t6-vX9">
+                                            <rect key="frame" x="0.0" y="0.0" width="381" height="97"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="lU1-go-sLQ">
+                                        <rect key="frame" x="0.0" y="538" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU1-go-sLQ" id="HVb-hB-Pef">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bth-uq-Ehg" userLabel="reloadButton">
+                                                    <rect key="frame" x="14" y="7" width="71" height="30"/>
+                                                    <state key="normal" title="Reload list"/>
+                                                </button>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2Dz-Id-u8s" userLabel="activityIndicator">
+                                                    <rect key="frame" x="197" y="12" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2Dz-Id-u8s" firstAttribute="centerX" secondItem="HVb-hB-Pef" secondAttribute="centerX" id="7kc-vZ-fPx"/>
+                                                <constraint firstItem="bth-uq-Ehg" firstAttribute="centerY" secondItem="HVb-hB-Pef" secondAttribute="centerY" id="F33-3u-AHR"/>
+                                                <constraint firstItem="2Dz-Id-u8s" firstAttribute="centerY" secondItem="HVb-hB-Pef" secondAttribute="centerY" id="kep-PG-khM"/>
+                                                <constraint firstItem="bth-uq-Ehg" firstAttribute="leading" secondItem="HVb-hB-Pef" secondAttribute="leadingMargin" constant="6" id="oRr-a1-GYL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="Rit-wg-5VT" userLabel="Reset to defaults">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="dTy-Rn-Cmt">
-                                        <rect key="frame" x="0.0" y="560" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="618" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dTy-Rn-Cmt" id="jam-vr-JPW">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
