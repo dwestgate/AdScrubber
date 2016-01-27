@@ -193,17 +193,17 @@ struct BlackholeList {
             result = ListUpdateStatus.NoUpdateRequired
             print("\n\nNo need to update - etags match\n\n")
           } else {
-            candidateBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
+            currentBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
             // NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
-            print("\n\nSetting default to \(hostsFile.absoluteString)\n\n")
+            print("\n\nSetting currentBlacklist Etag to \(hostsFile.absoluteString)\n\n")
           }
         } else {
-          candidateBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
+          currentBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
           // NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
           print("\n\nNo existing etag - setting default to \(hostsFile.absoluteString)\n\n")
         }
       } else {
-        candidateBlacklist.removeValueForKey("Etag")
+        currentBlacklist.removeValueForKey("Etag")
         // NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
         print("\n\nDeleting etag")
       }

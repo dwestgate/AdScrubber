@@ -108,16 +108,29 @@ class ViewController: UITableViewController {
         try self.refreshBlockList()
       } catch ListUpdateStatus.NotHTTPS {
         self.showMessageWithStatus(.NotHTTPS)
+        dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.disableCustomBlocklist()
+          self.refreshControls()
+        })
+        
         /* dispatch_async(self.GCDMainQueue, { () -> Void in
         self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
         })*/
       } catch ListUpdateStatus.InvalidURL {
         self.showMessageWithStatus(.InvalidURL)
+        dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.disableCustomBlocklist()
+          self.refreshControls()
+        })
         /*dispatch_async(self.GCDMainQueue, { () -> Void in
         self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
         })*/
       } catch {
         self.showMessageWithStatus(.UnexpectedDownloadError)
+        dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.disableCustomBlocklist()
+          self.refreshControls()
+        })
         /*dispatch_async(self.GCDMainQueue, { () -> Void in
         self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
         })*/
@@ -145,6 +158,12 @@ class ViewController: UITableViewController {
       defer {
         self.refreshControls()
         self.showMessageWithStatus(updateStatus)
+        if (updateStatus != .UpdateSuccessful && updateStatus != .TooManyEntries) {
+          dispatch_async(self.GCDMainQueue, { () -> Void in
+            self.disableCustomBlocklist()
+            self.refreshControls()
+          })
+        }
       }
       
       guard updateStatus == ListUpdateStatus.UpdateSuccessful else {
@@ -249,6 +268,8 @@ class ViewController: UITableViewController {
     let defaultFileType = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
     let defaultEntryCount = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")
     let defaultEtag = BlackholeList.preloadedBlacklist.getValueForKey("Etag")
+    
+    BlackholeList.setIsUseCustomBlocklistOn(false)
     
     BlackholeList.currentBlacklist.setValueWithKey(defaultURL!, forKey: "URL")
     BlackholeList.currentBlacklist.setValueWithKey(defaultFileType!, forKey: "FileType")
