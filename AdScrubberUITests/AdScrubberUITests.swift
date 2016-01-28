@@ -11,6 +11,7 @@ import XCTest
 class AdScrubberUITests: XCTestCase {
   
   let app = XCUIApplication()
+  var adScrubberButton: XCUIElement!
   var table: XCUIElementQuery!
   var blacklistURLTextView: XCUIElement!
   var blocklistFileTypeLabel: XCUIElement!
@@ -19,8 +20,10 @@ class AdScrubberUITests: XCTestCase {
   var entryCountLabel: XCUIElement!
   var reloadButton: XCUIElement!
   var blockSubdomainsLabel: XCUIElement!
-  var blocksubdomainsswitchSwitch: XCUIElement!
+  var blockSubdomainsswitchSwitch: XCUIElement!
+  var useCustomBlocklistSwitch: XCUIElement!
   var restoreDefaultSettingsButton: XCUIElement!
+  var cancelButton: XCUIElement!
   
   // MARK: - This method is called before the invocation of each test method in the class.
   override func setUp() {
@@ -33,6 +36,7 @@ class AdScrubberUITests: XCTestCase {
     // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
     app.launch()
     table = app.tables
+    adScrubberButton = app.navigationBars["AdScrubber.blacklistURLEntryTableView"].buttons["Ad Scrubber"]
     blacklistURLTextView = table.textViews["blacklistURL"]
     blocklistFileTypeLabel = table.staticTexts["blocklistFileTypeLabel"]
     fileTypeLabel = table.staticTexts["fileTypeLabel"]
@@ -40,8 +44,10 @@ class AdScrubberUITests: XCTestCase {
     entryCountLabel = table.staticTexts["entryCountLabel"]
     reloadButton = app.buttons["reloadButton"]
     blockSubdomainsLabel = table.staticTexts["blockSubdomainsLabel"]
-    blocksubdomainsswitchSwitch = table.switches["blockSubdomainsSwitch"]
+    blockSubdomainsswitchSwitch = table.switches["blockSubdomainsSwitch"]
+    useCustomBlocklistSwitch = table.switches["useCustomBlocklistSwitch"]
     restoreDefaultSettingsButton = app.buttons["restoreDefaultSettingsButton"]
+    cancelButton = table.buttons["cancelButton"]
   }
   
   
@@ -56,9 +62,6 @@ class AdScrubberUITests: XCTestCase {
     let expectedMessage = "Ad Scrubber blocklist successfully updated"
     
     self.setAlertExpectationWithMessage(expectedMessage)
-    
-    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
-    app.alerts["Ad Scrubber Blocklist Reload"].collectionViews.buttons["OK"].tap()
     loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
@@ -73,7 +76,7 @@ class AdScrubberUITests: XCTestCase {
     
     loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
     app.alerts["Ad Scrubber Blocklist Reload"].collectionViews.buttons["OK"].tap()
-    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
+    reloadButton.tap()
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
   }
@@ -133,8 +136,6 @@ class AdScrubberUITests: XCTestCase {
     
     self.setAlertExpectationWithMessage(expectedMessage)
     
-    loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockCNN")
-    app.alerts["Ad Scrubber Blocklist Reload"].collectionViews.buttons["OK"].tap()
     loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-empty")
     
     self.waitForExpectationsWithTimeout(10, handler: nil)
@@ -148,14 +149,14 @@ class AdScrubberUITests: XCTestCase {
   
   
   private func loadFile(text: String) {
-    
-    blacklistURLTextView.pressForDuration(1.55);
-    app.menus.menuItems["Select All"].tap()
+    restoreDefaultSettingsButton.tap()
+    blacklistURLTextView.tap()
+    cancelButton.tap()
     blacklistURLTextView.typeText(text)
-    // blocklistFileTypeLabel.tap()
-    reloadButton.tap()
+    adScrubberButton.tap()
+    useCustomBlocklistSwitch.tap()
   }
-
+  
   
   private func setAlertExpectationWithMessage(message: String) {
     let exists = NSPredicate(format: "exists == 1")

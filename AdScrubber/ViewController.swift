@@ -69,6 +69,7 @@ class ViewController: UITableViewController {
   
   
   @IBAction func blockSubdomainsSwitchValueChanged(sender: AnyObject) {
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     BlackholeList.setIsBlockingSubdomains(blockSubdomainsSwitch.on)
     
     SFContentBlockerManager.reloadContentBlockerWithIdentifier(
@@ -78,7 +79,7 @@ class ViewController: UITableViewController {
   
   
   @IBAction func useCustomBlocklistSwitchValueChanged(sender: AnyObject) {
-    
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     BlackholeList.setIsUseCustomBlocklistOn(useCustomBlocklistSwitch.on)
     print("useCustomBLocklistSwitchOn = \(useCustomBlocklistSwitch.on)")
     if (useCustomBlocklistSwitch.on) {
@@ -92,6 +93,7 @@ class ViewController: UITableViewController {
   
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     BlackholeList.setIsUseCustomBlocklistOn(false)
     disableCustomBlocklist()
     refreshControls()
@@ -99,7 +101,7 @@ class ViewController: UITableViewController {
   
   
   @IBAction func reloadButtonPressed(sender: AnyObject) {
-    
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     activityIndicator.startAnimating()
     
     dispatch_async(GCDUserInteractiveQueue, { () -> Void in
@@ -140,13 +142,14 @@ class ViewController: UITableViewController {
   
   
   @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     setDefaultValues()
     refreshControls()
   }
   
   
   func refreshBlockList() throws {
-    
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     guard blacklistURLTextView.text.lowercaseString.hasPrefix("https://") else {
       throw ListUpdateStatus.NotHTTPS
     }
@@ -196,7 +199,7 @@ class ViewController: UITableViewController {
   
   
   private func showMessageWithStatus(status: ListUpdateStatus) {
-    
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     dispatch_async(GCDMainQueue, { () -> Void in
       self.activityIndicator.stopAnimating()
       
@@ -209,11 +212,12 @@ class ViewController: UITableViewController {
   
   
   private func refreshControls() {
-    
-    print("\n\nType of list        : \(BlackholeList.getDownloadedBlacklistType())\n")
-    print("Using custom blocklist  : \(BlackholeList.getIsUseCustomBlocklistOn())\n")
-    print("preloaded URL       : \(BlackholeList.preloadedBlacklist.getValueForKey("URL"))")
-    print("preloaded FileType  : \(BlackholeList.preloadedBlacklist.getValueForKey("FileType"))")
+    print("\n>>> Entering: \(__FUNCTION__) <<<")
+    print("Type of list        : \(BlackholeList.getDownloadedBlacklistType())")
+    print("Using custom blocklist  : \(BlackholeList.getIsUseCustomBlocklistOn())")
+    print("Blocking subdomains     : \(BlackholeList.getIsBlockingSubdomains())\n")
+    print("preloaded URL           : \(BlackholeList.preloadedBlacklist.getValueForKey("URL"))")
+    print("preloaded FileType      : \(BlackholeList.preloadedBlacklist.getValueForKey("FileType"))")
     print("preloaded EntryCount: \(BlackholeList.preloadedBlacklist.getValueForKey("EntryCount"))")
     print("preloaded Etag: \(BlackholeList.preloadedBlacklist.getValueForKey("Etag"))")
     print("current URL          : \(BlackholeList.currentBlacklist.getValueForKey("URL"))")
@@ -247,7 +251,6 @@ class ViewController: UITableViewController {
         blockSubdomainsSwitch.enabled = false
         blockSubdomainsLabel.enabled = false
       } else {
-        BlackholeList.setIsBlockingSubdomains(true)
         blockSubdomainsSwitch.setOn(true, animated: true)
         blockSubdomainsSwitch.enabled = true
         blockSubdomainsLabel.enabled = true
@@ -264,6 +267,7 @@ class ViewController: UITableViewController {
   
   
   private func disableCustomBlocklist() {
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let defaultURL = BlackholeList.preloadedBlacklist.getValueForKey("URL")
     let defaultFileType = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
     let defaultEntryCount = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")
@@ -283,6 +287,7 @@ class ViewController: UITableViewController {
 
 
   private func setDefaultValues() {
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let defaultURL = BlackholeList.preloadedBlacklist.getValueForKey("URL")
     let defaultFileType = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
     let defaultEntryCount = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")
