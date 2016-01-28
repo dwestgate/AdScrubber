@@ -3,7 +3,7 @@
 //  AdScrubber
 //
 //  Created by David Westgate on 12/31/15.
-//  Copyright © 2015 Refabricants. All rights reserved.
+//  Copyright © 2016 Refabricants. All rights reserved.
 //
 
 import Foundation
@@ -65,6 +65,10 @@ class ViewController: UITableViewController {
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
+  }
+  
+  
+  @IBAction func unwind(unwindSegue: UIStoryboardSegue) {
   }
   
   

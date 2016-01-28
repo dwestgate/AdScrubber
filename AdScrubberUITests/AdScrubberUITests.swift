@@ -3,7 +3,7 @@
 //  AdScrubberUITests
 //
 //  Created by David Westgate on 11/23/15.
-//  Copyright © 2015 Refabricants. All rights reserved.
+//  Copyright © 2016 Refabricants. All rights reserved.
 //
 
 import XCTest
@@ -29,14 +29,11 @@ class AdScrubberUITests: XCTestCase {
   override func setUp() {
     super.setUp()
     
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-    
-    // In UI tests it is usually best to stop immediately when a failure occurs.
     continueAfterFailure = false
-    // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
+
     app.launch()
     table = app.tables
-    adScrubberButton = app.navigationBars["AdScrubber.blacklistURLEntryTableView"].buttons["Ad Scrubber"]
+    adScrubberButton = app.navigationBars["AdScrubber.blacklistURLView"].buttons["Ad Scrubber"]
     blacklistURLTextView = table.textViews["blacklistURL"]
     blocklistFileTypeLabel = table.staticTexts["blocklistFileTypeLabel"]
     fileTypeLabel = table.staticTexts["fileTypeLabel"]
@@ -52,7 +49,6 @@ class AdScrubberUITests: XCTestCase {
   
   
   override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     super.tearDown()
   }
   

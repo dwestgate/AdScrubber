@@ -3,13 +3,10 @@
 //  AdScrubber
 //
 //  Created by David Westgate on 12/29/15.
-//  Copyright © 2015 Refabricants. All rights reserved.
+//  Copyright © 2016 Refabricants. All rights reserved.
 //
 //
 // TODO: Animation stops when resuming
-// TODO: Fix Block subdomains blocking description
-// TODO: Have "Block subdomains" text go grey when it is unavailable
-// TODO: Dismiss keyboard when "Reload list" is pressed
 // TODO: Have "Reload list" change to "Load list" when there is a change to list of sites blocked
 // TODO: Add a check box: "Use custom list"
 //

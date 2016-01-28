@@ -3,7 +3,7 @@
 //  AdScrubberTests
 //
 //  Created by David Westgate on 11/23/15.
-//  Copyright © 2015 Refabricants. All rights reserved.
+//  Copyright © 2016 Refabricants. All rights reserved.
 //
 
 import XCTest

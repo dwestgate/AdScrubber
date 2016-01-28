@@ -1,5 +1,5 @@
 //
-//  blacklistURLEntryTableViewController.swift
+//  blacklistURLViewController.swift
 //  AdScrubber
 //
 //  Created by David Westgate on 1/18/16.
@@ -28,7 +28,7 @@ view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "endEditi
 
 import UIKit
 
-class blacklistURLEntryTableViewController: UITableViewController, UITextViewDelegate {
+class blacklistURLViewController: UITableViewController, UITextViewDelegate {
   
   var incumbantBlacklistURL = BlackholeList.displayedBlacklist.getValueForKey("URL")
   
@@ -50,20 +50,22 @@ class blacklistURLEntryTableViewController: UITableViewController, UITextViewDel
     // self.navigationItem.rightBarButtonItem = self.editButtonItem()
   }
   
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    print("We're here")
+    return true
+  }
+
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
   
   // MARK: - Table view data source
-  
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    // #warning Incomplete implementation, return the number of sections
     return 1
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    // #warning Incomplete implementation, return the number of rows
     return 1
   }
 
@@ -88,6 +90,11 @@ class blacklistURLEntryTableViewController: UITableViewController, UITextViewDel
   
   // kudos to: http://stackoverflow.com/questions/27652227/text-view-placeholder-swift
   func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    
+    guard (text != "\n") else {
+      performSegueWithIdentifier("unwindToViewController", sender: nil)
+      return false
+    }
     
     let t: NSString = textView.text
     let updatedText = t.stringByReplacingCharactersInRange(range, withString:text)
