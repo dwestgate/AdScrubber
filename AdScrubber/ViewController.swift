@@ -118,28 +118,18 @@ class ViewController: UITableViewController {
           self.disableCustomBlocklist()
           self.refreshControls()
         })
-        
-        /* dispatch_async(self.GCDMainQueue, { () -> Void in
-        self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
-        })*/
       } catch ListUpdateStatus.InvalidURL {
         self.showMessageWithStatus(.InvalidURL)
         dispatch_async(self.GCDMainQueue, { () -> Void in
           self.disableCustomBlocklist()
           self.refreshControls()
         })
-        /*dispatch_async(self.GCDMainQueue, { () -> Void in
-        self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
-        })*/
       } catch {
         self.showMessageWithStatus(.UnexpectedDownloadError)
         dispatch_async(self.GCDMainQueue, { () -> Void in
           self.disableCustomBlocklist()
           self.refreshControls()
         })
-        /*dispatch_async(self.GCDMainQueue, { () -> Void in
-        self.blacklistURLTextView.text = BlackholeList.getBlacklistURL()
-        })*/
       }
     });
   }

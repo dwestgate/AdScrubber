@@ -101,11 +101,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Aggressiveness" id="4t3-sJ-nVq">
-                                <string key="footerTitle">Blocks not only all sites in the blocklist, but also all subdomains of those sites. This setting is unavailble when using custom JSON blocklists.</string>
+                            <tableViewSection footerTitle="Blocks all subdomains of sites on the blocklist when enabled. Setting is unavailble when using custom JSON blocklists." id="4t3-sJ-nVq">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="q8Z-N6-lKf">
-                                        <rect key="frame" x="0.0" y="253" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="238" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8Z-N6-lKf" id="ETr-iS-UBK">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -148,7 +147,7 @@
                             <tableViewSection headerTitle="Custom blocklist" id="J4X-AR-YNj">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RRx-60-FIP">
-                                        <rect key="frame" x="0.0" y="396" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="365" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RRx-60-FIP" id="9M1-Tg-fiX">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -187,7 +186,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="88" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="98" id="var-Z7-YDi">
-                                        <rect key="frame" x="0.0" y="440" width="414" height="98"/>
+                                        <rect key="frame" x="0.0" y="409" width="414" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="var-Z7-YDi" id="8i4-t6-vX9">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="97"/>
@@ -195,7 +194,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="lU1-go-sLQ">
-                                        <rect key="frame" x="0.0" y="538" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="507" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU1-go-sLQ" id="HVb-hB-Pef">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -222,7 +221,7 @@
                             <tableViewSection id="Rit-wg-5VT" userLabel="Reset to defaults">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="dTy-Rn-Cmt">
-                                        <rect key="frame" x="0.0" y="618" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="587" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dTy-Rn-Cmt" id="jam-vr-JPW">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>

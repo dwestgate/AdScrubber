@@ -6,10 +6,6 @@
 //  Copyright © 2016 Refabricants. All rights reserved.
 //
 //
-// TODO: Animation stops when resuming
-// TODO: Have "Reload list" change to "Load list" when there is a change to list of sites blocked
-// TODO: Add a check box: "Use custom list"
-//
 /*
 BlackholeList                   Struct connected to storage
 
@@ -53,10 +49,7 @@ struct BlackholeList {
     }
     
     func getValueForKey(key: String) -> String? {
-      // return sharedContainer!.objectForKey("\(name)URL") as? String
-      // NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
-      // TODO: Use defaultcontainer for most of these?
-      if let value = sharedContainer!.objectForKey("\(name)Blacklist\(key)") as? String {
+      if let value = defaultContainer.objectForKey("\(name)Blacklist\(key)") as? String {
         return value
       } else {
         return nil
@@ -64,11 +57,11 @@ struct BlackholeList {
     }
     
     func setValueWithKey(value: String, forKey: String) {
-      sharedContainer!.setObject(value, forKey: "\(name)Blacklist\(forKey)")
+      defaultContainer.setObject(value, forKey: "\(name)Blacklist\(forKey)")
     }
     
     func removeValueForKey(key: String) {
-      sharedContainer!.removeObjectForKey("\(name)\(key)")
+      defaultContainer.removeObjectForKey("\(name)\(key)")
     }
     
     func removeAllValues() {
@@ -80,9 +73,10 @@ struct BlackholeList {
     
   }
   
-  // Set preloadedBlacklist etag
   static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
-  static var preloadedBlacklist = Blacklist(withListName: "preloaded", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in", entryCount: "27137", etag: "aaaa")
+  static let defaultContainer = NSUserDefaults.standardUserDefaults()
+  
+  static var preloadedBlacklist = Blacklist(withListName: "preloaded", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in", entryCount: "27167", etag: "9011c48902c695e9a92b259a859f971f7a9a5f75")
   static var currentBlacklist = Blacklist(withListName: "current")
   static var displayedBlacklist = Blacklist(withListName: "displayed")
   static var candidateBlacklist = Blacklist(withListName: "candidate")
@@ -181,27 +175,26 @@ struct BlackholeList {
         return
       }
       
-      
-      // let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
-      
       if let candidateEtag = httpResp.allHeaderFields["Etag"] as? NSString {
         if let currentEtag = currentBlacklist.getValueForKey("Etag") {
           if candidateEtag.isEqual(currentEtag) {
             result = ListUpdateStatus.NoUpdateRequired
-            print("\n\nNo need to update - etags match\n\n")
+            print("\n\nNo need to update - etags match: \(candidateEtag) == \(currentEtag)\n\n")
+            print("  candidateEtag: \(candidateEtag)")
+            print("  currentEtag:   \(currentEtag)")
           } else {
             currentBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
-            // NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
             print("\n\nSetting currentBlacklist Etag to \(hostsFile.absoluteString)\n\n")
+            print("  candidateEtag: \(candidateEtag)")
+            print("  currentEtag:   \(currentEtag)")
           }
         } else {
           currentBlacklist.setValueWithKey(candidateEtag as String, forKey: "Etag")
-          // NSUserDefaults.standardUserDefaults().setObject(candidateEtag, forKey: "candidateEtag")
           print("\n\nNo existing etag - setting default to \(hostsFile.absoluteString)\n\n")
+          print("  candidateEtag: \(candidateEtag)")
         }
       } else {
         currentBlacklist.removeValueForKey("Etag")
-        // NSUserDefaults.standardUserDefaults().removeObjectForKey("candidateEtag")
         print("\n\nDeleting etag")
       }
     })
@@ -279,7 +272,6 @@ struct BlackholeList {
         blocklistFileType = "JSON"
       }
       
-      
     } else {
       
       let validFirstChars = "01234567890abcdef"
@@ -308,12 +300,13 @@ struct BlackholeList {
         blockerListStream.write("]}}]")
         blockerListStream.close()
         
-        // wildcardBlockerListStream.write("]")
         wildcardBlockerListStream.write("]}}]")
         wildcardBlockerListStream.close()
       }
       
-      var firstPartOfString = "[{\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\".*\",\"if-domain\":["
+      var firstPartOfString = "[{\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\".*\",\"resource-type\":[\"script\"],\"load-type\":[\"third-party\"]}},"
+        
+      firstPartOfString += "{\"action\":{\"type\":\"block\"},\"trigger\":{\"url-filter\":\".*\",\"if-domain\":["
       
       while let line = sr.nextLine() {
         
