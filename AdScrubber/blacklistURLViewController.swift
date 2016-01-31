@@ -5,26 +5,6 @@
 //  Created by David Westgate on 1/18/16.
 //  Copyright © 2016 Refabricants. All rights reserved.
 //
-/*
-blacklistURLTextView.delegate = self
-blacklistURLTextView.returnKeyType = .Done
-
-func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-if (text == "\n") {
-textView.resignFirstResponder()
-self.reloadButtonPressed(self)
-}
-return true
-}
-
-
-func endEditing() {
-view.endEditing(true)
-}
-
-// in viewdidload
-view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "endEditing"))
-*/
 
 import UIKit
 
@@ -41,13 +21,7 @@ class blacklistURLViewController: UITableViewController, UITextViewDelegate {
     blacklistURLTextView.delegate = self
     blacklistURLTextView.text = incumbantBlacklistURL
     blacklistURLTextView.becomeFirstResponder()
-    
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = false
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -57,17 +31,7 @@ class blacklistURLViewController: UITableViewController, UITextViewDelegate {
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
-  /*
-  // MARK: - Table view data source
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 1
-  }
-  
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
-  }*/
 
   
   @IBAction func cancelButtonTouchUpInside(sender: AnyObject) {

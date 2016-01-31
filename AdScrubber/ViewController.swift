@@ -3,15 +3,34 @@
 //  AdScrubber
 //
 //  Created by David Westgate on 12/31/15.
-//  Copyright © 2016 Refabricants. All rights reserved.
+//  Copyright © 2016 David Westgate
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions: The above copyright
+// notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE
 
 import Foundation
 import UIKit
 import SafariServices
 
+/// Controls the user interface for ineracting with the Ad Scrubber blocklist
 class ViewController: UITableViewController {
   
+  // MARK: -
+  // MARK: Control Outlets
   @IBOutlet weak var useCustomBlocklistLabel: UILabel!
   @IBOutlet weak var useCustomBlocklistSwitch: UISwitch!
   @IBOutlet weak var blacklistURLTextView: UITextView!
@@ -24,28 +43,33 @@ class ViewController: UITableViewController {
   @IBOutlet weak var reloadButton: UIButton!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
-  
-  var GCDMainQueue: dispatch_queue_t {
+  // MARK: Variables
+  /// Convenience var for referencing the main queue
+  private var GCDMainQueue: dispatch_queue_t {
     return dispatch_get_main_queue()
   }
   
-  var GCDUserInteractiveQueue: dispatch_queue_t {
+  /// Convenience var for referencing the high priority queue
+  private var GCDUserInteractiveQueue: dispatch_queue_t {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
   }
   
-  var GCDUserInitiatedQueue: dispatch_queue_t {
+  /// Convenience var for referencing the default priority queue
+  private var GCDUserInitiatedQueue: dispatch_queue_t {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
   }
   
-  var GCDUtilityQueue: dispatch_queue_t {
+  /// Convenience var for referencing the low priority queue
+  private var GCDUtilityQueue: dispatch_queue_t {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)
   }
   
-  var GCDBackgroundQueue: dispatch_queue_t {
+  /// Convenience var for referencing the background queue
+  private var GCDBackgroundQueue: dispatch_queue_t {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
   }
   
-  
+  // MARK: Overridden functions
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -68,6 +92,15 @@ class ViewController: UITableViewController {
   }
   
   
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
+    BlackholeList.setIsUseCustomBlocklistOn(false)
+    disableCustomBlocklist()
+    refreshControls()
+  }
+  
+  
+  // MARK: Control Actions
   @IBAction func unwind(unwindSegue: UIStoryboardSegue) {
   }
   
@@ -93,14 +126,6 @@ class ViewController: UITableViewController {
       refreshControls()
     }
     
-  }
-  
-  
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
-    BlackholeList.setIsUseCustomBlocklistOn(false)
-    disableCustomBlocklist()
-    refreshControls()
   }
   
   
@@ -142,7 +167,11 @@ class ViewController: UITableViewController {
   }
   
   
-  func refreshBlockList() throws {
+  // MARK: Private Functions
+  /**
+  
+  */
+  private func refreshBlockList() throws {
     print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     guard blacklistURLTextView.text.lowercaseString.hasPrefix("https://") else {
       throw ListUpdateStatus.NotHTTPS
@@ -155,7 +184,7 @@ class ViewController: UITableViewController {
       defer {
         self.refreshControls()
         self.showMessageWithStatus(updateStatus)
-        if (updateStatus != .UpdateSuccessful && updateStatus != .TooManyEntries) {
+        if (updateStatus != .UpdateSuccessful && updateStatus != .TooManyEntries && updateStatus != .NoUpdateRequired) {
           dispatch_async(self.GCDMainQueue, { () -> Void in
             self.disableCustomBlocklist()
             self.refreshControls()

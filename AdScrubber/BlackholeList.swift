@@ -2,11 +2,32 @@
 //  BlackholeList.swift
 //  AdScrubber
 //
-//  Created by David Westgate on 12/29/15.
-//  Copyright © 2016 Refabricants. All rights reserved.
+//  Created by David Westgate on 12/31/15.
+//  Copyright © 2016 David Westgate
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions: The above copyright
+// notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE
 /*
+
+blacklist = logical idea of list of sites to block
+blocklist = JSON formatted ContentBlocker blacklist
+
+All blocklists are blacklists, but not all blacklists are blocklists.
+
 BlackholeList                   Struct connected to storage
 
 sharedContainer                 "com.refabricants.adscrubber"
@@ -18,18 +39,43 @@ blacklistEtag                   the
 
 */
 
-
-
 import Foundation
 import SwiftyJSON
 import SafariServices
 
-
+/// Provides functions for downloading and creating JSON ContentBlocker lists
 struct BlackholeList {
   
+  // MARK: -
+  // MARK: Variables
+  /// Convenience var for accessing group.com.refabricants.adscrubber
+  static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
+  
+  /// Convenience var for accessing the default container
+  static let defaultContainer = NSUserDefaults.standardUserDefaults()
+  
+  /// Metadata for the bundled ContentBlocker blocklist
+  static var preloadedBlacklist = Blacklist(withListName: "preloaded", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in", entryCount: "27167", etag: "9011c48902c695e9a92b259a859f971f7a9a5f75")
+  
+  /// Metadata for the currently loaded custom blocklist
+  static var currentBlacklist = Blacklist(withListName: "current")
+  
+  /// Metadata for the blacklist stored in the TextView
+  static var displayedBlacklist = Blacklist(withListName: "displayed")
+  
+  /// Metadata for the blacklist stored in the TextView but not yet validated or loaded
+  static var candidateBlacklist = Blacklist(withListName: "candidate")
+  
+  // MARK: Metadata Handling
+  /// Stores metadata associated with a blacklist
   struct Blacklist {
+    
+    /// The name of the blacklist
     private let name: String
     
+    /**
+        Writes metadata for a new blacklist to the default store
+    */
     init(withListName value: String, url: String, fileType: String, entryCount: String, etag: String) {
       name = value
       setValueWithKey(url, forKey: "URL")
@@ -73,13 +119,6 @@ struct BlackholeList {
     
   }
   
-  static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
-  static let defaultContainer = NSUserDefaults.standardUserDefaults()
-  
-  static var preloadedBlacklist = Blacklist(withListName: "preloaded", url: "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts", fileType: "built-in", entryCount: "27167", etag: "9011c48902c695e9a92b259a859f971f7a9a5f75")
-  static var currentBlacklist = Blacklist(withListName: "current")
-  static var displayedBlacklist = Blacklist(withListName: "displayed")
-  static var candidateBlacklist = Blacklist(withListName: "candidate")
   
   static func getIsUseCustomBlocklistOn() -> Bool {
     if let value = sharedContainer!.boolForKey("isUseCustomBlocklistOn") as Bool? {
