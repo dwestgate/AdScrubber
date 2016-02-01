@@ -23,6 +23,8 @@
 		C46AC4931C03FB87008039D7 /* AdScrubberUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4921C03FB87008039D7 /* AdScrubberUITests.swift */; };
 		C46AC4A91C03FBD6008039D7 /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46AC4A81C03FBD6008039D7 /* ActionRequestHandler.swift */; };
 		C46AC4AD1C03FBD6008039D7 /* ContentBlocker.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C46F594B1C5EBA9200E0F596 /* FastlaneSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46F594A1C5EBA9200E0F596 /* FastlaneSnapshot.swift */; };
+		C46F59571C5EC05600E0F596 /* ShapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46F59561C5EC05600E0F596 /* ShapshotHelper.swift */; };
 		C487309E1C35BE9B000ACBC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C487309D1C35BE9B000ACBC5 /* ViewController.swift */; };
 		C4E1BEBC1C31D10C00FB01D8 /* BlackholeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1BEBB1C31D10C00FB01D8 /* BlackholeList.swift */; };
 		C4E1BEBE1C32C22D00FB01D8 /* ListUpdateStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1BEBD1C32C22D00FB01D8 /* ListUpdateStatus.swift */; };
@@ -49,6 +51,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C46AC4A31C03FBD6008039D7;
 			remoteInfo = ContentBlocker;
+		};
+		C46F594D1C5EBA9200E0F596 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C46AC4671C03FB87008039D7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C46AC46E1C03FB87008039D7;
+			remoteInfo = AdScrubber;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -93,6 +102,10 @@
 		C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C46AC4A81C03FBD6008039D7 /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
 		C46AC4AA1C03FBD6008039D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C46F59481C5EBA9200E0F596 /* FastlaneSnapshot.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FastlaneSnapshot.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C46F594A1C5EBA9200E0F596 /* FastlaneSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastlaneSnapshot.swift; sourceTree = "<group>"; };
+		C46F594C1C5EBA9200E0F596 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C46F59561C5EC05600E0F596 /* ShapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapshotHelper.swift; sourceTree = "<group>"; };
 		C487309D1C35BE9B000ACBC5 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C4E1BEBB1C31D10C00FB01D8 /* BlackholeList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlackholeList.swift; sourceTree = "<group>"; };
 		C4E1BEBD1C32C22D00FB01D8 /* ListUpdateStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListUpdateStatus.swift; sourceTree = "<group>"; };
@@ -123,6 +136,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C46AC4A11C03FBD6008039D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46F59451C5EBA9200E0F596 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -201,6 +221,7 @@
 			children = (
 				C463082F1C4A717F00C9A975 /* AdScrubber */,
 				C46AC4A51C03FBD6008039D7 /* ContentBlocker */,
+				C46F59491C5EBA9200E0F596 /* FastlaneSnapshot */,
 				C46AC4701C03FB87008039D7 /* Products */,
 				C46308311C4A720F00C9A975 /* AdScrubberUITests */,
 				C46308301C4A71D900C9A975 /* AdScrubberTests */,
@@ -216,6 +237,7 @@
 				C46AC4831C03FB87008039D7 /* AdScrubber.xctest */,
 				C46AC48E1C03FB87008039D7 /* AdScrubber.xctest */,
 				C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */,
+				C46F59481C5EBA9200E0F596 /* FastlaneSnapshot.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -230,6 +252,16 @@
 				C46AC4AA1C03FBD6008039D7 /* Info.plist */,
 			);
 			path = ContentBlocker;
+			sourceTree = "<group>";
+		};
+		C46F59491C5EBA9200E0F596 /* FastlaneSnapshot */ = {
+			isa = PBXGroup;
+			children = (
+				C46F59561C5EC05600E0F596 /* ShapshotHelper.swift */,
+				C46F594A1C5EBA9200E0F596 /* FastlaneSnapshot.swift */,
+				C46F594C1C5EBA9200E0F596 /* Info.plist */,
+			);
+			path = FastlaneSnapshot;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,14 +342,32 @@
 			productReference = C46AC4A41C03FBD6008039D7 /* ContentBlocker.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		C46F59471C5EBA9200E0F596 /* FastlaneSnapshot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C46F594F1C5EBA9200E0F596 /* Build configuration list for PBXNativeTarget "FastlaneSnapshot" */;
+			buildPhases = (
+				C46F59441C5EBA9200E0F596 /* Sources */,
+				C46F59451C5EBA9200E0F596 /* Frameworks */,
+				C46F59461C5EBA9200E0F596 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C46F594E1C5EBA9200E0F596 /* PBXTargetDependency */,
+			);
+			name = FastlaneSnapshot;
+			productName = FastlaneSnapshot;
+			productReference = C46F59481C5EBA9200E0F596 /* FastlaneSnapshot.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C46AC4671C03FB87008039D7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0710;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Refabricants;
 				TargetAttributes = {
 					C46AC46E1C03FB87008039D7 = {
@@ -346,6 +396,10 @@
 							};
 						};
 					};
+					C46F59471C5EBA9200E0F596 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = C46AC46E1C03FB87008039D7;
+					};
 				};
 			};
 			buildConfigurationList = C46AC46A1C03FB87008039D7 /* Build configuration list for PBXProject "AdScrubber" */;
@@ -365,6 +419,7 @@
 				C46AC4821C03FB87008039D7 /* AdScrubberTests */,
 				C46AC48D1C03FB87008039D7 /* AdScrubberUITests */,
 				C46AC4A31C03FBD6008039D7 /* ContentBlocker */,
+				C46F59471C5EBA9200E0F596 /* FastlaneSnapshot */,
 			);
 		};
 /* End PBXProject section */
@@ -402,6 +457,13 @@
 			files = (
 				C44F5E5B1C4C4B7100A0849A /* wildcardBlockerList.json in Resources */,
 				C4650F6F1C132BAB00F4C1B9 /* blockerList.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C46F59461C5EBA9200E0F596 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +556,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C46F59441C5EBA9200E0F596 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C46F594B1C5EBA9200E0F596 /* FastlaneSnapshot.swift in Sources */,
+				C46F59571C5EC05600E0F596 /* ShapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -511,6 +582,11 @@
 			isa = PBXTargetDependency;
 			target = C46AC4A31C03FBD6008039D7 /* ContentBlocker */;
 			targetProxy = C46AC4AB1C03FBD6008039D7 /* PBXContainerItemProxy */;
+		};
+		C46F594E1C5EBA9200E0F596 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C46AC46E1C03FB87008039D7 /* AdScrubber */;
+			targetProxy = C46F594D1C5EBA9200E0F596 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -577,6 +653,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -616,6 +693,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
@@ -636,6 +714,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubber;
 				PRODUCT_NAME = AdScrubber;
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -656,6 +735,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubber;
 				PRODUCT_NAME = AdScrubber;
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
@@ -737,6 +817,30 @@
 			};
 			name = Release;
 		};
+		C46F59501C5EBA9200E0F596 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = FastlaneSnapshot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.FastlaneSnapshot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = AdScrubber;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		C46F59511C5EBA9200E0F596 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = FastlaneSnapshot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.FastlaneSnapshot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = AdScrubber;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -781,6 +885,15 @@
 			buildConfigurations = (
 				C46AC4AF1C03FBD6008039D7 /* Debug */,
 				C46AC4B01C03FBD6008039D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C46F594F1C5EBA9200E0F596 /* Build configuration list for PBXNativeTarget "FastlaneSnapshot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C46F59501C5EBA9200E0F596 /* Debug */,
+				C46F59511C5EBA9200E0F596 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

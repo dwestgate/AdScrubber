@@ -21,23 +21,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE
-/*
-
-blacklist = logical idea of list of sites to block
-blocklist = JSON formatted ContentBlocker blacklist
-
-All blocklists are blacklists, but not all blacklists are blocklists.
-
-BlackholeList                   Struct connected to storage
-
-sharedContainer                 "com.refabricants.adscrubber"
-blacklistURL                    The remote URL of a blackhole list
-
-blacklistEntryCount       the number of entries we count when adding a new blacklist
-blacklistFileType               file type of the remote file
-blacklistEtag                   the
-
-*/
 
 import Foundation
 import SwiftyJSON
