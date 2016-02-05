@@ -1,0 +1,1 @@
+jazzy --swift-version 2.1.1 --min-acl private -x -workspace,AdScrubber.xcworkspace,-scheme,AdScrubber

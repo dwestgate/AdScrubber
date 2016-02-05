@@ -26,7 +26,7 @@ import Foundation
 import UIKit
 import SafariServices
 
-/// Controls the user interface for ineracting with the Ad Scrubber blocklist
+/// Manages the user interface for ineracting with the Ad Scrubber blocklist
 class ViewController: UITableViewController {
   
   // MARK: -
@@ -93,12 +93,10 @@ class ViewController: UITableViewController {
   
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     BlackholeList.setIsUseCustomBlocklistOn(false)
     disableCustomBlocklist()
     refreshControls()
   }
-  
   
   // MARK: Control Actions
   @IBAction func unwind(unwindSegue: UIStoryboardSegue) {
@@ -106,7 +104,6 @@ class ViewController: UITableViewController {
   
   
   @IBAction func blockSubdomainsSwitchValueChanged(sender: AnyObject) {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     BlackholeList.setIsBlockingSubdomains(blockSubdomainsSwitch.on)
     
     SFContentBlockerManager.reloadContentBlockerWithIdentifier(
@@ -116,9 +113,7 @@ class ViewController: UITableViewController {
   
   
   @IBAction func useCustomBlocklistSwitchValueChanged(sender: AnyObject) {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     BlackholeList.setIsUseCustomBlocklistOn(useCustomBlocklistSwitch.on)
-    print("useCustomBLocklistSwitchOn = \(useCustomBlocklistSwitch.on)")
     if (useCustomBlocklistSwitch.on) {
       reloadButtonPressed(self)
     } else {
@@ -130,7 +125,6 @@ class ViewController: UITableViewController {
   
   
   @IBAction func reloadButtonPressed(sender: AnyObject) {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     activityIndicator.startAnimating()
     
     dispatch_async(GCDUserInteractiveQueue, { () -> Void in
@@ -161,18 +155,19 @@ class ViewController: UITableViewController {
   
   
   @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     setDefaultValues()
     refreshControls()
   }
   
-  
   // MARK: Private Functions
   /**
+      Loads the blacklist listed in the blacklistURLTextView
   
+      - Throws: ListUpdateStatus
+        - .NotHTTPS: The blacklist does not begin with "https://"
+        - .InvalidURL: The blacklist is not a valid URL
   */
   private func refreshBlockList() throws {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     guard blacklistURLTextView.text.lowercaseString.hasPrefix("https://") else {
       throw ListUpdateStatus.NotHTTPS
     }
@@ -197,7 +192,7 @@ class ViewController: UITableViewController {
       }
       
       do {
-        let blockList = try BlackholeList.downloadBlocklist(hostsFile)
+        let blockList = try BlackholeList.downloadBlacklist(hostsFile)
         let createBlockerListJSONResult = BlackholeList.createBlockerListJSON(blockList!)
         updateStatus = createBlockerListJSONResult.updateStatus
         if (updateStatus == .UpdateSuccessful || updateStatus == .TooManyEntries) {
@@ -205,7 +200,6 @@ class ViewController: UITableViewController {
           BlackholeList.currentBlacklist.setValueWithKey(createBlockerListJSONResult.blacklistFileType!, forKey: "FileType")
           BlackholeList.currentBlacklist.setValueWithKey("\(createBlockerListJSONResult.numberOfEntries!)", forKey: "EntryCount")
           BlackholeList.currentBlacklist.setValueWithKey(hostsFile.absoluteString, forKey: "URL")
-          print("setting blockerListURL default to: \(hostsFile.absoluteString)")
           BlackholeList.candidateBlacklist.removeAllValues()
 
           SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
@@ -220,9 +214,13 @@ class ViewController: UITableViewController {
     })
   }
   
-  
+  /**
+      Displays an alert message at the completion of an attempt to update
+      the blacklist
+   
+      - Parameter status: The status message to display in the alert
+   */
   private func showMessageWithStatus(status: ListUpdateStatus) {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     dispatch_async(GCDMainQueue, { () -> Void in
       self.activityIndicator.stopAnimating()
       
@@ -233,28 +231,11 @@ class ViewController: UITableViewController {
     })
   }
   
-  
+  /**
+      Re-draws the controls in the TableView with the values read from
+      BlackholeList
+   */
   private func refreshControls() {
-    print("\n>>> Entering: \(__FUNCTION__) <<<")
-    print("Type of list        : \(BlackholeList.getDownloadedBlacklistType())")
-    print("Using custom blocklist  : \(BlackholeList.getIsUseCustomBlocklistOn())")
-    print("Blocking subdomains     : \(BlackholeList.getIsBlockingSubdomains())\n")
-    print("preloaded URL           : \(BlackholeList.preloadedBlacklist.getValueForKey("URL"))")
-    print("preloaded FileType      : \(BlackholeList.preloadedBlacklist.getValueForKey("FileType"))")
-    print("preloaded EntryCount: \(BlackholeList.preloadedBlacklist.getValueForKey("EntryCount"))")
-    print("preloaded Etag: \(BlackholeList.preloadedBlacklist.getValueForKey("Etag"))")
-    print("current URL          : \(BlackholeList.currentBlacklist.getValueForKey("URL"))")
-    print("current FileType     : \(BlackholeList.currentBlacklist.getValueForKey("FileType"))")
-    print("current EntryCount   : \(BlackholeList.currentBlacklist.getValueForKey("EntryCount"))")
-    print("current Etag   : \(BlackholeList.currentBlacklist.getValueForKey("Etag"))")
-    print("candidate URL       : \(BlackholeList.candidateBlacklist.getValueForKey("URL"))")
-    print("candidate FileType  : \(BlackholeList.candidateBlacklist.getValueForKey("FileType"))")
-    print("candidate EntryCount: \(BlackholeList.candidateBlacklist.getValueForKey("EntryCount"))")
-    print("candidate Etag: \(BlackholeList.candidateBlacklist.getValueForKey("Etag"))")
-    print("displayed URL          : \(BlackholeList.displayedBlacklist.getValueForKey("URL"))")
-    print("displayed FileType     : \(BlackholeList.displayedBlacklist.getValueForKey("FileType"))")
-    print("displayed EntryCount   : \(BlackholeList.displayedBlacklist.getValueForKey("EntryCount"))")
-    print("displayed Etag   : \(BlackholeList.displayedBlacklist.getValueForKey("Etag"))")
     
     useCustomBlocklistSwitch.setOn(BlackholeList.getIsUseCustomBlocklistOn(), animated: true)
     
@@ -288,9 +269,11 @@ class ViewController: UITableViewController {
     
   }
   
-  
+  /**
+      Updates the control and data settings to set the'customBlockList'
+      switch to **false**
+   */
   private func disableCustomBlocklist() {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let defaultURL = BlackholeList.preloadedBlacklist.getValueForKey("URL")
     let defaultFileType = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
     let defaultEntryCount = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")
@@ -308,9 +291,10 @@ class ViewController: UITableViewController {
         (error: NSError?) in print("Reload complete\n")})
   }
 
-
+  /**
+      Resets the control and data settings to their out-of-the-box defaults
+   */
   private func setDefaultValues() {
-    print("\n>>> Entering: \(__FUNCTION__) <<<\n")
     let defaultURL = BlackholeList.preloadedBlacklist.getValueForKey("URL")
     let defaultFileType = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
     let defaultEntryCount = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")

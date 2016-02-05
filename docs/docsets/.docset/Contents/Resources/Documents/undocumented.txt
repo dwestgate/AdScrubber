@@ -1,3 +1,66 @@
-ActionRequestHandler.swift
-	class ActionRequestHandler: NSObject, NSExtensionRequestHandling
-	func beginRequestWithExtensionContext(context: NSExtensionContext)
+StreamReader.swift
+	class StreamReader
+	let encoding : UInt
+	let chunkSize : Int
+	var fileHandle : NSFileHandle!
+	let buffer : NSMutableData!
+	let delimData : NSData!
+	var atEof : Bool = false
+	init?(path: String, delimiter: String = "\n", encoding : UInt = NSUTF8StringEncoding, chunkSize : Int = 4096)
+	deinit
+ListUpdateStatus.swift
+	case UpdateSuccessful = "Ad Scrubber blocklist successfully updated"
+	case NoUpdateRequired = "List already up-to-date"
+	case NotHTTPS = "Error: link must be https"
+	case InvalidURL = "Supplied URL is invalid"
+	case ServerNotFound = "Unable to contact server"
+	case NoSuchFile = "File not found"
+	case UpdateRequired = "File is available - updating..."
+	case ErrorDownloading = "File download interrupted"
+	case UnexpectedDownloadError = "Unable to download file"
+	case ErrorParsingFile = "Error parsing blocklist"
+	case ErrorSavingToLocalFilesystem = "Unable to save downloaded file"
+	case UnableToReplaceExistingBlockerlist = "Unable to replace existing blocklist"
+	case ErrorSavingParsedFile = "Error saving parsed file"
+	case TooManyEntries = "WARNING: blocklist size exceeds 50,000 entries. If Safari determines the size of the list will adversely impact performance it will ignore the new entries and continue using the rules from the last update."
+	case InvalidJSON = "JSON file does not appear to be in valid Content Blocker format"
+AppDelegate.swift
+	class AppDelegate: UIResponder, UIApplicationDelegate
+	var window: UIWindow?
+	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+	func applicationWillResignActive(application: UIApplication)
+	func applicationDidEnterBackground(application: UIApplication)
+	func applicationWillEnterForeground(application: UIApplication)
+	func applicationDidBecomeActive(application: UIApplication)
+	func applicationWillTerminate(application: UIApplication)
+ViewController.swift
+	@IBOutlet weak var useCustomBlocklistLabel: UILabel!
+	@IBOutlet weak var useCustomBlocklistSwitch: UISwitch!
+	@IBOutlet weak var blacklistURLTextView: UITextView!
+	@IBOutlet weak var blocklistFileTypeLabel: UILabel!
+	@IBOutlet weak var typeLabel: UILabel!
+	@IBOutlet weak var entryCountLabel: UILabel!
+	@IBOutlet weak var blockSubdomainsLabel: UILabel!
+	@IBOutlet weak var blockSubdomainsSwitch: UISwitch!
+	@IBOutlet weak var restoreDefaultSettingsButton: UIButton!
+	@IBOutlet weak var reloadButton: UIButton!
+	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+	override func viewDidLoad()
+	override func viewWillAppear(animated: Bool)
+	override func didReceiveMemoryWarning()
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+	@IBAction func unwind(unwindSegue: UIStoryboardSegue)
+	@IBAction func blockSubdomainsSwitchValueChanged(sender: AnyObject)
+	@IBAction func useCustomBlocklistSwitchValueChanged(sender: AnyObject)
+	@IBAction func reloadButtonPressed(sender: AnyObject)
+	@IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject)
+blacklistURLViewController.swift
+	@IBOutlet weak var blacklistURLTextView: UITextView!
+	@IBOutlet weak var cancelButton: UIButton!
+	var incumbantBlacklistURL = BlackholeList.displayedBlacklist.getValueForKey("URL")
+	override func viewDidLoad()
+	override func didReceiveMemoryWarning()
+	override func viewWillDisappear(animated: Bool)
+	@IBAction func cancelButtonTouchUpInside(sender: AnyObject)
+	func textViewDidChangeSelection(textView: UITextView)
+	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool

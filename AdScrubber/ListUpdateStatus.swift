@@ -24,6 +24,7 @@
 
 import Foundation
 
+/// Used to signal the state of blacklist load operations
 enum ListUpdateStatus: String, ErrorType {
   case UpdateSuccessful = "Ad Scrubber blocklist successfully updated"
   case NoUpdateRequired = "List already up-to-date"

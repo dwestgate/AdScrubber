@@ -24,32 +24,43 @@
 
 import UIKit
 
+/// Manages the user interface for updating the
+/// blacklistURLTextView field of ViewController
 class blacklistURLViewController: UITableViewController, UITextViewDelegate {
-  
-  var incumbantBlacklistURL = BlackholeList.displayedBlacklist.getValueForKey("URL")
-  
+
+  // MARK: -
+  // MARK: Control Outlets
   @IBOutlet weak var blacklistURLTextView: UITextView!
   @IBOutlet weak var cancelButton: UIButton!
   
+  // MARK: Variables
+  //
+  var incumbantBlacklistURL = BlackholeList.displayedBlacklist.getValueForKey("URL")
+  
+  // MARK: Overridden functions
   override func viewDidLoad() {
     super.viewDidLoad()
     
     blacklistURLTextView.delegate = self
     blacklistURLTextView.text = incumbantBlacklistURL
     blacklistURLTextView.becomeFirstResponder()
-
   }
+
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    print("We're here")
-    return true
-  }
-
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
-
   
+  
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    BlackholeList.displayedBlacklist.setValueWithKey(blacklistURLTextView.text, forKey: "URL")
+    BlackholeList.candidateBlacklist.setValueWithKey(blacklistURLTextView.text, forKey: "URL")
+    
+  }
+
+  // MARK: Control Actions
   @IBAction func cancelButtonTouchUpInside(sender: AnyObject) {
     blacklistURLTextView.text = incumbantBlacklistURL
     blacklistURLTextView.textColor = UIColor.lightGrayColor()
@@ -57,7 +68,7 @@ class blacklistURLViewController: UITableViewController, UITextViewDelegate {
     blacklistURLTextView.selectedTextRange = blacklistURLTextView.textRangeFromPosition(blacklistURLTextView.beginningOfDocument, toPosition: blacklistURLTextView.beginningOfDocument)
   }
   
-  
+  // MARK: Control Functions
   func textViewDidChangeSelection(textView: UITextView) {
     if self.view.window != nil {
       if textView.textColor == UIColor.lightGrayColor() {
@@ -90,15 +101,6 @@ class blacklistURLViewController: UITableViewController, UITextViewDelegate {
     }
     
     return true
-  }
-  
-  
-  override func viewWillDisappear(animated: Bool) {
-    super.viewWillDisappear(animated)
-    
-    BlackholeList.displayedBlacklist.setValueWithKey(blacklistURLTextView.text, forKey: "URL")
-    BlackholeList.candidateBlacklist.setValueWithKey(blacklistURLTextView.text, forKey: "URL")
-    
   }
   
 }
