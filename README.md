@@ -1,7 +1,25 @@
 Ad Scrubber
 ===========
-
 Ad Scrubber is an open-source content filtering application for Safari that blocks third-party scripts and more than 25,000 websites that have been identified as serving ads or malware.
+
+#### Enabling Content Blockers
+
+To enable content blocking: Settings > Safari > Content Blockers
+
+#### Hardware Requirements
+
+As an app that uses the Safari Content Blocker extension, older hardware is not supported. The hardware requirements for Ad Scrubber are:
+
+- iPhone 6
+- iPhone 6 Plus
+- iPhone 5s
+- iPad Air 2
+- iPad Air
+- iPad mini 2
+- iPad mini 3
+- iPod touch 6
+
+### Custom Rules
 
 Ad Scrubber can also be used as a platform for implementing custom content-filtering rules. The application is written in Swift as a ContentBlocker Extension and supports custom content-blocking lists in either of two formats: hosts file format or WebKit Content Blocker JSON format.
 
