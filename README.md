@@ -10,13 +10,17 @@ To enable content blocking: Settings > Safari > Content Blockers
 
 As an app that uses the Safari Content Blocker extension, older hardware is not supported. The hardware requirements for Ad Scrubber are:
 
+- iPhone 6s
+- iPhone 6s Plus
 - iPhone 6
 - iPhone 6 Plus
 - iPhone 5s
+- iPad Pro
 - iPad Air 2
 - iPad Air
 - iPad mini 2
 - iPad mini 3
+- iPad mini 4
 - iPod touch 6
 
 ### Custom Rules
