@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ad Scrubber by dwestgate</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/dwestgate/AdScrubber">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/dwestgate/AdScrubber/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/dwestgate/AdScrubber/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Ad Scrubber</h1>
+          <p>Open-source ad blocking for iOS</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/dwestgate">dwestgate</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <p>Ad Scrubber is an open-source content filtering application for Safari that blocks third-party scripts and more than 25,000 websites that have been identified as serving ads or malware.</p>
+
+<p>Ad Scrubber can also be used as a platform for implementing custom content-filtering rules. The application is written in Swift as a ContentBlocker Extension and supports custom content-blocking lists in either of two formats: hosts file format or WebKit Content Blocker JSON format.</p>
+
+<h4>
+<a id="hosts-files" class="anchor" href="#hosts-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hosts files</h4>
+
+<p>Hosts files with lists of ad and malware-serving websites have long been used to optimize the browsing experience on laptops and desktops. Ad Scrubber leverages Safari's Content Blocker functionality to now allow use of such lists on Apple mobile devices. Ad Scrubber's built-in list comes from Steven Black's "amalgamated hosts file" at <a href="https://github.com/StevenBlack/hosts">https://github.com/StevenBlack/hosts</a>. When using hosts files (the built-in list or a downloaded hosts file), Ad Scrubber will always block third-party scripts. Note that when loading hosts files Safari may not implement very large rule sets.</p>
+
+<h4>
+<a id="content-blocker-json-files" class="anchor" href="#content-blocker-json-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Content Blocker JSON files</h4>
+
+<p>In addition to hosts files, Ad Scrubber can load rules in Content Blocker JSON format (see: <a href="https://webkit.org/blog/3476/content-blockers-first-look/">https://webkit.org/blog/3476/content-blockers-first-look/</a>). When Content Blocker rules are loaded by Ad Scrubber the rules are presented to Safari as they are received (i.e. no rule to block third-party scripts is added, as Ad Scrubber does with hosts files). Note that when loading Content Blocker rules, Safari may not implement very large or complex rule sets.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
