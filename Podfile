@@ -5,6 +5,7 @@ use_frameworks!
 
 target 'AdScrubber' do
   pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+  pod 'Branch'
 end
 
 target 'AdScrubberTests' do

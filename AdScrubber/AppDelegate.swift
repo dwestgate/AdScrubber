@@ -23,14 +23,41 @@
 // THE SOFTWARE
 
 import UIKit
+import Branch
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
+  // Respond to URI scheme links
+  func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    // pass the url to the handle deep link call
+    Branch.getInstance().handleDeepLink(url);
+    
+    // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
+    return true
+  }
+  
+  // Respond to Universal Links
+  func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+    // pass the url to the handle deep link call
+    
+    return Branch.getInstance().continueUserActivity(userActivity)
+  }
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    
+    let branch: Branch = Branch.getInstance()
+    branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandler: { params, error in
+      if (error == nil) {
+        // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
+        // params will be empty if no data found
+        // ... insert custom logic here ...
+        NSLog("params: %@", params.description)
+      }
+    })
+    
     return true
   }
 

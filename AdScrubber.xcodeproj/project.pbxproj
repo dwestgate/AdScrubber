@@ -11,6 +11,7 @@
 		C40527171C4F08B5000DE014 /* cancel-28.png in Resources */ = {isa = PBXBuildFile; fileRef = C40527151C4F08B5000DE014 /* cancel-28.png */; };
 		C40527181C4F08B5000DE014 /* cancel-56.png in Resources */ = {isa = PBXBuildFile; fileRef = C40527161C4F08B5000DE014 /* cancel-56.png */; };
 		C40EF70E1C0E877600B5EB81 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40EF70D1C0E877600B5EB81 /* StreamReader.swift */; };
+		C41589621C7F468600FE9C3F /* AdScrubber.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C40EF70B1C0BDE2D00B5EB81 /* AdScrubber.entitlements */; };
 		C420AA121C4DB4F500D0CA1D /* blacklistURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C420AA111C4DB4F500D0CA1D /* blacklistURLViewController.swift */; };
 		C44F5E5B1C4C4B7100A0849A /* wildcardBlockerList.json in Resources */ = {isa = PBXBuildFile; fileRef = C44F5E5A1C4C4B7100A0849A /* wildcardBlockerList.json */; };
 		C461B1C01C414E45000F35CD /* NSOutputStreamExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C461B1BF1C414E45000F35CD /* NSOutputStreamExtensions.swift */; };
@@ -377,6 +378,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 					C46AC4821C03FB87008039D7 = {
@@ -429,6 +433,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C41589621C7F468600FE9C3F /* AdScrubber.entitlements in Resources */,
 				C46AC47D1C03FB87008039D7 /* LaunchScreen.storyboard in Resources */,
 				C40527171C4F08B5000DE014 /* cancel-28.png in Resources */,
 				C40527181C4F08B5000DE014 /* cancel-56.png in Resources */,
