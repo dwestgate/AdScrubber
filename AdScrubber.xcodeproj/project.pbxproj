@@ -373,6 +373,7 @@
 					C46AC46E1C03FB87008039D7 = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 69TZ4MRH7U;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -381,15 +382,18 @@
 					};
 					C46AC4821C03FB87008039D7 = {
 						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0830;
 						TestTargetID = C46AC46E1C03FB87008039D7;
 					};
 					C46AC48D1C03FB87008039D7 = {
 						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0830;
 						TestTargetID = C46AC46E1C03FB87008039D7;
 					};
 					C46AC4A31C03FBD6008039D7 = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 69TZ4MRH7U;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -398,6 +402,7 @@
 					};
 					C46F59471C5EBA9200E0F596 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0830;
 						TestTargetID = C46AC46E1C03FB87008039D7;
 					};
 				};
@@ -714,6 +719,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubber;
 				PRODUCT_NAME = AdScrubber;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = arm64;
 			};
 			name = Debug;
@@ -735,6 +741,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubber;
 				PRODUCT_NAME = AdScrubber;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = arm64;
 			};
 			name = Release;
@@ -747,6 +754,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubberTests;
 				PRODUCT_NAME = AdScrubber;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AdScrubber.app/AdScrubber";
 			};
 			name = Debug;
@@ -759,6 +767,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubberTests;
 				PRODUCT_NAME = AdScrubber;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AdScrubber.app/AdScrubber";
 			};
 			name = Release;
@@ -770,6 +779,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubberUITests;
 				PRODUCT_NAME = AdScrubber;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = AdScrubber;
 				USES_XCTRUNNER = YES;
 			};
@@ -782,6 +792,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.AdScrubberUITests;
 				PRODUCT_NAME = AdScrubber;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = AdScrubber;
 				USES_XCTRUNNER = YES;
 			};
@@ -799,6 +810,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -814,6 +826,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -824,6 +837,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.FastlaneSnapshot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = AdScrubber;
 				USES_XCTRUNNER = YES;
 			};
@@ -836,6 +850,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.refabricants.FastlaneSnapshot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = AdScrubber;
 				USES_XCTRUNNER = YES;
 			};

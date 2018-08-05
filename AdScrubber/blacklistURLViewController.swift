@@ -52,7 +52,7 @@ class blacklistURLViewController: UITableViewController, UITextViewDelegate {
   }
   
   
-  override func viewWillDisappear(animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
     BlackholeList.displayedBlacklist.setValueWithKey(blacklistURLTextView.text, forKey: "URL")
@@ -61,43 +61,43 @@ class blacklistURLViewController: UITableViewController, UITextViewDelegate {
   }
 
   // MARK: Control Actions
-  @IBAction func cancelButtonTouchUpInside(sender: AnyObject) {
+  @IBAction func cancelButtonTouchUpInside(_ sender: AnyObject) {
     blacklistURLTextView.text = incumbantBlacklistURL
-    blacklistURLTextView.textColor = UIColor.lightGrayColor()
+    blacklistURLTextView.textColor = UIColor.lightGray
     blacklistURLTextView.becomeFirstResponder()
-    blacklistURLTextView.selectedTextRange = blacklistURLTextView.textRangeFromPosition(blacklistURLTextView.beginningOfDocument, toPosition: blacklistURLTextView.beginningOfDocument)
+    blacklistURLTextView.selectedTextRange = blacklistURLTextView.textRange(from: blacklistURLTextView.beginningOfDocument, to: blacklistURLTextView.beginningOfDocument)
   }
   
   // MARK: Control Functions
-  func textViewDidChangeSelection(textView: UITextView) {
+  func textViewDidChangeSelection(_ textView: UITextView) {
     if self.view.window != nil {
-      if textView.textColor == UIColor.lightGrayColor() {
-        textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+      if textView.textColor == UIColor.lightGray {
+        textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
       }
     }
   }
   
   
-  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     
     guard (text != "\n") else {
-      performSegueWithIdentifier("unwindToViewController", sender: nil)
+      performSegue(withIdentifier: "unwindToViewController", sender: nil)
       return false
     }
     
-    let t: NSString = textView.text
-    let updatedText = t.stringByReplacingCharactersInRange(range, withString:text)
+    let t: NSString = textView.text as! NSString
+    let updatedText = t.replacingCharacters(in: range, with:text)
     
     guard (updatedText != "") else {
       textView.text = incumbantBlacklistURL
-      textView.textColor = UIColor.lightGrayColor()
-      textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+      textView.textColor = UIColor.lightGray
+      textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
       return false
     }
 
-    if ((textView.textColor == UIColor.lightGrayColor()) && (updatedText != incumbantBlacklistURL)) {
+    if ((textView.textColor == UIColor.lightGray) && (updatedText != incumbantBlacklistURL)) {
       textView.text = nil
-      textView.textColor = UIColor.blackColor()
+      textView.textColor = UIColor.black
     }
     
     return true

@@ -25,7 +25,7 @@
 import Foundation
 
 /// Used to signal the state of blacklist load operations
-enum ListUpdateStatus: String, ErrorType {
+enum ListUpdateStatus: String, Error {
   case UpdateSuccessful = "Ad Scrubber blocklist successfully updated"
   case NoUpdateRequired = "List already up-to-date"
   case NotHTTPS = "Error: link must be https"

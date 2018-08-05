@@ -45,39 +45,39 @@ class ViewController: UITableViewController {
   
   // MARK: Variables
   /// Convenience var for referencing the main queue
-  private var GCDMainQueue: dispatch_queue_t {
-    return dispatch_get_main_queue()
+  fileprivate var GCDMainQueue: DispatchQueue {
+    return DispatchQueue.main
   }
   
   /// Convenience var for referencing the high priority queue
-  private var GCDUserInteractiveQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+  fileprivate var GCDUserInteractiveQueue: DispatchQueue {
+    return DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high)
   }
   
   /// Convenience var for referencing the default priority queue
-  private var GCDUserInitiatedQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+  fileprivate var GCDUserInitiatedQueue: DispatchQueue {
+    return DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
   }
   
   /// Convenience var for referencing the low priority queue
-  private var GCDUtilityQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)
+  fileprivate var GCDUtilityQueue: DispatchQueue {
+    return DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low)
   }
   
   /// Convenience var for referencing the background queue
-  private var GCDBackgroundQueue: dispatch_queue_t {
-    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
+  fileprivate var GCDBackgroundQueue: DispatchQueue {
+    return DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background)
   }
   
   // MARK: Overridden functions
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    blacklistURLTextView.userInteractionEnabled = false
+    blacklistURLTextView.isUserInteractionEnabled = false
   }
   
   
-  override func viewWillAppear(animated: Bool) {
+  override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
     if (BlackholeList.currentBlacklist.getValueForKey("URL") == nil) {
@@ -92,29 +92,29 @@ class ViewController: UITableViewController {
   }
   
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     BlackholeList.setIsUseCustomBlocklistOn(false)
     disableCustomBlocklist()
     refreshControls()
   }
   
   // MARK: Control Actions
-  @IBAction func unwind(unwindSegue: UIStoryboardSegue) {
+  @IBAction func unwind(_ unwindSegue: UIStoryboardSegue) {
   }
   
   
-  @IBAction func blockSubdomainsSwitchValueChanged(sender: AnyObject) {
-    BlackholeList.setIsBlockingSubdomains(blockSubdomainsSwitch.on)
+  @IBAction func blockSubdomainsSwitchValueChanged(_ sender: AnyObject) {
+    BlackholeList.setIsBlockingSubdomains(blockSubdomainsSwitch.isOn)
     
-    SFContentBlockerManager.reloadContentBlockerWithIdentifier(
-      "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
-        (error: NSError?) in print("Reload complete\n")})
+    SFContentBlockerManager.reloadContentBlocker(
+      withIdentifier: "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
+        (error: NSError?) in print("Reload complete\n")} as! (Error?) -> Void)
   }
   
   
-  @IBAction func useCustomBlocklistSwitchValueChanged(sender: AnyObject) {
-    BlackholeList.setIsUseCustomBlocklistOn(useCustomBlocklistSwitch.on)
-    if (useCustomBlocklistSwitch.on) {
+  @IBAction func useCustomBlocklistSwitchValueChanged(_ sender: AnyObject) {
+    BlackholeList.setIsUseCustomBlocklistOn(useCustomBlocklistSwitch.isOn)
+    if (useCustomBlocklistSwitch.isOn) {
       reloadButtonPressed(self)
     } else {
       disableCustomBlocklist()
@@ -124,28 +124,28 @@ class ViewController: UITableViewController {
   }
   
   
-  @IBAction func reloadButtonPressed(sender: AnyObject) {
+  @IBAction func reloadButtonPressed(_ sender: AnyObject) {
     activityIndicator.startAnimating()
     
-    dispatch_async(GCDUserInteractiveQueue, { () -> Void in
+    GCDUserInteractiveQueue.async(execute: { () -> Void in
       
       do {
         try self.refreshBlockList()
       } catch ListUpdateStatus.NotHTTPS {
         self.showMessageWithStatus(.NotHTTPS)
-        dispatch_async(self.GCDMainQueue, { () -> Void in
+        self.GCDMainQueue.async(execute: { () -> Void in
           self.disableCustomBlocklist()
           self.refreshControls()
         })
       } catch ListUpdateStatus.InvalidURL {
         self.showMessageWithStatus(.InvalidURL)
-        dispatch_async(self.GCDMainQueue, { () -> Void in
+        self.GCDMainQueue.async(execute: { () -> Void in
           self.disableCustomBlocklist()
           self.refreshControls()
         })
       } catch {
         self.showMessageWithStatus(.UnexpectedDownloadError)
-        dispatch_async(self.GCDMainQueue, { () -> Void in
+        self.GCDMainQueue.async(execute: { () -> Void in
           self.disableCustomBlocklist()
           self.refreshControls()
         })
@@ -154,7 +154,7 @@ class ViewController: UITableViewController {
   }
   
   
-  @IBAction func restoreDefaultSettingsTouchUpInside(sender: AnyObject) {
+  @IBAction func restoreDefaultSettingsTouchUpInside(_ sender: AnyObject) {
     setDefaultValues()
     refreshControls()
   }
@@ -167,20 +167,20 @@ class ViewController: UITableViewController {
         - .NotHTTPS: The blacklist does not begin with "https://"
         - .InvalidURL: The blacklist is not a valid URL
   */
-  private func refreshBlockList() throws {
-    guard blacklistURLTextView.text.lowercaseString.hasPrefix("https://") else {
+  fileprivate func refreshBlockList() throws {
+    guard blacklistURLTextView.text.lowercased().hasPrefix("https://") else {
       throw ListUpdateStatus.NotHTTPS
     }
-    guard let hostsFile = NSURL(string: blacklistURLTextView.text) else {
+    guard let hostsFile = URL(string: blacklistURLTextView.text) else {
       throw ListUpdateStatus.InvalidURL
     }
     
-    BlackholeList.validateURL(hostsFile, completion: { (var updateStatus) -> () in
+    BlackholeList.validateURL(hostsFile, completion: { (updateStatus) -> () in
       defer {
         self.refreshControls()
         self.showMessageWithStatus(updateStatus)
         if (updateStatus != .UpdateSuccessful && updateStatus != .TooManyEntries && updateStatus != .NoUpdateRequired) {
-          dispatch_async(self.GCDMainQueue, { () -> Void in
+          self.GCDMainQueue.async(execute: { () -> Void in
             self.disableCustomBlocklist()
             self.refreshControls()
           })
@@ -202,7 +202,7 @@ class ViewController: UITableViewController {
           BlackholeList.currentBlacklist.setValueWithKey(hostsFile.absoluteString, forKey: "URL")
           BlackholeList.candidateBlacklist.removeAllValues()
 
-          SFContentBlockerManager.reloadContentBlockerWithIdentifier("com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
+          SFContentBlockerManager.reloadContentBlocker(withIdentifier: "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
             (error: NSError?) in print("Reload complete\n")})
         }
       } catch {
@@ -220,13 +220,13 @@ class ViewController: UITableViewController {
    
       - Parameter status: The status message to display in the alert
    */
-  private func showMessageWithStatus(status: ListUpdateStatus) {
-    dispatch_async(GCDMainQueue, { () -> Void in
+  fileprivate func showMessageWithStatus(_ status: ListUpdateStatus) {
+    GCDMainQueue.async(execute: { () -> Void in
       self.activityIndicator.stopAnimating()
       
-      let alert = UIAlertController(title: "Ad Scrubber Blocklist Reload", message: status.rawValue, preferredStyle: UIAlertControllerStyle.Alert)
-      alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-      self.presentViewController(alert, animated: true, completion: nil)
+      let alert = UIAlertController(title: "Ad Scrubber Blocklist Reload", message: status.rawValue, preferredStyle: UIAlertControllerStyle.alert)
+      alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+      self.present(alert, animated: true, completion: nil)
       
     })
   }
@@ -235,7 +235,7 @@ class ViewController: UITableViewController {
       Re-draws the controls in the TableView with the values read from
       BlackholeList
    */
-  private func refreshControls() {
+  fileprivate func refreshControls() {
     
     useCustomBlocklistSwitch.setOn(BlackholeList.getIsUseCustomBlocklistOn(), animated: true)
     
@@ -246,25 +246,25 @@ class ViewController: UITableViewController {
     blockSubdomainsSwitch.setOn(BlackholeList.getIsBlockingSubdomains(), animated: true)
     
     if (BlackholeList.getIsUseCustomBlocklistOn()) {
-      blacklistURLTextView.textColor = UIColor.darkGrayColor()
-      reloadButton.enabled = true
+      blacklistURLTextView.textColor = UIColor.darkGray
+      reloadButton.isEnabled = true
       
       if (BlackholeList.currentBlacklist.getValueForKey("FileType") == "JSON") {
         BlackholeList.setIsBlockingSubdomains(false)
         blockSubdomainsSwitch.setOn(false, animated: true)
-        blockSubdomainsSwitch.enabled = false
-        blockSubdomainsLabel.enabled = false
+        blockSubdomainsSwitch.isEnabled = false
+        blockSubdomainsLabel.isEnabled = false
       } else {
         blockSubdomainsSwitch.setOn(true, animated: true)
-        blockSubdomainsSwitch.enabled = true
-        blockSubdomainsLabel.enabled = true
+        blockSubdomainsSwitch.isEnabled = true
+        blockSubdomainsLabel.isEnabled = true
       }
       
     } else {
-      blockSubdomainsSwitch.enabled = true
-      blockSubdomainsLabel.enabled = true
-      blacklistURLTextView.textColor = UIColor.lightGrayColor()
-      reloadButton.enabled = false
+      blockSubdomainsSwitch.isEnabled = true
+      blockSubdomainsLabel.isEnabled = true
+      blacklistURLTextView.textColor = UIColor.lightGray
+      reloadButton.isEnabled = false
     }
     
   }
@@ -273,7 +273,7 @@ class ViewController: UITableViewController {
       Updates the control and data settings to set the'customBlockList'
       switch to **false**
    */
-  private func disableCustomBlocklist() {
+  fileprivate func disableCustomBlocklist() {
     let defaultURL = BlackholeList.preloadedBlacklist.getValueForKey("URL")
     let defaultFileType = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
     let defaultEntryCount = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")
@@ -286,15 +286,15 @@ class ViewController: UITableViewController {
     BlackholeList.currentBlacklist.setValueWithKey(defaultEntryCount!, forKey: "EntryCount")
     BlackholeList.currentBlacklist.setValueWithKey(defaultEtag!, forKey: "Etag")
     
-    SFContentBlockerManager.reloadContentBlockerWithIdentifier(
-      "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
-        (error: NSError?) in print("Reload complete\n")})
+    SFContentBlockerManager.reloadContentBlocker(
+      withIdentifier: "com.refabricants.AdScrubber.ContentBlocker", completionHandler: {
+        (error: NSError?) in print("Reload complete\n")} as! (Error?) -> Void)
   }
 
   /**
       Resets the control and data settings to their out-of-the-box defaults
    */
-  private func setDefaultValues() {
+  fileprivate func setDefaultValues() {
     let defaultURL = BlackholeList.preloadedBlacklist.getValueForKey("URL")
     let defaultFileType = BlackholeList.preloadedBlacklist.getValueForKey("FileType")
     let defaultEntryCount = BlackholeList.preloadedBlacklist.getValueForKey("EntryCount")

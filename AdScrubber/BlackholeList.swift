@@ -35,7 +35,7 @@ struct BlackholeList {
   struct Blacklist {
     
     /// The name of the blacklist
-    private let name: String
+    fileprivate let name: String
     
     /**
         Writes the metadata for a new blacklist to the default store
@@ -87,8 +87,8 @@ struct BlackholeList {
      
         - Returns: The stored value or nil
      */
-    func getValueForKey(key: String) -> String? {
-      if let value = defaultContainer.objectForKey("\(name)Blacklist\(key)") as? String {
+    func getValueForKey(_ key: String) -> String? {
+      if let value = defaultContainer.object(forKey: "\(name)Blacklist\(key)") as? String {
         return value
       } else {
         return nil
@@ -102,8 +102,8 @@ struct BlackholeList {
           - value: The value to be stored
           - forKey: The key to be employed for writing the value
      */
-    func setValueWithKey(value: String, forKey: String) {
-      defaultContainer.setObject(value, forKey: "\(name)Blacklist\(forKey)")
+    func setValueWithKey(_ value: String, forKey: String) {
+      defaultContainer.set(value, forKey: "\(name)Blacklist\(forKey)")
     }
     
     /**
@@ -112,8 +112,8 @@ struct BlackholeList {
         - Parameters:
           - key: The key of the key value pair to be deleted
      */
-    func removeValueForKey(key: String) {
-      defaultContainer.removeObjectForKey("\(name)\(key)")
+    func removeValueForKey(_ key: String) {
+      defaultContainer.removeObject(forKey: "\(name)\(key)")
     }
 
     
@@ -132,10 +132,10 @@ struct BlackholeList {
   
   // MARK: Constants
   /// Convenience var for accessing group.com.refabricants.adscrubber
-  private static let sharedContainer = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
+  fileprivate static let sharedContainer = UserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
   
   /// Convenience var for accessing the default container
-  private static let defaultContainer = NSUserDefaults.standardUserDefaults()
+  fileprivate static let defaultContainer = UserDefaults.standard
   
   // MARK: Variables
   /// Metadata for the bundled ContentBlocker blocklist
@@ -161,11 +161,11 @@ struct BlackholeList {
                 should be used
    */
   static func getIsUseCustomBlocklistOn() -> Bool {
-    if let value = sharedContainer!.boolForKey("isUseCustomBlocklistOn") as Bool? {
+    if let value = sharedContainer!.bool(forKey: "isUseCustomBlocklistOn") as Bool? {
       return value
     } else {
       let value = false
-      sharedContainer!.setBool(value, forKey: "isUseCustomBlocklistOn")
+      sharedContainer!.set(value, forKey: "isUseCustomBlocklistOn")
       return value
     }
   }
@@ -177,8 +177,8 @@ struct BlackholeList {
       - Parameters:
         - value: True if a custom blacklist should be used, false otherwise
    */
-  static func setIsUseCustomBlocklistOn(value: Bool) {
-    sharedContainer!.setBool(value, forKey: "isUseCustomBlocklistOn")
+  static func setIsUseCustomBlocklistOn(_ value: Bool) {
+    sharedContainer!.set(value, forKey: "isUseCustomBlocklistOn")
   }
   
   /**
@@ -190,11 +190,11 @@ struct BlackholeList {
       - Returns: The file type of the currently-loaded blacklist, or "none"
    */
   static func getDownloadedBlacklistType() -> String {
-    if let value = sharedContainer!.objectForKey("downloadedBlacklistType") as? String {
+    if let value = sharedContainer!.object(forKey: "downloadedBlacklistType") as? String {
       return value
     } else {
       let value = "none"
-      sharedContainer!.setObject(value, forKey: "downloadedBlacklistType")
+      sharedContainer!.set(value, forKey: "downloadedBlacklistType")
       return value
     }
   }
@@ -207,8 +207,8 @@ struct BlackholeList {
         - value: The file type of the blacklist (i.e. "built-in", "JSON",
                 or "hosts")
    */
-  static func setDownloadedBlacklistType(value: String) {
-    sharedContainer!.setObject(value, forKey: "downloadedBlacklistType")
+  static func setDownloadedBlacklistType(_ value: String) {
+    sharedContainer!.set(value, forKey: "downloadedBlacklistType")
   }
   
   /**
@@ -221,11 +221,11 @@ struct BlackholeList {
                 in the process of being downloaded
    */
   static func getIsReloading() -> Bool {
-    if let value = sharedContainer!.boolForKey("isReloading") as Bool? {
+    if let value = sharedContainer!.bool(forKey: "isReloading") as Bool? {
       return value
     } else {
       let value = false
-      sharedContainer!.setBool(value, forKey: "isReloading")
+      sharedContainer!.set(value, forKey: "isReloading")
       return value
     }
   }
@@ -238,8 +238,8 @@ struct BlackholeList {
         - value: A boolean value indicating whether or not a blacklist is
                 in the process of being downloaded
    */
-  static func setIsReloading(value: Bool) {
-    sharedContainer!.setBool(value, forKey: "isReloading")
+  static func setIsReloading(_ value: Bool) {
+    sharedContainer!.set(value, forKey: "isReloading")
   }
   
   /**
@@ -251,11 +251,11 @@ struct BlackholeList {
                 "wildcardBlockerList.json" file should be loaded
    */
   static func getIsBlockingSubdomains() -> Bool {
-    if let value = sharedContainer!.boolForKey("isBlockSubdomainsOn") as Bool? {
+    if let value = sharedContainer!.bool(forKey: "isBlockSubdomainsOn") as Bool? {
       return value
     } else {
       let value = false
-      sharedContainer!.setBool(value, forKey: "isBlockSubdomainsOn")
+      sharedContainer!.set(value, forKey: "isBlockSubdomainsOn")
       return value
     }
   }
@@ -269,8 +269,8 @@ struct BlackholeList {
         - value: A boolean value indicating whether or not the
                 "wildcardBlockerList.json" file should be loaded
    */
-  static func setIsBlockingSubdomains(value: Bool) {
-    sharedContainer!.setBool(value, forKey: "isBlockSubdomainsOn")
+  static func setIsBlockingSubdomains(_ value: Bool) {
+    sharedContainer!.set(value, forKey: "isBlockSubdomainsOn")
   }
   
   // MARK: BlackholeList Functions
@@ -284,26 +284,26 @@ struct BlackholeList {
       - Parameters:
         - blacklistURL: The URL of the blacklist to be validated
    */
-  static func validateURL(blacklistURL:NSURL, completion:((updateStatus: ListUpdateStatus) -> ())?) {
+  static func validateURL(_ blacklistURL:URL, completion:((_ updateStatus: ListUpdateStatus) -> ())?) {
 
     setIsReloading(true)
-    let request = NSMutableURLRequest(URL: blacklistURL)
-    request.HTTPMethod = "HEAD"
-    let session = NSURLSession.sharedSession()
+    let request = NSMutableURLRequest(url: blacklistURL)
+    request.httpMethod = "HEAD"
+    let session = URLSession.shared
     
-    let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error -> Void in
+    let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
       
       var result = ListUpdateStatus.UpdateSuccessful
       
       defer {
         if completion != nil {
-          dispatch_async(dispatch_get_main_queue(), { () -> Void in
+          DispatchQueue.main.async(execute: { () -> Void in
             completion!(updateStatus: result)
           })
         }
       }
       
-      guard let httpResp: NSHTTPURLResponse = response as? NSHTTPURLResponse else {
+      guard let httpResp: HTTPURLResponse = response as? HTTPURLResponse else {
         result = ListUpdateStatus.ServerNotFound
         return
       }
@@ -343,16 +343,16 @@ struct BlackholeList {
    
       - Returns: The locally-saved file
    */
-  static func downloadBlacklist(blacklistURL: NSURL) throws -> NSURL? {
+  static func downloadBlacklist(_ blacklistURL: URL) throws -> URL? {
 
     setIsReloading(true)
-    let documentDirectory =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
-    let localFile = documentDirectory.URLByAppendingPathComponent("downloadedBlocklist.txt")
+    let documentDirectory =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as URL
+    let localFile = documentDirectory.appendingPathComponent("downloadedBlocklist.txt")
     
-    guard let myblacklistURLFromUrl = NSData(contentsOfURL: blacklistURL) else {
+    guard let myblacklistURLFromUrl = try? Data(contentsOf: blacklistURL) else {
       throw ListUpdateStatus.ErrorDownloading
     }
-    guard myblacklistURLFromUrl.writeToURL(localFile, atomically: true) else {
+    guard (try? myblacklistURLFromUrl.write(to: localFile, options: [.atomic])) != nil else {
       throw ListUpdateStatus.ErrorSavingToLocalFilesystem
     }
     return localFile
@@ -381,15 +381,15 @@ struct BlackholeList {
         - blacklistFileType: "JSON" or "hosts," depending upon which file type was detected
         - numberOfEntries: The number of entries detected in the blacklist
    */
-  static func createBlockerListJSON(blacklist: NSURL) -> (updateStatus: ListUpdateStatus, blacklistFileType: String?, numberOfEntries: Int?) {
+  static func createBlockerListJSON(_ blacklist: URL) -> (updateStatus: ListUpdateStatus, blacklistFileType: String?, numberOfEntries: Int?) {
 
     setIsReloading(true)
     var updateStatus = ListUpdateStatus.UpdateSuccessful
-    let fileManager = NSFileManager.defaultManager()
-    let sharedFolder = fileManager.containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.adscrubber")! as NSURL
+    let fileManager = FileManager.default
+    let sharedFolder = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.refabricants.adscrubber")! as URL
     
-    let blockerListURL = sharedFolder.URLByAppendingPathComponent("blockerList.json")
-    let wildcardBlockerListURL = sharedFolder.URLByAppendingPathComponent("wildcardBlockerList.json")
+    let blockerListURL = sharedFolder.appendingPathComponent("blockerList.json")
+    let wildcardBlockerListURL = sharedFolder.appendingPathComponent("wildcardBlockerList.json")
     
     var wildcardDomains: Set<String>
     var blacklistFileType = "hosts"
@@ -399,10 +399,10 @@ struct BlackholeList {
     var blockerListEntry = ""
     var wildcardBlockerListEntry = ""
     
-    let data = NSData(contentsOfURL: blacklist)
+    let data = try? Data(contentsOf: blacklist)
     
     if let jsonArray = JSON(data: data!).arrayObject {
-      if NSJSONSerialization.isValidJSONObject(jsonArray) {
+      if JSONSerialization.isValidJSONObject(jsonArray) {
         
         for element in jsonArray {
           
@@ -425,8 +425,8 @@ struct BlackholeList {
         }
         
         do {
-          _ = try? fileManager.removeItemAtURL(blockerListURL)
-          try fileManager.moveItemAtURL(blacklist, toURL: blockerListURL)
+          _ = try? fileManager.removeItem(at: blockerListURL)
+          try fileManager.moveItem(at: blacklist, to: blockerListURL)
         } catch {
           return (ListUpdateStatus.ErrorSavingToLocalFilesystem, nil, nil)
         }
@@ -437,18 +437,18 @@ struct BlackholeList {
       
       let validFirstChars = "01234567890abcdef"
       
-      _ = try? NSFileManager.defaultManager().removeItemAtPath(blockerListURL.path!)
-      _ = try? NSFileManager.defaultManager().removeItemAtPath(wildcardBlockerListURL.path!)
+      _ = try? FileManager.default.removeItem(atPath: blockerListURL.path)
+      _ = try? FileManager.default.removeItem(atPath: wildcardBlockerListURL.path)
       
-      guard let sr = StreamReader(path: blacklist.path!) else {
+      guard let sr = StreamReader(path: blacklist.path) else {
         return (ListUpdateStatus.ErrorParsingFile, nil, nil)
       }
       
-      guard let blockerListStream = NSOutputStream(toFileAtPath: blockerListURL.path!, append: true) else {
+      guard let blockerListStream = OutputStream(toFileAtPath: blockerListURL.path, append: true) else {
         return (ListUpdateStatus.ErrorSavingParsedFile, nil, nil)
       }
       
-      guard let wildcardBlockerListStream = NSOutputStream(toFileAtPath: wildcardBlockerListURL.path!, append: true) else {
+      guard let wildcardBlockerListStream = OutputStream(toFileAtPath: wildcardBlockerListURL.path, append: true) else {
         return (ListUpdateStatus.ErrorSavingParsedFile, nil, nil)
       }
       
@@ -458,10 +458,10 @@ struct BlackholeList {
       defer {
         sr.close()
         
-        blockerListStream.write("]}}]")
+        blockerListStream.write("]}}]", maxLength: <#Int#>)
         blockerListStream.close()
         
-        wildcardBlockerListStream.write("]}}]")
+        wildcardBlockerListStream.write("]}}]", maxLength: <#Int#>)
         wildcardBlockerListStream.close()
       }
       
@@ -471,38 +471,38 @@ struct BlackholeList {
       
       while let line = sr.nextLine() {
         
-        if ((!line.isEmpty) && (validFirstChars.containsString(String(line.characters.first!)))) {
+        if ((!line.isEmpty) && (validFirstChars.contains(String(line.characters.first!)))) {
           
           var uncommentedText = line
           
-          if let commentPosition = line.characters.indexOf("#") {
-            uncommentedText = line[line.startIndex.advancedBy(0)...commentPosition.predecessor()]
+          if let commentPosition = line.characters.index(of: "#") {
+            uncommentedText = line[line.characters.index(line.startIndex, offsetBy: 0)...<#T##String.CharacterView corresponding to `commentPosition`##String.CharacterView#>.index(before: commentPosition)]
           }
           
-          let lineAsArray = uncommentedText.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+          let lineAsArray = uncommentedText.components(separatedBy: CharacterSet.whitespaces)
           let listOfDomainsFromLine = lineAsArray.filter { $0 != "" }
           
           for entry in Array(listOfDomainsFromLine[1..<listOfDomainsFromLine.count]) {
             
-            guard let validatedURL = NSURL(string: "http://" + entry) else { break }
+            guard let validatedURL = URL(string: "http://" + entry) else { break }
             guard let validatedHost = validatedURL.host else { break }
-            var components = validatedHost.componentsSeparatedByString(".")
-            guard components[0].lowercaseString != "localhost" else { break }
+            var components = validatedHost.components(separatedBy: ".")
+            guard components[0].lowercased() != "localhost" else { break }
             
-            let domain = components.joinWithSeparator(".")
+            let domain = components.joined(separator: ".")
             
-            numberOfEntries++
+            numberOfEntries += 1
             blockerListEntry = ("\(firstPartOfString)\"\(domain)\"")
             wildcardBlockerListEntry = ("\(firstPartOfString)\"*\(domain)\"")
             firstPartOfString = ","
             
-            blockerListStream.write(blockerListEntry)
-            wildcardBlockerListStream.write(wildcardBlockerListEntry)
+            blockerListStream.write(blockerListEntry, maxLength: <#Int#>)
+            wildcardBlockerListStream.write(wildcardBlockerListEntry, maxLength: <#Int#>)
           }
         }
       }
     }
-    _ = try? NSFileManager.defaultManager().removeItemAtPath(blacklist.path!)
+    _ = try? FileManager.default.removeItem(atPath: blacklist.path)
     
     if numberOfEntries > 50000 {
       updateStatus = ListUpdateStatus.TooManyEntries
@@ -522,10 +522,10 @@ struct BlackholeList {
    
       - Returns: **true** if *text* occurs in *elements*, **false** otherwise
    */
-  static func contains(elements: Array<String>, text: String) -> Bool {
+  static func contains(_ elements: Array<String>, text: String) -> Bool {
     
     for element in elements {
-      if (element.caseInsensitiveCompare(text) == NSComparisonResult.OrderedSame) {
+      if (element.caseInsensitiveCompare(text) == ComparisonResult.orderedSame) {
         return true
       }
     }

@@ -76,7 +76,7 @@ class AdScrubberUITests: XCTestCase {
     self.setAlertExpectationWithMessage(expectedMessage)
     loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge")
     
-    self.waitForExpectationsWithTimeout(10, handler: nil)
+    self.waitForExpectations(timeout: 10, handler: nil)
   }
   
   
@@ -90,7 +90,7 @@ class AdScrubberUITests: XCTestCase {
     app.alerts["Ad Scrubber Blocklist Reload"].collectionViews.buttons["OK"].tap()
     reloadButton.tap()
     
-    self.waitForExpectationsWithTimeout(10, handler: nil)
+    self.waitForExpectations(timeout: 10, handler: nil)
   }
   
   
@@ -102,7 +102,7 @@ class AdScrubberUITests: XCTestCase {
     
     loadFile("http://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-blockDrudge")
     
-    self.waitForExpectationsWithTimeout(10, handler: nil)
+    self.waitForExpectations(timeout: 10, handler: nil)
   }
   
   
@@ -114,7 +114,7 @@ class AdScrubberUITests: XCTestCase {
     
     loadFile("https://nosuc\\hdomain/nosuchpath")
     
-    self.waitForExpectationsWithTimeout(10, handler: nil)
+    self.waitForExpectations(timeout: 10, handler: nil)
   }
   
   
@@ -126,7 +126,7 @@ class AdScrubberUITests: XCTestCase {
     
     loadFile("https://nosuchserver")
     
-    self.waitForExpectationsWithTimeout(10, handler: nil)
+    self.waitForExpectations(timeout: 10, handler: nil)
   }
 
   
@@ -138,7 +138,7 @@ class AdScrubberUITests: XCTestCase {
     
     loadFile("https://raw.githubusercontent.com/nosuchfileexists")
     
-    self.waitForExpectationsWithTimeout(10, handler: nil)
+    self.waitForExpectations(timeout: 10, handler: nil)
   }
   
   
@@ -150,17 +150,17 @@ class AdScrubberUITests: XCTestCase {
     
     loadFile("https://raw.githubusercontent.com/dwestgate/blackhole-testing/master/hosts-empty")
     
-    self.waitForExpectationsWithTimeout(10, handler: nil)
+    self.waitForExpectations(timeout: 10, handler: nil)
   }
   
   
-  private func setExpectation(message: String, app: XCUIApplication) {
+  fileprivate func setExpectation(_ message: String, app: XCUIApplication) {
     let visible = NSPredicate(format: "hittable == 1")
-    self.expectationForPredicate(visible, evaluatedWithObject: app.staticTexts[message], handler: nil)
+    self.expectation(for: visible, evaluatedWith: app.staticTexts[message], handler: nil)
   }
   
   
-  private func loadFile(text: String) {
+  fileprivate func loadFile(_ text: String) {
     restoreDefaultSettingsButton.tap()
     blacklistURLTextView.tap()
     cancelButton.tap()
@@ -170,9 +170,9 @@ class AdScrubberUITests: XCTestCase {
   }
   
   
-  private func setAlertExpectationWithMessage(message: String) {
+  fileprivate func setAlertExpectationWithMessage(_ message: String) {
     let exists = NSPredicate(format: "exists == 1")
-    self.expectationForPredicate(exists, evaluatedWithObject:app.alerts["Ad Scrubber Blocklist Reload"].staticTexts[message], handler: nil)
+    self.expectation(for: exists, evaluatedWith:app.alerts["Ad Scrubber Blocklist Reload"].staticTexts[message], handler: nil)
   }
 
 }

@@ -26,7 +26,7 @@
 
 import Foundation
 
-extension NSOutputStream {
+extension OutputStream {
   
   /// Write String to outputStream
   ///
@@ -36,10 +36,10 @@ extension NSOutputStream {
   ///
   /// - returns:                         Return total number of bytes written upon success. Return -1 upon failure.
   
-  func write(string: String, encoding: NSStringEncoding = NSUTF8StringEncoding, allowLossyConversion: Bool = true) -> Int {
-    if let data = string.dataUsingEncoding(encoding, allowLossyConversion: allowLossyConversion) {
-      var bytes = UnsafePointer<UInt8>(data.bytes)
-      var bytesRemaining = data.length
+  func write(_ string: String, encoding: String.Encoding = String.Encoding.utf8, allowLossyConversion: Bool = true) -> Int {
+    if let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) {
+      var bytes = (data as NSData).bytes.bindMemory(to: UInt8.self, capacity: data.count)
+      var bytesRemaining = data.count
       var totalBytesWritten = 0
       
       while bytesRemaining > 0 {

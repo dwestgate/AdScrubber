@@ -27,18 +27,18 @@ import MobileCoreServices
 
 class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
   
-  func beginRequestWithExtensionContext(context: NSExtensionContext) {
+  func beginRequest(with context: NSExtensionContext) {
 
     var error:NSError?
     // var logfile = ""
 
-    let appBundle = NSBundle.mainBundle()
-    let sharedPath = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.refabricants.adscrubber")! as NSURL
-    let defaults = NSUserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
+    let appBundle = Bundle.main
+    let sharedPath = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.refabricants.adscrubber")! as URL
+    let defaults = UserDefaults.init(suiteName: "group.com.refabricants.adscrubber")
     
     var blockerList: String
     
-    if defaults!.boolForKey("isBlockSubdomainsOn") == true {
+    if defaults!.bool(forKey: "isBlockSubdomainsOn") == true {
       blockerList = "wildcardBlockerList"
       
       // logfile += "Using wildcardBlockerList.json\n"
@@ -48,26 +48,26 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
     }
     // logfile += "Using: \(blockerList)\n"
     
-    let contentBlockingRules = sharedPath.URLByAppendingPathComponent("\(blockerList).json")
+    let contentBlockingRules = sharedPath.appendingPathComponent("\(blockerList).json")
     var attachment: NSItemProvider
     
-    if (defaults!.boolForKey("isUseCustomBlocklistOn") == true) && (contentBlockingRules.checkResourceIsReachableAndReturnError(&error)) {
-      attachment = NSItemProvider(contentsOfURL: contentBlockingRules)!
+    if (defaults!.bool(forKey: "isUseCustomBlocklistOn") == true) && ((contentBlockingRules as NSURL).checkResourceIsReachableAndReturnError(&error)) {
+      attachment = NSItemProvider(contentsOf: contentBlockingRules)!
       // logfile += "Using custom rules\n"
     } else {
-      attachment = NSItemProvider(contentsOfURL: appBundle.URLForResource(blockerList, withExtension: "json"))!
+      attachment = NSItemProvider(contentsOf: appBundle.url(forResource: blockerList, withExtension: "json"))!
       // logfile += "Using built-in rules\n"
     }
     
     let item = NSExtensionItem()
     item.attachments = [attachment]
-    context.completeRequestReturningItems([item], completionHandler: nil);
+    context.completeRequest(returningItems: [item], completionHandler: nil);
     
-    let logFile = sharedPath.URLByAppendingPathComponent("log.txt")
+    let logFile = sharedPath.appendingPathComponent("log.txt")
     
-    if NSFileManager().fileExistsAtPath(logFile.path!) {
+    if FileManager().fileExists(atPath: logFile.path) {
       do {
-        try NSFileManager.defaultManager().removeItemAtPath(logFile.path!)
+        try FileManager.default.removeItem(atPath: logFile.path)
       } catch {
       }
     }
